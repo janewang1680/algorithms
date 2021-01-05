@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome file</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1662.  Check If Two String Arrays are Equivalent</strong></p>
+<p>Easy</p>
+<p>Given two string arrays  <code>word1</code>  and  <code>word2</code>, return  <code>true</code> <em>if the two arrays  <strong>represent</strong>  the same string, and</em> <code>false</code> <em>otherwise.</em></p>
+<p>A string is  <strong>represented</strong>  by an array if the array elements concatenated  <strong>in order</strong>  forms the string.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> word1 = [“ab”, “c”], word2 = [“a”, “bc”]<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong><br>
+word1 represents string “ab” + “c” -&gt; “abc”<br>
+word2 represents string “a” + “bc” -&gt; “abc”<br>
+The strings are the same, so return true.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> word1 = [“a”, “cb”], word2 = [“ab”, “c”]<br>
+<strong>Output:</strong> false</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> word1  = [“abc”, “d”, “defg”], word2 = [“abcddefg”]<br>
+<strong>Output:</strong> true</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= word1.length, word2.length &lt;= 103</code></li>
+<li><code>1 &lt;= word1[i].length, word2[i].length &lt;= 103</code></li>
+<li><code>1 &lt;= sum(word1[i].length), sum(word2[i].length) &lt;= 103</code></li>
+<li><code>word1[i]</code>  and  <code>word2[i]</code>  consist of lowercase letters.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">arrayStringsAreEqual</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> word1<span class="token punctuation">,</span> String<span class="token punctuation">[</span><span class="token punctuation">]</span> word2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> idx1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> idx2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> word1<span class="token punctuation">.</span>length <span class="token operator">&amp;&amp;</span> j <span class="token operator">&lt;</span> word2<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>word1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>idx1<span class="token punctuation">)</span> <span class="token operator">!=</span> word2<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>idx2<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">++</span>idx1 <span class="token operator">==</span> word1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token operator">++</span>i<span class="token punctuation">;</span>
+                idx1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">++</span>idx2 <span class="token operator">==</span> word2<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token operator">++</span>j<span class="token punctuation">;</span>
+                idx2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> i <span class="token operator">==</span> word1<span class="token punctuation">.</span>length <span class="token operator">&amp;&amp;</span> j <span class="token operator">==</span> word2<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
