@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1528._Shuffle_String</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1528.  Shuffle String</strong></p>
+<p>Easy</p>
+<p>Given a string  <code>s</code> and an integer array  <code>indices</code>  of the  <strong>same length</strong>.</p>
+<p>The string  <code>s</code>  will be shuffled such that the character at the  <code>ith</code>  position moves to <code>indices[i]</code>  in the shuffled string.</p>
+<p>Return  <em>the shuffled string</em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/07/09/q1.jpg" alt=""></p>
+<p><strong>Input:</strong> s = “codeleet”, <code>indices</code> = [4,5,6,7,0,2,1,3]<br>
+<strong>Output:</strong> “leetcode”<br>
+<strong>Explanation:</strong> As shown, “codeleet” becomes “leetcode” after shuffling.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> s = “abc”, <code>indices</code> = [0,1,2]<br>
+<strong>Output:</strong> “abc”<br>
+<strong>Explanation:</strong> After shuffling, each character remains in its position.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> s = “aiohn”, <code>indices</code> = [3,1,4,2,0]<br>
+<strong>Output:</strong> “nihao”</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> s = “aaiougrt”, <code>indices</code> = [4,0,2,6,7,3,1,5]<br>
+<strong>Output:</strong> “arigatou”</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> s = “art”, <code>indices</code> = [1,0,2]<br>
+<strong>Output:</strong> “rat”</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>s.length == indices.length == n</code></li>
+<li><code>1 &lt;= n &lt;= 100</code></li>
+<li><code>s</code>  contains only lower-case English letters.</li>
+<li><code>0 &lt;= indices[i] &lt; n</code></li>
+<li>All values of  <code>indices</code>  are unique (i.e.  <code>indices</code>  is a permutation of the integers from  <code>0</code>  to  <code>n - 1</code>).</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> String <span class="token function">restoreString</span><span class="token punctuation">(</span>String s<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> indices<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> null <span class="token operator">||</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> s<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>indices <span class="token operator">==</span> null  <span class="token operator">||</span> indices<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> s<span class="token punctuation">;</span>
+            
+        <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">char</span><span class="token punctuation">[</span>indices<span class="token punctuation">.</span>length<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> indices<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            arr<span class="token punctuation">[</span>indices<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

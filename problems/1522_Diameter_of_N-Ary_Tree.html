@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1522_Diameter_of_N-Ary_Tree</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1522.  Diameter of N-Ary Tree</strong></p>
+<p>Medium</p>
+<p>Given a <code>root</code> of an  <a href="https://leetcode.com/articles/introduction-to-n-ary-trees/">N-ary tree</a>, you need to compute the length of the diameter of the tree.</p>
+<p>The diameter of an N-ary tree is the length of the <strong>longest</strong> path between any two nodes in the tree. This path may or may not pass through the root.</p>
+<p>(<em>Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value.)</em></p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/07/19/sample_2_1897.png" alt=""></p>
+<p><strong>Input:</strong> root = [1,null,3,2,4,null,5,6]<br>
+<strong>Output:</strong> 3<br>
+<strong>Explanation:</strong> Diameter is shown in red color.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2020/07/19/sample_1_1897.png" alt=""></strong></p>
+<p><strong>Input:</strong> root = [1,null,2,null,3,4,null,5,null,6]<br>
+<strong>Output:</strong> 4</p>
+<p><strong>Example 3:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/07/19/sample_3_1897.png" alt=""></p>
+<p><strong>Input:</strong> root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]<br>
+<strong>Output:</strong> 7</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The depth of the n-ary tree is less than or equal to  <code>1000</code>.</li>
+<li>The total number of nodes is between  <code>[0, 10^4]</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List&lt;Node&gt; children;
+
+    
+    public Node() {
+        children = new ArrayList&lt;Node&gt;();
+    }
+    
+    public Node(int _val) {
+        val = _val;
+        children = new ArrayList&lt;Node&gt;();
+    }
+    
+    public Node(int _val,ArrayList&lt;Node&gt; _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">diameter</span><span class="token punctuation">(</span>Node root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+ 
+    <span class="token comment">// index 0: diamater, index 1: longest root</span>
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">helper</span><span class="token punctuation">(</span>Node root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> diameter <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> maxPath1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> maxPath2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Node child<span class="token operator">:</span> root<span class="token punctuation">.</span>children<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>child<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            diameter <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>diameter<span class="token punctuation">,</span> res<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&gt;=</span> maxPath1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                maxPath2 <span class="token operator">=</span> maxPath1<span class="token punctuation">;</span>
+                maxPath1 <span class="token operator">=</span> res<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&gt;=</span> maxPath2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                maxPath2 <span class="token operator">=</span> res<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        diameter <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>diameter<span class="token punctuation">,</span> <span class="token number">1</span> <span class="token operator">+</span> maxPath1 <span class="token operator">+</span> maxPath2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>diameter<span class="token punctuation">,</span> <span class="token number">1</span> <span class="token operator">+</span> maxPath1<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
