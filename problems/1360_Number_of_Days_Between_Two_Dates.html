@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1360_Number_of_Days_Between_Two_Dates</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1360.  Number of Days Between Two Dates</strong></p>
+<p>Easy</p>
+<p>Write a program to count the number of days between two dates.</p>
+<p>The two dates are given as strings, their format is  <code>YYYY-MM-DD</code> as shown in the examples.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> date1 = “2019-06-29”, date2 = “2019-06-30”<br>
+<strong>Output:</strong> 1</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> date1 = “2020-01-15”, date2 = “2019-12-31”<br>
+<strong>Output:</strong> 15</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The given dates are valid dates between the years  <code>1971</code>  and  <code>2100</code>.</li>
+</ul>
+<p>[Solution]</p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">daysBetweenDates</span><span class="token punctuation">(</span>String date1<span class="token punctuation">,</span> String date2<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span><span class="token function">datesFrom</span><span class="token punctuation">(</span>date2<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token function">datesFrom</span><span class="token punctuation">(</span>date1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">int</span> <span class="token function">datesFrom</span><span class="token punctuation">(</span>String d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String<span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> d<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> year <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> month <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> days <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1970</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> year<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isLeap</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span> days <span class="token operator">+=</span> <span class="token number">366</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> days <span class="token operator">+=</span> <span class="token number">365</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> month<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">3</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">5</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">7</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">8</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">10</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">12</span><span class="token punctuation">)</span> days <span class="token operator">+=</span> <span class="token number">31</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">4</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">6</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">9</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">11</span><span class="token punctuation">)</span> days <span class="token operator">+=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> days <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token function">isLeap</span><span class="token punctuation">(</span>year<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">29</span> <span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> days<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">boolean</span> <span class="token function">isLeap</span><span class="token punctuation">(</span><span class="token keyword">int</span> year<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>year <span class="token operator">%</span> <span class="token number">100</span> <span class="token operator">!=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> year <span class="token operator">%</span> <span class="token number">4</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>year <span class="token operator">%</span> <span class="token number">100</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> year <span class="token operator">%</span> <span class="token number">400</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>   
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
