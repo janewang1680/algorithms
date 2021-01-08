@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1314_Matrix_Block_Sum</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1314.  Matrix Block Sum</strong></p>
+<p>Medium</p>
+<p>Given a  <code>m * n</code>  matrix <code>mat</code> and an integer  <code>K</code>, return a matrix  <code>answer</code>  where each  <code>answer[i][j]</code> is the sum of all elements  <code>mat[r][c]</code>  for  <code>i - K &lt;= r &lt;= i + K, j - K &lt;= c &lt;= j + K</code>, and  <code>(r, c)</code>  is a valid position in the matrix.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> mat = [[1,2,3],[4,5,6],[7,8,9]], K = 1<br>
+<strong>Output:</strong> [[12,21,16],[27,45,33],[24,39,28]]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> mat = [[1,2,3],[4,5,6],[7,8,9]], K = 2<br>
+<strong>Output:</strong> [[45,45,45],[45,45,45],[45,45,45]]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>m == mat.length</code></li>
+<li><code>n == mat[i].length</code></li>
+<li><code>1 &lt;= m, n, K &lt;= 100</code></li>
+<li><code>1 &lt;= mat[i][j] &lt;= 100</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">matrixBlockSum</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> mat<span class="token punctuation">,</span> <span class="token keyword">int</span> K<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> m <span class="token operator">=</span> mat<span class="token punctuation">.</span>length<span class="token punctuation">,</span> n <span class="token operator">=</span> mat<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                mat<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+=</span> mat<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                mat<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+=</span> mat<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> minX <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> i <span class="token operator">-</span> K<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> minY <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> j <span class="token operator">-</span> K<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> maxX <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>m <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> i<span class="token operator">+</span>K<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> maxY <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">+</span> K<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                
+                
+                <span class="token keyword">int</span> sum <span class="token operator">=</span> mat<span class="token punctuation">[</span>maxX<span class="token punctuation">]</span><span class="token punctuation">[</span>maxY<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>minX <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> sum <span class="token operator">-=</span> mat<span class="token punctuation">[</span>minX <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>maxY<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>minY <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> sum <span class="token operator">-=</span> mat<span class="token punctuation">[</span>maxX<span class="token punctuation">]</span><span class="token punctuation">[</span>minY <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>minX <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">.</span> <span class="token operator">&amp;&amp;</span> minY <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> sum <span class="token operator">+=</span> mat<span class="token punctuation">[</span>minX<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>minY<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                
+                res<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

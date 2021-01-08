@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1344_Angle_Between_Hands_of_a_Clock</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1344.  Angle Between Hands of a Clock</strong></p>
+<p>Medium</p>
+<p>Given two numbers,  <code>hour</code>  and  <code>minutes</code>. Return the smaller angle (in degrees) formed between the  <code>hour</code>  and the  <code>minute</code>  hand.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2019/12/26/sample_1_1673.png" alt=""></p>
+<p><strong>Input:</strong> hour = 12, minutes = 30<br>
+<strong>Output:</strong> 165</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2019/12/26/sample_2_1673.png" alt=""></p>
+<p><strong>Input:</strong> hour = 3, minutes = 30<br>
+<strong>Output:</strong> 75</p>
+<p><strong>Example 3:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/26/sample_3_1673.png" alt=""></strong></p>
+<p><strong>Input:</strong> hour = 3, minutes = 15<br>
+<strong>Output:</strong> 7.5</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> hour = 4, minutes = 50<br>
+<strong>Output:</strong> 155</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> hour = 12, minutes = 0<br>
+<strong>Output:</strong> 0</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= hour &lt;= 12</code></li>
+<li><code>0 &lt;= minutes &lt;= 59</code></li>
+<li>Answers within <code>10^-5</code> of the actual value will be accepted as correct.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">angleClock</span><span class="token punctuation">(</span><span class="token keyword">int</span> hour<span class="token punctuation">,</span> <span class="token keyword">int</span> minutes<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">double</span> m <span class="token operator">=</span> <span class="token number">360.0</span> <span class="token operator">*</span> minutes<span class="token operator">/</span> <span class="token number">60.0</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> h <span class="token operator">=</span> <span class="token number">360</span> <span class="token operator">*</span> hour <span class="token operator">/</span> <span class="token number">12.0</span> <span class="token operator">+</span> <span class="token number">30</span> <span class="token operator">*</span> minutes <span class="token operator">/</span> <span class="token number">60.0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">double</span> diff <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span>h <span class="token operator">-</span> m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token number">360</span> <span class="token operator">-</span> diff<span class="token punctuation">,</span> diff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

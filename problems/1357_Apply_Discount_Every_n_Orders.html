@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1357_Apply_Discount_Every_n_Orders</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1357.  Apply Discount Every n Orders</strong></p>
+<p>Medium</p>
+<p>There is a sale in a supermarket, there will be a  <code>discount</code>  every  <code>n</code>  customer.<br>
+There are some products in the supermarket where the id of the  <code>i-th</code>  product is  <code>products[i]</code>  and the price per unit of this product is <code>prices[i]</code>.<br>
+The system will count the number of customers and when the  <code>n-th</code>  customer arrive he/she will have a  <code>discount</code>  on the bill. (i.e if the cost is  <code>x</code>  the new cost is  <code>x - (discount * x) / 100</code>). Then the system will start counting customers again.<br>
+The customer orders a certain amount of each product where  <code>product[i]</code>  is the id of the  <code>i-th</code>  product the customer ordered and  <code>amount[i]</code>  is the number of units the customer ordered of that product.</p>
+<p>Implement the  <code>Cashier</code>  class:</p>
+<ul>
+<li><code>Cashier(int n, int discount, int[] products, int[] prices)</code>  Initializes the object with  <code>n</code>, the  <code>discount</code>, the  <code>products</code> and their  <code>prices</code>.</li>
+<li><code>double getBill(int[] product, int[] amount)</code> returns the value of the bill and apply the discount if needed. Answers within  <code>10^-5</code>  of the actual value will be accepted as correct.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input</strong><br>
+[“Cashier”,“getBill”,“getBill”,“getBill”,“getBill”,“getBill”,“getBill”,“getBill”]<br>
+[[3,50,[1,2,3,4,5,6,7],[100,200,300,400,300,200,100]],[[1,2],[1,2]],[[3,7],[10,10]],[[1,2,3,4,5,6,7],[1,1,1,1,1,1,1]],[[4],[10]],[[7,3],[10,10]],[[7,5,3,1,6,4,2],[10,10,10,9,9,9,7]],[[2,3,5],[5,3,2]]]<br>
+<strong>Output</strong><br>
+[null,500.0,4000.0,800.0,4000.0,4000.0,7350.0,2500.0]<br>
+<strong>Explanation</strong><br>
+Cashier cashier = new Cashier(3,50,[1,2,3,4,5,6,7],[100,200,300,400,300,200,100]);<br>
+cashier.getBill([1,2],[1,2]);                        // return 500.0, bill = 1 * 100 + 2 * 200 = 500.<br>
+cashier.getBill([3,7],[10,10]);                      // return 4000.0<br>
+cashier.getBill([1,2,3,4,5,6,7],[1,1,1,1,1,1,1]);    // return 800.0, The bill was 1600.0 but as this is the third customer, he has a discount of 50% which means his bill is only 1600 - 1600 * (50 / 100) = 800.<br>
+cashier.getBill([4],[10]);                           // return 4000.0<br>
+cashier.getBill([7,3],[10,10]);                      // return 4000.0<br>
+cashier.getBill([7,5,3,1,6,4,2],[10,10,10,9,9,9,7]); // return 7350.0, Bill was 14700.0 but as the system counted three more customers, he will have a 50% discount and the bill becomes 7350.0<br>
+cashier.getBill([<br>
+2,3,5],[5,3,2]);                    // return 2500.0</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 10^4</code></li>
+<li><code>0 &lt;= discount &lt;= 100</code></li>
+<li><code>1 &lt;= products.length &lt;= 200</code></li>
+<li><code>1 &lt;= products[i] &lt;= 200</code></li>
+<li>There are  <strong>not</strong>  repeated elements in the array  <code>products</code>.</li>
+<li><code>prices.length == products.length</code></li>
+<li><code>1 &lt;= prices[i] &lt;= 1000</code></li>
+<li><code>1 &lt;= product.length &lt;= products.length</code></li>
+<li><code>product[i]</code>  exists in  <code>products</code>.</li>
+<li><code>amount.length == product.length</code></li>
+<li><code>1 &lt;= amount[i] &lt;= 1000</code></li>
+<li>At most  <code>1000</code>  calls will be made to  <code>getBill</code>.</li>
+<li>Answers within <code>10^-5</code> of the actual value will be accepted as correct.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Cashier</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> discount<span class="token punctuation">;</span>
+    Map<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Integer<span class="token operator">&gt;</span> map<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> n<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> cnt<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token function">Cashier</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">,</span> <span class="token keyword">int</span> discount<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> products<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> prices<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>discount <span class="token operator">=</span> discount<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> products<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>products<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> prices<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">this</span><span class="token punctuation">.</span>n <span class="token operator">=</span> n<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getBill</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> product<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> product<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            sum <span class="token operator">+=</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>product<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> amount<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cnt <span class="token operator">==</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            sum <span class="token operator">=</span> sum <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">-</span> discount <span class="token operator">/</span> <span class="token number">100.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> sum<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

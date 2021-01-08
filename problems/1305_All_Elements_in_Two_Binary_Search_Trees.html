@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1305_All_Elements_in_Two_Binary_Search_Trees</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1305.  All Elements in Two Binary Search Trees</strong></p>
+<p>Medium</p>
+<p>Given two binary search trees  <code>root1</code>  and  <code>root2</code>.</p>
+<p>Return a list containing  <em>all the integers</em>  from  <em>both trees</em>  sorted in  <strong>ascending</strong>  order.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2019/12/18/q2-e1.png" alt=""></p>
+<p><strong>Input:</strong> root1 = [2,1,4], root2 = [1,0,3]<br>
+<strong>Output:</strong> [0,1,1,2,3,4]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> root1 = [0,-10,10], root2 = [5,1,7,0,2]<br>
+<strong>Output:</strong> [-10,0,0,1,2,5,7,10]</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> root1 = [], root2 = [5,1,7,0,2]<br>
+<strong>Output:</strong> [0,1,2,5,7]</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> root1 = [0,-10,10], root2 = []<br>
+<strong>Output:</strong> [-10,0,10]</p>
+<p><strong>Example 5:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2019/12/18/q2-e5-.png" alt=""></p>
+<p><strong>Input:</strong> root1 = [1,null,8], root2 = [8,1]<br>
+<strong>Output:</strong> [1,1,8,8]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>Each tree has at most  <code>5000</code>  nodes.</li>
+<li>Each node’s value is between  <code>[-10^5, 10^5]</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> <span class="token function">getAllElements</span><span class="token punctuation">(</span>TreeNode root1<span class="token punctuation">,</span> TreeNode root2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root1 <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span> root2 <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        Stack<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> stack1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Stack<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> stack2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        TreeNode cur1 <span class="token operator">=</span> root1<span class="token punctuation">,</span> cur2 <span class="token operator">=</span> root2<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack1<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span>stack2<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> cur1 <span class="token operator">!=</span> null <span class="token operator">||</span> cur2 <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>cur1 <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                stack1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>cur1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cur1 <span class="token operator">=</span> cur1<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>cur2 <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                stack2<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>cur2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cur2 <span class="token operator">=</span> cur2<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>stack1<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                TreeNode tmp2 <span class="token operator">=</span> stack2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>tmp2<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cur2 <span class="token operator">=</span> tmp2<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>stack2<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                TreeNode tmp1 <span class="token operator">=</span> stack1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>tmp1<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cur1 <span class="token operator">=</span> tmp1<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                TreeNode tmp1 <span class="token operator">=</span> stack1<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                TreeNode tmp2 <span class="token operator">=</span> stack2<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>tmp1<span class="token punctuation">.</span>val <span class="token operator">&lt;=</span> tmp2<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>tmp1<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    stack1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    cur1 <span class="token operator">=</span> tmp1<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>tmp2<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    stack2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    cur2 <span class="token operator">=</span> tmp2<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
