@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1266_Minimum_Time_Visiting_All_Points</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1266.  Minimum Time Visiting All Points</strong></p>
+<p>Easy</p>
+<p>On a 2D plane, there are  <code>n</code>  points with integer coordinates  <code>points[i] = [xi, yi]</code>. Return  <em>the  <strong>minimum time</strong>  in seconds to visit all the points in the order given by</em> <code>points</code>.</p>
+<p>You can move according to these rules:</p>
+<ul>
+<li>In  <code>1</code>  second, you can either:
+<ul>
+<li>move vertically by one unit,</li>
+<li>move horizontally by one unit, or</li>
+<li>move diagonally  <code>sqrt(2)</code>  units (in other words, move one unit vertically then one unit horizontally in  <code>1</code>  second).</li>
+</ul>
+</li>
+<li>You have to visit the points in the same order as they appear in the array.</li>
+<li>You are allowed to pass through points that appear later in the order, but these do not count as visits.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2019/11/14/1626_example_1.PNG" alt=""></p>
+<p><strong>Input:</strong> points = [[1,1],[3,4],[-1,0]]<br>
+<strong>Output:</strong> 7<br>
+<strong>Explanation:</strong> One optimal path is <strong>[1,1]</strong> -&gt; [2,2] -&gt; [3,3] -&gt; <strong>[3,4]</strong> -&gt; [2,3] -&gt; [1,2] -&gt; [0,1] -&gt; <strong>[-1,0]</strong><br>
+Time from [1,1] to [3,4] = 3 seconds<br>
+Time from [3,4] to [-1,0] = 4 seconds<br>
+Total time = 7 seconds</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> points = [[3,2],[-2,2]]<br>
+<strong>Output:</strong> 5</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>points.length == n</code></li>
+<li><code>1 &lt;= n &lt;= 100</code></li>
+<li><code>points[i].length == 2</code></li>
+<li><code>-1000 &lt;= points[i][0], points[i][1] &lt;= 1000</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">minTimeToVisitAllPoints</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> points<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> seconds <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> points<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> dx <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span>points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> points<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> dy <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span>points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> points<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            seconds <span class="token operator">+=</span> Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span>dx <span class="token operator">-</span> dy<span class="token punctuation">)</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>dx<span class="token punctuation">,</span> dy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> seconds<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
