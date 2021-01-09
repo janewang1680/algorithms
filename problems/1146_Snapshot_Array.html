@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1146_Snapshot_Array</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1146.  Snapshot Array</strong></p>
+<p>Medium</p>
+<p>Implement a SnapshotArray that supports the following interface:</p>
+<ul>
+<li><code>SnapshotArray(int length)</code>  initializes an array-like data structure with the given length. <strong>Initially, each element equals 0</strong>.</li>
+<li><code>void set(index, val)</code>  sets the element at the given  <code>index</code>  to be equal to  <code>val</code>.</li>
+<li><code>int snap()</code> takes a snapshot of the array and returns the  <code>snap_id</code>: the total number of times we called  <code>snap()</code>  minus  <code>1</code>.</li>
+<li><code>int get(index, snap_id)</code> returns the value at the given  <code>index</code>, at the time we took the snapshot with the given  <code>snap_id</code></li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> [“SnapshotArray”,“set”,“snap”,“set”,“get”]<br>
+[[3],[0,5],[],[0,6],[0,0]]<br>
+<strong>Output:</strong> [null,null,0,null,5]<br>
+<strong>Explanation:</strong><br>
+SnapshotArray snapshotArr = new SnapshotArray(3); // set the length to be 3<br>
+snapshotArr.set(0,5);  // Set array[0] = 5<br>
+snapshotArr.snap();  // Take a snapshot, return snap_id = 0<br>
+snapshotArr.set(0,6);<br>
+snapshotArr.get(0,0);  // Get the value of array[0] with snap_id = 0, return 5</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= length &lt;= 50000</code></li>
+<li>At most  <code>50000</code> calls will be made to  <code>set</code>,  <code>snap</code>, and  <code>get</code>.</li>
+<li><code>0 &lt;= index &lt; length</code></li>
+<li><code>0 &lt;= snap_id &lt;</code> (the total number of times we call  <code>snap()</code>)</li>
+<li><code>0 &lt;= val &lt;= 10^9</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">SnapshotArray</span> <span class="token punctuation">{</span>
+    TreeMap<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Integer<span class="token operator">&gt;</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> snap_id<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">SnapshotArray</span><span class="token punctuation">(</span><span class="token keyword">int</span> length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreeMap</span><span class="token punctuation">[</span>length<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreeMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        snap_id <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">set</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">,</span> <span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        arr<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>snap_id<span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">snap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> res <span class="token operator">=</span> snap_id<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">,</span> <span class="token keyword">int</span> snap_id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Integer id <span class="token operator">=</span> arr<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">floorKey</span><span class="token punctuation">(</span>snap_id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>id <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> arr<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
