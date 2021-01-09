@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1209_Remove_All_Adjacent_Duplicates_in_String_II</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1209.  Remove All Adjacent Duplicates in String II</strong></p>
+<p>Medium</p>
+<p>Given a string <code>s</code>, a  <em>k</em> <em>duplicate removal</em> consists of choosing  <code>k</code> adjacent and equal letters from <code>s</code>  and removing them causing the left and the right side of the deleted substring to concatenate together.</p>
+<p>We repeatedly make  <code>k</code>  duplicate removals on  <code>s</code>  until we no longer can.</p>
+<p>Return the final string after all such duplicate removals have been made.</p>
+<p>It is guaranteed that the answer is unique.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> s = “abcd”, k = 2<br>
+<strong>Output:</strong> “abcd”<br>
+<strong>Explanation:</strong> There’s nothing to delete.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> s = “deeedbbcccbdaa”, k = 3<br>
+<strong>Output:</strong> “aa”<br>
+<strong>Explanation:</strong> First delete “eee” and “ccc”, get “ddbbbdaa”<br>
+Then delete “bbb”, get “dddaa”<br>
+Finally delete “ddd”, get “aa”</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> s = “pbbcggttciiippooaais”, k = 2<br>
+<strong>Output:</strong> “ps”</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
+<li><code>2 &lt;= k &lt;= 10^4</code></li>
+<li><code>s</code>  only contains lower case English letters.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span> <span class="token punctuation">{</span>
+        <span class="token keyword">char</span> c<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> freq<span class="token punctuation">;</span>
+        
+        <span class="token keyword">public</span> <span class="token function">Node</span><span class="token punctuation">(</span><span class="token keyword">char</span> c<span class="token punctuation">,</span> <span class="token keyword">int</span> freq<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>freq <span class="token operator">=</span> freq<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> String <span class="token function">removeDuplicates</span><span class="token punctuation">(</span>String s<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> null <span class="token operator">||</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> k<span class="token punctuation">)</span> <span class="token keyword">return</span> s<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        Stack<span class="token operator">&lt;</span>Node<span class="token operator">&gt;</span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> c<span class="token operator">:</span> s<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            cnt <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>c <span class="token operator">==</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                cnt <span class="token operator">+=</span> stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>freq<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            cnt <span class="token operator">=</span> cnt <span class="token operator">%</span> k<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>cnt <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> cnt <span class="token operator">&lt;</span> k<span class="token punctuation">)</span> stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> cnt<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Node node <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> node<span class="token punctuation">.</span>freq<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

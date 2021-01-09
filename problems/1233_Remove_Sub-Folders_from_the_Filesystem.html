@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1233_Remove_Sub-Folders_from_the_Filesystem</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1233.  Remove Sub-Folders from the Filesystem</strong></p>
+<p>Medium</p>
+<p>Given a list of folders, remove all sub-folders in those folders and return in  <strong>any order</strong>  the folders after removing.</p>
+<p>If a  <code>folder[i]</code>  is located within another  <code>folder[j]</code>, it is called a sub-folder of it.</p>
+<p>The format of a path is one or more concatenated strings of the form: <code>/</code> followed by one or more lowercase English letters. For example, <code>/leetcode</code> and <code>/leetcode/problems</code> are valid paths while an empty string and <code>/</code> are not.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> folder = ["/a","/a/b","/c/d","/c/d/e","/c/f"]<br>
+<strong>Output:</strong> ["/a","/c/d","/c/f"]<br>
+<strong>Explanation:</strong> Folders “/a/b/” is a subfolder of “/a” and “/c/d/e” is inside of folder “/c/d” in our filesystem.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> folder = ["/a","/a/b/c","/a/b/d"]<br>
+<strong>Output:</strong> ["/a"]<br>
+<strong>Explanation:</strong> Folders “/a/b/c” and “/a/b/d/” will be removed because they are subfolders of “/a”.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> folder = ["/a/b/c","/a/b/ca","/a/b/d"]<br>
+<strong>Output:</strong> ["/a/b/c","/a/b/ca","/a/b/d"]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= folder.length &lt;= 4 * 10^4</code></li>
+<li><code>2 &lt;= folder[i].length &lt;= 100</code></li>
+<li><code>folder[i]</code>  contains only lowercase letters and ‘/’</li>
+<li><code>folder[i]</code>  always starts with character ‘/’</li>
+<li>Each folder name is unique.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> <span class="token function">removeSubfolders</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> folder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>folder <span class="token operator">==</span> null <span class="token operator">||</span> folder<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        Set<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> set <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>String f<span class="token operator">:</span> folder<span class="token punctuation">)</span> set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>String f <span class="token operator">:</span> folder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> idx <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">boolean</span> found <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>idx <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                String subFolder <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> idx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>subFolder<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    found <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                idx <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> idx<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>found<span class="token punctuation">)</span> set<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>String<span class="token operator">&gt;</span><span class="token punctuation">(</span>set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
