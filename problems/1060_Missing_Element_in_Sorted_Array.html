@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1060_Missing_Element_in_Sorted_Array</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1060.  Missing Element in Sorted Array</strong></p>
+<p>Medium</p>
+<p>Given a sorted array  <code>A</code>  of  <strong>unique</strong>  numbers, find the  <code>_K_-th</code>  missing number starting from the leftmost number of the array.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> A = [4,7,9,10], K = 1<br>
+<strong>Output:</strong> 5<br>
+<strong>Explanation:</strong><br>
+The first missing number is 5.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> A = [4,7,9,10], K = 3<br>
+<strong>Output:</strong> 8<br>
+<strong>Explanation:</strong><br>
+The missing numbers are [5,6,8,…], hence the third missing number is 8.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> A = [1,2,4], K = 3<br>
+<strong>Output:</strong> 6<br>
+<strong>Explanation:</strong><br>
+The missing numbers are [3,5,6,7,…], hence the third missing number is 6.</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>1 &lt;= A.length &lt;= 50000</code></li>
+<li><code>1 &lt;= A[i] &lt;= 1e7</code></li>
+<li><code>1 &lt;= K &lt;= 1e8</code></li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">missingElement</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       
+        <span class="token keyword">int</span> n <span class="token operator">=</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    
+        <span class="token keyword">int</span> missing <span class="token operator">=</span> nums<span class="token punctuation">[</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>missing <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> nums<span class="token punctuation">[</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> k<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> l <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> u <span class="token operator">=</span> nums<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>l <span class="token operator">&lt;</span> u<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> mid <span class="token operator">=</span> l <span class="token operator">+</span> <span class="token punctuation">(</span>u <span class="token operator">-</span> l<span class="token punctuation">)</span> <span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">missing</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> mid<span class="token punctuation">)</span> <span class="token operator">&lt;</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                l <span class="token operator">=</span> mid <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                u <span class="token operator">=</span> mid<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">missing</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> l<span class="token punctuation">)</span> <span class="token operator">&lt;</span> k<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> nums<span class="token punctuation">[</span>l<span class="token punctuation">]</span> <span class="token operator">+</span> k <span class="token operator">-</span> <span class="token function">missing</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> l<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> 
+            <span class="token keyword">return</span> nums<span class="token punctuation">[</span>l<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> k <span class="token operator">-</span> <span class="token function">missing</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> l<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">int</span> <span class="token function">missing</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">,</span> <span class="token keyword">int</span> mid<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> nums<span class="token punctuation">[</span>mid<span class="token punctuation">]</span> <span class="token operator">-</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> mid<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1094_Car_Pooling</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1094.  Car Pooling</strong></p>
+<p>Medium</p>
+<p>You are driving a vehicle that has  <code>capacity</code>  empty seats initially available for passengers. The vehicle  <strong>only</strong>  drives east (ie. it  <strong>cannot</strong>  turn around and drive west.)</p>
+<p>Given a list of  <code>trips</code>,  <code>trip[i] = [num_passengers, start_location, end_location]</code> contains information about the  <code>i</code>-th trip: the number of passengers that must be picked up, and the locations to pick them up and drop them off. The locations are given as the number of kilometers due east from your vehicle’s initial location.</p>
+<p>Return  <code>true</code>  if and only if it is possible to pick up and drop off all passengers for all the given trips.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> trips = [[2,1,5],[3,3,7]], capacity = 4<br>
+<strong>Output:</strong> false</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> trips = [[2,1,5],[3,3,7]], capacity = 5<br>
+<strong>Output:</strong> true</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> trips = [[2,1,5],[3,5,7]], capacity = 3<br>
+<strong>Output:</strong> true</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> trips = [[3,2,7],[3,7,9],[8,3,9]], capacity = 11<br>
+<strong>Output:</strong> true</p>
+<p><strong>Constraints:</strong></p>
+<ol>
+<li><code>trips.length &lt;= 1000</code></li>
+<li><code>trips[i].length == 3</code></li>
+<li><code>1 &lt;= trips[i][0] &lt;= 100</code></li>
+<li><code>0 &lt;= trips[i][1] &lt; trips[i][2] &lt;= 1000</code></li>
+<li><code>1 &lt;= capacity &lt;= 100000</code></li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> location<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> passenger<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> exit<span class="token punctuation">;</span>
+        
+        <span class="token keyword">public</span> <span class="token function">Node</span><span class="token punctuation">(</span><span class="token keyword">int</span> location<span class="token punctuation">,</span> <span class="token keyword">int</span> passenger<span class="token punctuation">,</span> <span class="token keyword">int</span> exit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>location <span class="token operator">=</span> location<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>passenger <span class="token operator">=</span> passenger<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>exit <span class="token operator">=</span> exit<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">carPooling</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> trips<span class="token punctuation">,</span> <span class="token keyword">int</span> capacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> trips<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        Node<span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">[</span><span class="token number">2</span> <span class="token operator">*</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            arr<span class="token punctuation">[</span><span class="token number">2</span><span class="token operator">*</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span>trips<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> trips<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            arr<span class="token punctuation">[</span><span class="token number">2</span><span class="token operator">*</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span>trips<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> trips<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Arrays<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+           <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">.</span>location <span class="token operator">==</span> b<span class="token punctuation">.</span>location<span class="token punctuation">)</span> <span class="token keyword">return</span> b<span class="token punctuation">.</span>exit <span class="token operator">-</span> a<span class="token punctuation">.</span>exit<span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">return</span> a<span class="token punctuation">.</span>location <span class="token operator">-</span> b<span class="token punctuation">.</span>location<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> seats <span class="token operator">=</span> capacity<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>exit <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                seats <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>capacity<span class="token punctuation">,</span> seats <span class="token operator">+</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>passenger<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>passenger <span class="token operator">-</span> seats <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                seats <span class="token operator">-=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>passenger<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
