@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1137_N-th_Tribonacci_Number</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1137.  N-th Tribonacci Number</strong></p>
+<p>Easy</p>
+<p>The Tribonacci sequence Tn  is defined as follows:</p>
+<p>T0  = 0, T1  = 1, T2  = 1, and Tn+3  = Tn  + Tn+1  + Tn+2  for n &gt;= 0.</p>
+<p>Given  <code>n</code>, return the value of Tn.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> n = 4<br>
+<strong>Output:</strong> 4<br>
+<strong>Explanation:</strong><br>
+T_3 = 0 + 1 + 1 = 2<br>
+T_4 = 1 + 1 + 2 = 4</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> n = 25<br>
+<strong>Output:</strong> 1389537</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= n &lt;= 37</code></li>
+<li>The answer is guaranteed to fit within a 32-bit integer, ie.  <code>answer &lt;= 2^31 - 1</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">tribonacci</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> c<span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> d <span class="token operator">=</span> a<span class="token operator">+</span>b<span class="token operator">+</span>c<span class="token punctuation">;</span>
+            a <span class="token operator">=</span> b<span class="token punctuation">;</span> b<span class="token operator">=</span> c<span class="token punctuation">;</span> c <span class="token operator">=</span> d<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> c<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1111_Maximum_Nesting_Depth_of_Two_Valid_Parentheses_Strings</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1111.  Maximum Nesting Depth of Two Valid Parentheses Strings</strong></p>
+<p>Medium</p>
+<p>A string is a  <em>valid parentheses string</em> (denoted VPS) if and only if it consists of  <code>"("</code>  and  <code>")"</code>  characters only, and:</p>
+<ul>
+<li>It is the empty string, or</li>
+<li>It can be written as <code>AB</code> (<code>A</code> concatenated with <code>B</code>), where <code>A</code> and <code>B</code> are VPS’s, or</li>
+<li>It can be written as <code>(A)</code>, where <code>A</code> is a VPS.</li>
+</ul>
+<p>We can similarly define the  <em>nesting depth</em>  <code>depth(S)</code>  of any VPS  <code>S</code>  as follows:</p>
+<ul>
+<li><code>depth("") = 0</code></li>
+<li><code>depth(A + B) = max(depth(A), depth(B))</code>, where  <code>A</code>  and  <code>B</code>  are VPS’s</li>
+<li><code>depth("(" + A + ")") = 1 + depth(A)</code>, where  <code>A</code>  is a VPS.</li>
+</ul>
+<p>For example, <code>""</code>, <code>"()()"</code>, and <code>"()(()())"</code> are VPS’s (with nesting depths 0, 1, and 2), and  <code>")("</code>  and  <code>"(()"</code>  are not VPS’s.</p>
+<p>Given a VPS  seq, split it into two disjoint subsequences  <code>A</code>  and  <code>B</code>, such that <code>A</code>  and  <code>B</code>  are VPS’s (and <code>A.length + B.length = seq.length</code>).</p>
+<p>Now choose  <strong>any</strong>  such  <code>A</code>  and  <code>B</code>  such that <code>max(depth(A), depth(B))</code>  is the minimum possible value.</p>
+<p>Return an  <code>answer</code>  array (of length  <code>seq.length</code>) that encodes such a choice of  <code>A</code>  and  <code>B</code>: <code>answer[i] = 0</code>  if  <code>seq[i]</code>  is part of  <code>A</code>, else  <code>answer[i] = 1</code>. Note that even though multiple answers may exist, you may return any of them.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> seq = “(()())”<br>
+<strong>Output:</strong> [0,1,1,1,1,0]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> seq = “()(())()”<br>
+<strong>Output:</strong> [0,0,0,1,1,0,1,1]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= seq.size &lt;= 10000</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">maxDepthAfterSplit</span><span class="token punctuation">(</span>String seq<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>seq <span class="token operator">==</span> null <span class="token operator">||</span> seq<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> n <span class="token operator">=</span> seq<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> left <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">char</span> c <span class="token operator">=</span> seq<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token string">'('</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                left<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> res<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> res<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                left<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+            
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

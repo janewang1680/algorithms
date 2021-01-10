@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1168_Optimize_Water_Distribution_in_a_Village</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1168.  Optimize Water Distribution in a Village</strong></p>
+<p>Hard</p>
+<p>There are  <code>n</code> houses in a village. We want to supply water for all the houses by building wells and laying pipes.</p>
+<p>For each house  <code>i</code>, we can either build a well inside it directly with cost  <code>wells[i]</code>, or pipe in water from another well to it. The costs to lay pipes between houses are given by the array  <code>pipes</code>, where each <code>pipes[i] = [house1, house2, cost]</code> represents the cost to connect <code>house1</code> and  <code>house2</code> together using a pipe. Connections are bidirectional.</p>
+<p>Find the minimum total cost to supply water to all houses.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/05/22/1359_ex1.png" alt=""></strong></p>
+<p><strong>Input:</strong> n = 3, wells = [1,2,2], pipes = [[1,2,1],[2,3,1]]<br>
+<strong>Output:</strong> 3<br>
+<strong>Explanation:</strong><br>
+The image shows the costs of connecting houses using pipes.<br>
+The best strategy is to build a well in the first house with cost 1 and connect the other houses to it with cost 2 so the total cost is 3.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 10000</code></li>
+<li><code>wells.length == n</code></li>
+<li><code>0 &lt;= wells[i] &lt;= 10^5</code></li>
+<li><code>1 &lt;= pipes.length &lt;= 10000</code></li>
+<li><code>1 &lt;= pipes[i][0], pipes[i][1] &lt;= n</code></li>
+<li><code>0 &lt;= pipes[i][2] &lt;= 10^5</code></li>
+<li><code>pipes[i][0] != pipes[i][1]</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token comment">// create a new node 0 and edges between node 0 and the well weight the cost</span>
+    <span class="token comment">// of the well, then find the minimum spanning tree</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">minCostToSupplyWater</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> wells<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> pipes<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> parents <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        List<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> edges <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            parents<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+            edges<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> wells<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> pipe<span class="token operator">:</span> pipes<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            edges<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>pipe<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Collections<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>edges<span class="token punctuation">,</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">&gt;</span>Integer<span class="token punctuation">.</span><span class="token function">compare</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       
+        <span class="token keyword">int</span> minCost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> edge<span class="token operator">:</span> edges<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> px <span class="token operator">=</span> <span class="token function">findParent</span><span class="token punctuation">(</span>parents<span class="token punctuation">,</span> edge<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> py <span class="token operator">=</span> <span class="token function">findParent</span><span class="token punctuation">(</span>parents<span class="token punctuation">,</span> edge<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>px <span class="token operator">!=</span> py<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                minCost <span class="token operator">+=</span> edge<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                parents<span class="token punctuation">[</span>px<span class="token punctuation">]</span> <span class="token operator">=</span> py<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> minCost<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">int</span> <span class="token function">findParent</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> parents<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">!=</span> parents<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> i <span class="token operator">=</span> parents<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
