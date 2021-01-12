@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1040_Moving_Stones_Until_Consecutive_II</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1040.  Moving Stones Until Consecutive II</strong></p>
+<p>Medium</p>
+<p>On an  <strong>infinite</strong>  number line, the position of the i-th stone is given by <code>stones[i]</code>. Call a stone an  <em>endpoint stone</em>  if it has the smallest or largest position.</p>
+<p>Each turn, you pick up an endpoint stone and move it to an unoccupied position so that it is no longer an endpoint stone.</p>
+<p>In particular, if the stones are at say,  <code>stones = [1,2,5]</code>, you  <strong>cannot</strong>  move the endpoint stone at position 5, since moving it to any position (such as 0, or 3) will still keep that stone as an endpoint stone.</p>
+<p>The game ends when you cannot make any more moves, ie. the stones are in consecutive positions.</p>
+<p>When the game ends, what is the minimum and maximum number of moves that you could have made? Return the answer as an length 2 array: <code>answer = [minimum_moves, maximum_moves]</code></p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> [7,4,9]<br>
+<strong>Output:</strong> [1,2]<br>
+<strong>Explanation:</strong><br>
+We can move 4 -&gt; 8 for one move to finish the game.<br>
+Or, we can move 9 -&gt; 5, 4 -&gt; 6 for two moves to finish the game.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> [6,5,4,3,10]<br>
+<strong>Output:</strong> [2,3]<br>
+We can move 3 -&gt; 8 then 10 -&gt; 7 to finish the game.<br>
+Or, we can move 3 -&gt; 7, 4 -&gt; 8, 5 -&gt; 9 to finish the game.<br>
+Notice we cannot move 10 -&gt; 2 to finish the game, because that would be an illegal move.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> [100,101,104,102,103]<br>
+<strong>Output:</strong> [0,0]</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>3 &lt;= stones.length &lt;= 10^4</code></li>
+<li><code>1 &lt;= stones[i] &lt;= 10^9</code></li>
+<li><code>stones[i]</code>  have distinct values.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">numMovesStonesII</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> stones<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>stones <span class="token operator">==</span> null <span class="token operator">||</span> stones<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> n <span class="token operator">=</span> stones<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        Arrays<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>stones<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Total spaces available</span>
+        <span class="token comment">// int spacesAvailable = stones[n-1] - stones[0] - 1 - (n - 2) = stones[n-1] - stones[0] + 1 - n;</span>
+        <span class="token comment">// Lost end if we move one of the end stones</span>
+        <span class="token comment">// int spacesLost = Math.min(stones[n-1] - stones[n-2] - 2, stones[1] - stones[0] - 2);</span>
+        <span class="token comment">// int maxMoves = spacesAvailable - spacesLost + 1;</span>
+        <span class="token keyword">int</span> max <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>stones<span class="token punctuation">[</span>n<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> stones<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">-</span> n<span class="token punctuation">,</span> stones<span class="token punctuation">[</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> stones<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">-</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> min <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+        <span class="token comment">// at the final state, there are n stones in a row, so we need to find a sliding window with at least n spaces.</span>
+        <span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>         
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> n <span class="token operator">&amp;&amp;</span> stones<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">-</span> stones<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">2</span> <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span> j<span class="token operator">++</span><span class="token punctuation">;</span>
+            j<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token comment">// need to fill in n - 2 spaces, already have j - i - 1</span>
+            <span class="token keyword">int</span> cost <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// the n-1 stone is arlready continuous, we cannot move the last over, but to move one stpace inside and then move the last inside.</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">==</span> n <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> stones<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">-</span> stones<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">==</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                cost <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            
+            min <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>min<span class="token punctuation">,</span> cost<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>min<span class="token punctuation">,</span> max<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
