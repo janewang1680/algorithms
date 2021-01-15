@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>983_Minimum_Cost_For_Tickets</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>983.  Minimum Cost For Tickets</strong></p>
+<p>Medium</p>
+<p>In a country popular for train travel, you have planned some train travelling one year in advance. The days of the year that you will travel is given as an array  <code>days</code>. Each day is an integer from  <code>1</code>  to  <code>365</code>.</p>
+<p>Train tickets are sold in 3 different ways:</p>
+<ul>
+<li>a 1-day pass is sold for  <code>costs[0]</code>  dollars;</li>
+<li>a 7-day pass is sold for  <code>costs[1]</code>  dollars;</li>
+<li>a 30-day pass is sold for  <code>costs[2]</code>  dollars.</li>
+</ul>
+<p>The passes allow that many days of consecutive travel. For example, if we get a 7-day pass on day 2, then we can travel for 7 days: day 2, 3, 4, 5, 6, 7, and 8.</p>
+<p>Return the minimum number of dollars you need to travel every day in the given list of  <code>days</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> days = [1,4,6,7,8,20], costs = [2,7,15]<br>
+<strong>Output:</strong> 11<br>
+<strong>Explanation:</strong><br>
+For example, here is one way to buy passes that lets you travel your travel plan:<br>
+On day 1, you bought a 1-day pass for costs[0] = $2, which covered day 1.<br>
+On day 3, you bought a 7-day pass for costs[1] = $7, which covered days 3, 4, …, 9.<br>
+On day 20, you bought a 1-day pass for costs[0] = $2, which covered day 20.<br>
+In total you spent $11 and covered all the days of your travel.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> days = [1,2,3,4,5,6,7,8,9,10,30,31], costs = [2,7,15]<br>
+<strong>Output:</strong> 17<br>
+<strong>Explanation:</strong><br>
+For example, here is one way to buy passes that lets you travel your travel plan:<br>
+On day 1, you bought a 30-day pass for costs[2] = $15 which covered days 1, 2, …, 30.<br>
+On day 31, you bought a 1-day pass for costs[0] = $2 which covered day 31.<br>
+In total you spent $17 and covered all the days of your travel.</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>1 &lt;= days.length &lt;= 365</code></li>
+<li><code>1 &lt;= days[i] &lt;= 365</code></li>
+<li><code>days</code>  is in strictly increasing order.</li>
+<li><code>costs.length == 3</code></li>
+<li><code>1 &lt;= costs[i] &lt;= 1000</code></li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">mincostTickets</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> days<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> costs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>days <span class="token operator">==</span> null <span class="token operator">||</span> days<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> costs <span class="token operator">==</span> null <span class="token operator">||</span> costs<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        Set<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> set <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> day<span class="token operator">:</span> days<span class="token punctuation">)</span> set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>day<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token number">366</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">366</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span> <span class="token punctuation">(</span>i<span class="token operator">&gt;=</span> <span class="token number">1</span> <span class="token operator">?</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">:</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> costs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;=</span> <span class="token number">7</span> <span class="token operator">?</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">7</span><span class="token punctuation">]</span> <span class="token operator">:</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> costs<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;=</span> <span class="token number">30</span> <span class="token operator">?</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span><span class="token number">30</span><span class="token punctuation">]</span> <span class="token operator">:</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> costs<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>    
+        
+        <span class="token keyword">return</span> dp<span class="token punctuation">[</span><span class="token number">365</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

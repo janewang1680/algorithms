@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>987_Vertical_Order_Traversal_of_a_Binary_Tree</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>987.  Vertical Order Traversal of a Binary Tree</strong></p>
+<p>Medium</p>
+<p>Given the  <code>root</code>  of a binary tree, calculate the  <strong>vertical order traversal</strong>  of the binary tree.</p>
+<p>For each node at position  <code>(x, y)</code>, its left and right children will be at positions  <code>(x - 1, y - 1)</code>  and  <code>(x + 1, y - 1)</code>  respectively.</p>
+<p>The  <strong>vertical order traversal</strong>  of a binary tree is a list of non-empty  <strong>reports</strong>  for each unique x-coordinate from left to right. Each  <strong>report</strong>  is a list of all nodes at a given x-coordinate. The  <strong>report</strong>  should be primarily sorted by y-coordinate from highest y-coordinate to lowest. If any two nodes have the same y-coordinate in the  <strong>report</strong>, the node with the smaller value should appear earlier.</p>
+<p>Return  <em>the  <strong>vertical order traversal</strong>  of the binary tree</em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2019/01/31/1236_example_1.PNG" alt=""></p>
+<p><strong>Input:</strong> root = [3,9,20,null,null,15,7]<br>
+<strong>Output:</strong> [[9],[3,15],[20],[7]]<br>
+<strong>Explanation:</strong> Without loss of generality, we can assume the root node is at position (0, 0):<br>
+The node with value 9 occurs at position (-1, -1).<br>
+The nodes with values 3 and 15 occur at positions (0, 0) and (0, -2).<br>
+The node with value 20 occurs at position (1, -1).<br>
+The node with value 7 occurs at position (2, -2).</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2019/01/31/tree2.png" alt=""></p>
+<p><strong>Input:</strong> root = [1,2,3,4,5,6,7]<br>
+<strong>Output:</strong> [[4],[2],[1,5,6],[3],[7]]<br>
+<strong>Explanation:</strong> The node with value 5 and the node with value 6 have the same position according to the given scheme.<br>
+However, in the report [1,5,6], the node with value 5 comes first since 5 is smaller than 6.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the tree is in the range  <code>[1, 1000]</code>.</li>
+<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;&gt;</span> <span class="token function">verticalTraversal</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        TreeMap<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> List<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;&gt;</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreeMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>List<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> list<span class="token operator">:</span> map<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Collections<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>list<span class="token punctuation">,</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> b<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">return</span> a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> b<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token keyword">return</span> b<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> l <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> val <span class="token operator">:</span> list<span class="token punctuation">)</span> l<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>val<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">helper</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">,</span> <span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">,</span> TreeMap<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> List<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;&gt;</span> map<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+        
+        map<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> z<span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>root<span class="token punctuation">.</span>val<span class="token punctuation">,</span> y<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> x <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> y<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">,</span> x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> y<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
