@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1033_Moving_Stones_Until_Consecutive</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1033.  Moving Stones Until Consecutive</strong></p>
+<p>Easy</p>
+<p>Three stones are on a number line at positions  <code>a</code>,  <code>b</code>, and  <code>c</code>.</p>
+<p>Each turn, you pick up a stone at an endpoint (ie., either the lowest or highest position stone), and move it to an unoccupied position between those endpoints. Formally, let’s say the stones are currently at positions  <code>x, y, z</code>  with  <code>x &lt; y &lt; z</code>. You pick up the stone at either position  <code>x</code>  or position  <code>z</code>, and move that stone to an integer position  <code>k</code>, with  <code>x &lt; k &lt; z</code>  and  <code>k != y</code>.</p>
+<p>The game ends when you cannot make any more moves, ie. the stones are in consecutive positions.</p>
+<p>When the game ends, what is the minimum and maximum number of moves that you could have made? Return the answer as an length 2 array:  <code>answer = [minimum_moves, maximum_moves]</code></p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> a = 1, b = 2, c = 5<br>
+<strong>Output:</strong> [1,2]<br>
+<strong>Explanation:</strong> Move the stone from 5 to 3, or move the stone from 5 to 4 to 3.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> a = 4, b = 3, c = 2<br>
+<strong>Output:</strong> [0,0]<br>
+<strong>Explanation:</strong> We cannot make any moves.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> a = 3, b = 5, c = 1<br>
+<strong>Output:</strong> [1,2]<br>
+<strong>Explanation:</strong> Move the stone from 1 to 4; or move the stone from 1 to 2 to 4.</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>1 &lt;= a &lt;= 100</code></li>
+<li><code>1 &lt;= b &lt;= 100</code></li>
+<li><code>1 &lt;= c &lt;= 100</code></li>
+<li><code>a != b, b != c, c != a</code></li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>  
+ <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">numMovesStones</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token punctuation">,</span> <span class="token keyword">int</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+ <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> s <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c <span class="token punctuation">}</span><span class="token punctuation">;</span>  
+ Arrays<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+ <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> s<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>  
+ <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>s<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> s<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> s<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> s<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&lt;=</span> <span class="token number">2</span> <span class="token operator">?</span> <span class="token number">1</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> s<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> s<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>  
+ <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
