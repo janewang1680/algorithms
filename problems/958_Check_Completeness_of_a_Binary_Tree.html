@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>958_Check_Completeness_of_a_Binary_Tree</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>958.  Check Completeness of a Binary Tree</strong></p>
+<p>Medium</p>
+<p>Given the  <code>root</code>  of a binary tree, determine if it is a  <em>complete binary tree</em>.</p>
+<p>In a  <strong><a href="http://en.wikipedia.org/wiki/Binary_tree#Types_of_binary_trees">complete binary tree</a></strong>, every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between  <code>1</code>  and  <code>2h</code>  nodes inclusive at the last level  <code>h</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-1.png" alt=""></p>
+<p><strong>Input:</strong> root = [1,2,3,4,5,6]<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong> Every level before the last is full (ie. levels with node-values {1} and {2, 3}), and all nodes in the last level ({4, 5, 6}) are as far left as possible.</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-2.png" alt=""></p>
+<p><strong>Input:</strong> root = [1,2,3,4,5,null,7]<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> The node with value 7 isn’t as far left as possible.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the tree is in the range  <code>[1, 100]</code>.</li>
+<li><code>1 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism /** language-java"> <span class="token operator">*</span> Definition <span class="token keyword">for</span> a binary tree node<span class="token punctuation">.</span>
+ <span class="token operator">*</span> <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TreeNode</span> <span class="token punctuation">{</span>
+ <span class="token operator">*</span>     <span class="token keyword">int</span> val<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     TreeNode left<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     TreeNode right<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+ <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>val <span class="token operator">=</span> val<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+ <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">,</span> TreeNode left<span class="token punctuation">,</span> TreeNode right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>val <span class="token operator">=</span> val<span class="token punctuation">;</span>
+ <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>left <span class="token operator">=</span> left<span class="token punctuation">;</span>
+ <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>right <span class="token operator">=</span> right<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     <span class="token punctuation">}</span>
+ <span class="token operator">*</span> <span class="token punctuation">}</span>
+ <span class="token operator">*</span><span class="token operator">/</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isCompleteTree</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">boolean</span> hasNull <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        Queue<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> q <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>q<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            TreeNode node <span class="token operator">=</span> q<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                hasNull <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>hasNull<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
