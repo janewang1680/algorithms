@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>974_Subarray_Sums_Divisible_by_K</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>974.  Subarray Sums Divisible by K</strong></p>
+<p>Medium</p>
+<p>Given an array  <code>A</code>  of integers, return the number of (contiguous, non-empty) subarrays that have a sum divisible by  <code>K</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> A = [4,5,0,-2,-3,1], K = 5<br>
+<strong>Output:</strong> 7<br>
+<strong>Explanation:</strong> There are 7 subarrays with a sum divisible by K = 5:<br>
+[4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>1 &lt;= A.length &lt;= 30000</code></li>
+<li><code>-10000 &lt;= A[i] &lt;= 10000</code></li>
+<li><code>2 &lt;= K &lt;= 10000</code></li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-javaclass"><code class="prism  language-javaclass">    public int subarraysDivByK(int[] A, int K) {
+        Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put(0, 1);
+        int sum = 0, cnt = 0;
+        for (int i = 0; i &lt; A.length; i++) {
+            sum += A[i];
+            int d = K == 0 ? sum : sum % K;
+            cnt += map.getOrDefault(d, 0);
+            if(sum &gt; 0) cnt += map.getOrDefault(sum % K - K, 0);
+            if(sum &lt; 0) cnt += map.getOrDefault(sum % K + K, 0);
+            map.put(d, map.getOrDefault(d, 0) + 1);
+        }
+        
+        return cnt;
+    }
+}
+</code></pre>
+</div>
+</body>
+
+</html>
