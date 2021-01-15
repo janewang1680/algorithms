@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1019_Next_Greater_Node_In_Linked List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1019.  Next Greater Node In Linked List</strong></p>
+<p>Medium</p>
+<p>We are given a linked list with <code>head</code> as the first node. Let’s number the nodes in the list:  <code>node_1, node_2, node_3, ...</code>  etc.</p>
+<p>Each node may have a  <em>next larger</em>  <strong>value</strong>: for  <code>node_i</code>, <code>next_larger(node_i)</code> is the  <code>node_j.val</code>  such that  <code>j &gt; i</code>,  <code>node_j.val &gt; node_i.val</code>, and  <code>j</code>  is the smallest possible choice. If such a  <code>j</code> does not exist, the next larger value is  <code>0</code>.</p>
+<p>Return an array of integers <code>answer</code>, where  <code>answer[i] = next_larger(node_{i+1})</code>.</p>
+<p>Note that in the example  <strong>inputs</strong> (not outputs) below, arrays such as  <code>[2,1,5]</code> represent the serialization of a linked list with a head node value of 2, second node value of 1, and third node value of 5.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> [2,1,5]<br>
+<strong>Output:</strong> [5,5,0]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> [2,7,4,3,5]<br>
+<strong>Output:</strong> [7,0,5,5,0]</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> [1,7,5,1,9,2,5,1]<br>
+<strong>Output:</strong> [7,9,9,9,0,5,0,0]</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>1 &lt;= node.val &lt;= 10^9</code> for each node in the linked list.</li>
+<li>The given list has length in the range  <code>[0, 10000]</code>.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+   <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> idx<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> val<span class="token punctuation">;</span>
+        
+        <span class="token keyword">public</span> <span class="token function">Node</span><span class="token punctuation">(</span><span class="token keyword">int</span> idx<span class="token punctuation">,</span> <span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>idx <span class="token operator">=</span> idx<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>val <span class="token operator">=</span> val<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+            
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">nextLargerNodes</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        ListNode cur <span class="token operator">=</span> head<span class="token punctuation">;</span> 
+        <span class="token keyword">int</span> len <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>len<span class="token operator">++</span><span class="token punctuation">;</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>len<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> idx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        Stack<span class="token operator">&lt;</span>Node<span class="token operator">&gt;</span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>val <span class="token operator">&lt;</span> cur<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                Node node <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                res<span class="token punctuation">[</span>node<span class="token punctuation">.</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> cur<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span>idx<span class="token punctuation">,</span> cur<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            idx<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1003_Check_If_Word_Is_Valid_After_Substitutions</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>1003.  Check If Word Is Valid After Substitutions</strong></p>
+<p>Medium</p>
+<p>Given a string  <code>s</code>, determine if it is  <strong>valid</strong>.</p>
+<p>A string  <code>s</code>  is  <strong>valid</strong>  if, starting with an empty string  <code>t = ""</code>, you can  <strong>transform</strong> <code>t</code> <strong>into</strong> <code>s</code>  after performing the following operation  <strong>any number of times</strong>:</p>
+<ul>
+<li>Insert string  <code>"abc"</code>  into any position in  <code>t</code>. More formally,  <code>t</code>  becomes  <code>tleft + "abc" + tright</code>, where  <code>t == tleft + tright</code>. Note that  <code>tleft</code>  and  <code>tright</code>  may be  <strong>empty</strong>.</li>
+</ul>
+<p>Return  <code>true</code>  <em>if</em> <code>s</code> <em>is a  <strong>valid</strong>  string, otherwise, return</em>  <code>false</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> s = “aabcbc”<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong><br>
+“” -&gt; “abc” -&gt; “aabcbc”<br>
+Thus, “aabcbc” is valid.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> s = “abcabcababcc”<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong><br>
+“” -&gt; “abc” -&gt; “abcabc” -&gt; “abcabcabc” -&gt; “abcabcababcc”<br>
+Thus, “abcabcababcc” is valid.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> s = “abccba”<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> It is impossible to get “abccba” using the operation.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> s = “cababc”<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> It is impossible to get “cababc” using the operation.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 2 * 104</code></li>
+<li><code>s</code>  consists of letters  <code>'a'</code>,  <code>'b'</code>, and  <code>'c'</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isValid</span><span class="token punctuation">(</span>String S<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Stack<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> S<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            String c <span class="token operator">=</span> S<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"ab"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
