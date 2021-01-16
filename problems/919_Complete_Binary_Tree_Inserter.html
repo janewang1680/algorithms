@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>919_Complete_Binary_Tree_Inserter</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>919.  Complete Binary Tree Inserter</strong></p>
+<p>Medium</p>
+<p>A  <em>complete</em>  binary tree is a binary tree in which every level, except possibly the last, is completely filled, and all nodes are as far left as possible.</p>
+<p>Write a data structure <code>CBTInserter</code> that is initialized with a complete binary tree and supports the following operations:</p>
+<ul>
+<li><code>CBTInserter(TreeNode root)</code>  initializes the data structure on a given tree with head node  <code>root</code>;</li>
+<li><code>CBTInserter.insert(int v)</code>  will insert a  <code>TreeNode</code> into the tree with value  <code>node.val = v</code> so that the tree remains complete,  <strong>and returns the value of the parent of the inserted  <code>TreeNode</code></strong>;</li>
+<li><code>CBTInserter.get_root()</code>  will return the head node of the tree.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> inputs = [“CBTInserter”,“insert”,“get_root”], inputs = [[[1]],[2],[]]<br>
+<strong>Output:</strong> [null,1,[1,2]]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> inputs = [“CBTInserter”,“insert”,“insert”,“get_root”], inputs = [[[1,2,3,4,5,6]],[7],[8],[]]<br>
+<strong>Output:</strong> [null,3,4,[1,2,3,4,5,6,7,8]]</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li>The initial given tree is complete and contains between  <code>1</code>  and  <code>1000</code>  nodes.</li>
+<li><code>CBTInserter.insert</code>  is called at most  <code>10000</code>  times per test case.</li>
+<li>Every value of a given or inserted node is between  <code>0</code>  and  <code>5000</code>.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism /** language-java"> <span class="token operator">*</span> Definition <span class="token keyword">for</span> a binary tree node<span class="token punctuation">.</span>
+ <span class="token operator">*</span> <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TreeNode</span> <span class="token punctuation">{</span>
+ <span class="token operator">*</span>     <span class="token keyword">int</span> val<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     TreeNode left<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     TreeNode right<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+ <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>val <span class="token operator">=</span> val<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+ <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">,</span> TreeNode left<span class="token punctuation">,</span> TreeNode right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>val <span class="token operator">=</span> val<span class="token punctuation">;</span>
+ <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>left <span class="token operator">=</span> left<span class="token punctuation">;</span>
+ <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>right <span class="token operator">=</span> right<span class="token punctuation">;</span>
+ <span class="token operator">*</span>     <span class="token punctuation">}</span>
+ <span class="token operator">*</span> <span class="token punctuation">}</span>
+ <span class="token operator">*</span><span class="token operator">/</span>
+<span class="token keyword">class</span> <span class="token class-name">CBTInserter</span> <span class="token punctuation">{</span>
+    List<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> list<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token function">CBTInserter</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>start <span class="token operator">&lt;=</span> end<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> start<span class="token punctuation">;</span> i<span class="token operator">&lt;=</span> end<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                TreeNode node <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>left <span class="token operator">!=</span> null<span class="token punctuation">)</span> list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>right <span class="token operator">!=</span> null<span class="token punctuation">)</span> list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            start <span class="token operator">=</span> end<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+            end <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">insert</span><span class="token punctuation">(</span><span class="token keyword">int</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        TreeNode node <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreeNode</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> parentIdx <span class="token operator">=</span> <span class="token punctuation">(</span>list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">;</span>
+        TreeNode parent <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>parentIdx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>parentIdx <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">==</span> list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> parent<span class="token punctuation">.</span>left <span class="token operator">=</span> node<span class="token punctuation">;</span>
+        <span class="token keyword">else</span> parent<span class="token punctuation">.</span>right <span class="token operator">=</span> node<span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> parent<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> TreeNode <span class="token function">get_root</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> list<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

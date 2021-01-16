@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>901_Online_Stock_Span</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>901.  Online Stock Span</strong></p>
+<p>Medium</p>
+<p>Write a class  <code>StockSpanner</code>  which collects daily price quotes for some stock, and returns the  <em>span</em> of that stock’s price for the current day.</p>
+<p>The span of the stock’s price today is defined as the maximum number of consecutive days (starting from today and going backwards) for which the price of the stock was less than or equal to today’s price.</p>
+<p>For example, if the price of a stock over the next 7 days were  <code>[100, 80, 60, 70, 60, 75, 85]</code>, then the stock spans would be  <code>[1, 1, 1, 2, 1, 4, 6]</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> [“StockSpanner”,“next”,“next”,“next”,“next”,“next”,“next”,“next”], [[],[100],[80],[60],[70],[60],[75],[85]]<br>
+<strong>Output:</strong> [null,1,1,1,2,1,4,6]<br>
+<strong>Explanation:</strong><br>
+First, S = StockSpanner() is initialized.  Then:<br>
+S.next(100) is called and returns 1,<br>
+S.next(80) is called and returns 1,<br>
+S.next(60) is called and returns 1,<br>
+S.next(70) is called and returns 2,<br>
+S.next(60) is called and returns 1,<br>
+S.next(75) is called and returns 4,<br>
+S.next(85) is called and returns 6.</p>
+<p>Note that (for example) S.next(75) returned 4, because the last 4 prices<br>
+(including today’s price of 75) were less than or equal to today’s price.</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li>Calls to  <code>StockSpanner.next(int price)</code>  will have  <code>1 &lt;= price &lt;= 10^5</code>.</li>
+<li>There will be at most  <code>10000</code>  calls to  <code>StockSpanner.next</code> per test case.</li>
+<li>There will be at most  <code>150000</code>  calls to  <code>StockSpanner.next</code>  across all test cases.</li>
+<li>The total time limit for this problem has been reduced by 75% for C++, and 50% for all other languages.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-javaclass"><code class="prism  language-javaclass">    Stack&lt;int[]&gt; stack;
+    int idx;
+    
+    public StockSpanner() {
+        stack = new Stack&lt;&gt;();
+        idx = 0;
+    }
+    
+    public int next(int price) {   
+        while (!stack.isEmpty() &amp;&amp; stack.peek()[0] &lt;= price) {
+            stack.pop();
+        }
+        
+        int prev = stack.isEmpty() ? 0-1: stack.peek()[1];
+        stack.push(new int[]{price, idx++});
+        
+        return idx - prev - 1;
+    }
+}
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>918_Maximum_Sum_Circular_Subarray</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>918.  Maximum Sum Circular Subarray</strong></p>
+<p>Medium</p>
+<p>Given a  <strong>circular array</strong> <strong>C</strong>  of integers represented by <code>A</code>, find the maximum possible sum of a non-empty subarray of  <strong>C</strong>.</p>
+<p>Here, a <em>circular array</em>  means the end of the array connects to the beginning of the array. (Formally,  <code>C[i] = A[i]</code>  when  <code>0 &lt;= i &lt; A.length</code>, and  <code>C[i+A.length] = C[i]</code> when <code>i &gt;= 0</code>.)</p>
+<p>Also, a subarray may only include each element of the fixed buffer  <code>A</code>  at most once. (Formally, for a subarray  <code>C[i], C[i+1], ..., C[j]</code>, there does not exist  <code>i &lt;= k1, k2 &lt;= j</code>  with  <code>k1 % A.length = k2 % A.length</code>.)</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> [1,-2,3,-2]<br>
+<strong>Output:</strong> 3<br>
+<strong>Explanation:</strong> Subarray [3] has maximum sum 3</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> [5,-3,5]<br>
+<strong>Output:</strong> 10 <strong>Explanation:</strong> Subarray [5,5] has maximum sum 5 + 5 = 10</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> [3,-1,2,-1]<br>
+<strong>Output:</strong> 4<br>
+<strong>Explanation:</strong> Subarray [2,-1,3] has maximum sum 2 + (-1) + 3 = 4</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> [3,-2,2,-3]<br>
+<strong>Output:</strong> 3 <strong>Explanation:</strong> Subarray [3] and [3,-2,2] both have maximum sum 3</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> [-2,-3,-1]<br>
+<strong>Output:</strong> -1 <strong>Explanation:</strong> Subarray [-1] has maximum sum -1</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>-30000 &lt;= A[i] &lt;= 30000</code></li>
+<li><code>1 &lt;= A.length &lt;= 30000</code></li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-javaclass"><code class="prism  language-javaclass">    public int maxSubarraySumCircular(int[] A) {
+        int n = A.length;
+        int maxSum = Integer.MIN_VALUE;
+        
+        int curMax = 0, curMin = 0;
+        int globalMax = Integer.MIN_VALUE, globalMin = Integer.MAX_VALUE;
+        int sum = 0;
+        for (int i = 0; i &lt; n; i++) {
+            sum += A[i];
+            curMax = Math.max(A[i], curMax + A[i]);
+            curMin = Math.min(A[i], curMin + A[i]);
+            globalMax = Math.max(globalMax, curMax);
+            globalMin = Math.min(globalMin, curMin);
+        }
+        
+        return sum == globalMin ? globalMax : Math.max(globalMax, sum - globalMin);
+    }
+}
+</code></pre>
+</div>
+</body>
+
+</html>
