@@ -27,36 +27,37 @@
 <li>All points are distinct.</li>
 </ol>
 <p><strong>[Solution]</strong></p>
-<pre class=" language-javaclass"><code class="prism  language-javaclass">    public int minAreaRect(int[][] points) {
-        if (points == null || points.length &lt; 4) return 0;
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">minAreaRect</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> points<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>points <span class="token operator">==</span> null <span class="token operator">||</span> points<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
         
-        TreeMap&lt;Integer, List&lt;Integer&gt;&gt; map = new TreeMap&lt;&gt;();
-        for (int[] p: points) {
-            map.computeIfAbsent(p[0], z-&gt;new ArrayList&lt;&gt;()).add(p[1]);
-        }
+        TreeMap<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;&gt;</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreeMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> p<span class="token operator">:</span> points<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            map<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>p<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> z<span class="token operator">-</span><span class="token operator">&gt;</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>p<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
         
-        int minArea = Integer.MAX_VALUE;
-        Map&lt;List&lt;Integer&gt;, Integer&gt; map2 = new HashMap&lt;&gt;();
-        for (Integer x : map.keySet()) {
-            List&lt;Integer&gt; ys = map.get(x);
-            Collections.sort(ys);
-            for (int i = 0; i &lt; ys.size(); i++) {
-                for (int j = i + 1; j &lt; ys.size(); j++) {
-                    List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
-                    list.add(ys.get(i));
-                    list.add(ys.get(j));
-                    if (map2.containsKey(list)) {
-                        int x2 = map2.get(list);
-                        minArea = Math.min(minArea, (x - x2) * (ys.get(j) - ys.get(i)));
-                    }
-                    map2.put(list, x);
-                }
-            }
-        }
+        <span class="token keyword">int</span> minArea <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+        Map<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span><span class="token punctuation">,</span> Integer<span class="token operator">&gt;</span> map2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Integer x <span class="token operator">:</span> map<span class="token punctuation">.</span><span class="token function">keySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> ys <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Collections<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>ys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> ys<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> ys<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>ys<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>ys<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>map2<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">int</span> x2 <span class="token operator">=</span> map2<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        minArea <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>minArea<span class="token punctuation">,</span> <span class="token punctuation">(</span>x <span class="token operator">-</span> x2<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>ys<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span> <span class="token operator">-</span> ys<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    map2<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>list<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
         
-        return minArea == Integer.MAX_VALUE ? 0 : minArea;
-    }
-}
+        <span class="token keyword">return</span> minArea <span class="token operator">==</span> Integer<span class="token punctuation">.</span>MAX_VALUE <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> minArea<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 </div>
 </body>

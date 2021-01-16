@@ -30,20 +30,21 @@
 <li><strong>Every</strong>  node has value 0.</li>
 </ol>
 <p><strong>[Solution]</strong></p>
-<pre class=" language-java"><code class="prism /** language-java"> <span class="token operator">*</span> Definition <span class="token keyword">for</span> a binary tree node<span class="token punctuation">.</span>
- <span class="token operator">*</span> <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TreeNode</span> <span class="token punctuation">{</span>
- <span class="token operator">*</span>     <span class="token keyword">int</span> val<span class="token punctuation">;</span>
- <span class="token operator">*</span>     TreeNode left<span class="token punctuation">;</span>
- <span class="token operator">*</span>     TreeNode right<span class="token punctuation">;</span>
- <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
- <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>val <span class="token operator">=</span> val<span class="token punctuation">;</span> <span class="token punctuation">}</span>
- <span class="token operator">*</span>     <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">,</span> TreeNode left<span class="token punctuation">,</span> TreeNode right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
- <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>val <span class="token operator">=</span> val<span class="token punctuation">;</span>
- <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>left <span class="token operator">=</span> left<span class="token punctuation">;</span>
- <span class="token operator">*</span>         <span class="token keyword">this</span><span class="token punctuation">.</span>right <span class="token operator">=</span> right<span class="token punctuation">;</span>
- <span class="token operator">*</span>     <span class="token punctuation">}</span>
- <span class="token operator">*</span> <span class="token punctuation">}</span>
- <span class="token operator">*</span><span class="token operator">/</span>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
 <span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">minCameraCover</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">;</span>

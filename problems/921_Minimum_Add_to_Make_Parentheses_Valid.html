@@ -37,19 +37,20 @@
 <li><code>S</code>  only consists of  <code>'('</code>  and  <code>')'</code>  characters.</li>
 </ol>
 <p><strong>[Solution]</strong></p>
-<pre class=" language-javaclass"><code class="prism  language-javaclass">    public int minAddToMakeValid(String S) {
-        int left = 0, right = 0;
-        for (char c: S.toCharArray()) {
-            if (c == '(') left++;
-            else if (c == ')') {
-                if (left &gt; 0) left--;
-                else right++;
-            }
-        }
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">minAddToMakeValid</span><span class="token punctuation">(</span>String S<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> c<span class="token operator">:</span> S<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token string">'('</span><span class="token punctuation">)</span> left<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token string">')'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> left<span class="token operator">--</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> right<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
         
-        return left+right;
-    }
-}
+        <span class="token keyword">return</span> left<span class="token operator">+</span>right<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 </div>
 </body>
