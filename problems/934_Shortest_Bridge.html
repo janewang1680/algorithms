@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>934_Shortest_Bridge</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>934.  Shortest Bridge</strong></p>
+<p>Medium</p>
+<p>In a given 2D binary array  <code>A</code>, there are two islands. (An island is a 4-directionally connected group of <code>1</code>s not connected to any other 1s.)</p>
+<p>Now, we may change  <code>0</code>s to  <code>1</code>s so as to connect the two islands together to form 1 island.</p>
+<p>Return the smallest number of  <code>0</code>s that must be flipped. (It is guaranteed that the answer is at least 1.)</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> A = [[0,1],[1,0]]<br>
+<strong>Output:</strong> 1</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> A = [[0,1,0],[0,0,0],[0,0,1]]<br>
+<strong>Output:</strong> 2</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> A = [[1,1,1,1,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]<br>
+<strong>Output:</strong> 1</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>2 &lt;= A.length == A[0].length &lt;= 100</code></li>
+<li><code>A[i][j] == 0</code>  or  <code>A[i][j] == 1</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-javaclass"><code class="prism  language-javaclass">    int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    
+    public int shortestBridge(int[][] A) {
+        if (A == null || A.length == 0) return 0;
+        int m = A.length, n = A[0].length;
+        
+        Queue&lt;int[]&gt; q = new LinkedList&lt;&gt;();
+        boolean found = false;
+        for (int i = 0; i &lt; m; i++) {
+            for (int j = 0; j &lt; n; j++) {
+                if (A[i][j] == 1) {
+                    dfs(A, i, j, q);
+                    found = true;
+                    break;
+                }
+            }
+            if (found) break;
+        }
+        
+        int step = 0;
+        while  (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i &lt; size; i++) {
+                int[] t= q.poll();
+                for (int j = 0; j &lt; 4; j++) {
+                    int x= t[0] + dirs[j][0], y = t[1] + dirs[j][1];
+                    if (x &lt; 0 || y &lt; 0 || x &gt;= A.length || y &gt;= A[0].length) continue;
+                    if (A[x][y] == 2 || A[x][y] == -1) continue;
+                    if (A[x][y] == 1) return step+1;
+                    A[x][y] = -1;
+                    q.offer(new int[]{x, y});
+                }
+            }
+            step++;
+        }
+        
+        return -1;
+    }
+    
+    void dfs(int[][] A, int row, int col, Queue&lt;int[]&gt; q) {
+        if (row &lt; 0 || col &lt; 0 || row &gt;= A.length || col &gt;= A[0].length) return;
+        if (A[row][col] == 2 || A[row][col] == -1) return;
+        if (A[row][col] == 0) {
+            A[row][col] = -1;
+            q.offer(new int[]{row, col});
+            return;
+        }
+        
+        A[row][col] = 2;
+        
+        for (int i = 0; i &lt; 4; i++) {
+            int x = row + dirs[i][0], y = col + dirs[i][1];
+            dfs(A, x, y, q);
+        }
+    }
+}
+</code></pre>
+</div>
+</body>
+
+</html>
