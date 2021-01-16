@@ -37,24 +37,25 @@
 <li><code>1 &lt;= A.length &lt;= 30000</code></li>
 </ol>
 <p><strong>[Solution]</strong></p>
-<pre class=" language-javaclass"><code class="prism  language-javaclass">    public int maxSubarraySumCircular(int[] A) {
-        int n = A.length;
-        int maxSum = Integer.MIN_VALUE;
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxSubarraySumCircular</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> A<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> A<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> maxSum <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">;</span>
         
-        int curMax = 0, curMin = 0;
-        int globalMax = Integer.MIN_VALUE, globalMin = Integer.MAX_VALUE;
-        int sum = 0;
-        for (int i = 0; i &lt; n; i++) {
-            sum += A[i];
-            curMax = Math.max(A[i], curMax + A[i]);
-            curMin = Math.min(A[i], curMin + A[i]);
-            globalMax = Math.max(globalMax, curMax);
-            globalMin = Math.min(globalMin, curMin);
-        }
+        <span class="token keyword">int</span> curMax <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> curMin <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> globalMax <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">,</span> globalMin <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            sum <span class="token operator">+=</span> A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            curMax <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> curMax <span class="token operator">+</span> A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            curMin <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> curMin <span class="token operator">+</span> A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            globalMax <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>globalMax<span class="token punctuation">,</span> curMax<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            globalMin <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>globalMin<span class="token punctuation">,</span> curMin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
         
-        return sum == globalMin ? globalMax : Math.max(globalMax, sum - globalMin);
-    }
-}
+        <span class="token keyword">return</span> sum <span class="token operator">==</span> globalMin <span class="token operator">?</span> globalMax <span class="token operator">:</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>globalMax<span class="token punctuation">,</span> sum <span class="token operator">-</span> globalMin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 </div>
 </body>

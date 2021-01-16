@@ -36,25 +36,26 @@ S.next(85) is called and returns 6.</p>
 <li>The total time limit for this problem has been reduced by 75% for C++, and 50% for all other languages.</li>
 </ol>
 <p><strong>[Solution]</strong></p>
-<pre class=" language-javaclass"><code class="prism  language-javaclass">    Stack&lt;int[]&gt; stack;
-    int idx;
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">StockSpanner</span> <span class="token punctuation">{</span>
+    Stack<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> stack<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> idx<span class="token punctuation">;</span>
     
-    public StockSpanner() {
-        stack = new Stack&lt;&gt;();
-        idx = 0;
-    }
+    <span class="token keyword">public</span> <span class="token function">StockSpanner</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        idx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
     
-    public int next(int price) {   
-        while (!stack.isEmpty() &amp;&amp; stack.peek()[0] &lt;= price) {
-            stack.pop();
-        }
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token keyword">int</span> price<span class="token punctuation">)</span> <span class="token punctuation">{</span>   
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;=</span> price<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
         
-        int prev = stack.isEmpty() ? 0-1: stack.peek()[1];
-        stack.push(new int[]{price, idx++});
+        <span class="token keyword">int</span> prev <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">0</span><span class="token operator">-</span><span class="token number">1</span><span class="token operator">:</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>price<span class="token punctuation">,</span> idx<span class="token operator">++</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         
-        return idx - prev - 1;
-    }
-}
+        <span class="token keyword">return</span> idx <span class="token operator">-</span> prev <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 </div>
 </body>
