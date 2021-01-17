@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>863_All_Nodes_Distance_K_in_Binary_Tree</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>863.  All Nodes Distance K in Binary Tree</strong></p>
+<p>Medium</p>
+<p>We are given a binary tree (with root node <code>root</code>), a  <code>target</code>  node, and an integer value  <code>K</code>.</p>
+<p>Return a list of the values of all nodes that have a distance  <code>K</code>  from the  <code>target</code>  node. The answer can be returned in any order.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, K = 2</p>
+<p><strong>Output:</strong> [7,4,1]</p>
+<p><strong>Explanation:</strong><br>
+The nodes that are a distance 2 from the target node (with value 5)<br>
+have values 7, 4, and 1.</p>
+<p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png" alt=""></p>
+<p>Note that the inputs “root” and “target” are actually TreeNodes.<br>
+The descriptions of the inputs above are just serializations of these objects.</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li>The given tree is non-empty.</li>
+<li>Each node in the tree has unique values <code>0 &lt;= node.val &lt;= 500</code>.</li>
+<li>The  <code>target</code> node is a node in the tree.</li>
+<li><code>0 &lt;= K &lt;= 1000</code>.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> <span class="token function">distanceK</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">,</span> TreeNode target<span class="token punctuation">,</span> <span class="token keyword">int</span> K<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>K <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>target<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        Map<span class="token operator">&lt;</span>TreeNode<span class="token punctuation">,</span> TreeNode<span class="token operator">&gt;</span> parents <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">findParent</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> null<span class="token punctuation">,</span> parents<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> step <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        Queue<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> q <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Set<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> visited <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        visited<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>q<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> size <span class="token operator">=</span> q<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                TreeNode node <span class="token operator">=</span> q<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>step <span class="token operator">==</span> K<span class="token punctuation">)</span> res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>left <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>visited<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        visited<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>right <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>visited<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        visited<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>parents<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>visited<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>parents<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>                                    q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>parents<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        visited<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>parents<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                                                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            
+            step<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>step <span class="token operator">&gt;</span> K<span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">findParent</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">,</span> TreeNode parent<span class="token punctuation">,</span> Map<span class="token operator">&lt;</span>TreeNode<span class="token punctuation">,</span> TreeNode<span class="token operator">&gt;</span> parents<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+        parents<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> parent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">findParent</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> root<span class="token punctuation">,</span> parents<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">findParent</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">,</span> root<span class="token punctuation">,</span> parents<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

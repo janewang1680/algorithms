@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>859_Buddy_Strings</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>859.  Buddy Strings</strong></p>
+<p>Easy</p>
+<p>Given two strings  <code>A</code>  and  <code>B</code>  of lowercase letters, return  <code>true</code> <em>if you can swap two letters in</em> <code>A</code> <em>so the result is equal to</em> <code>B</code><em>, otherwise, return</em> <code>false</code><em>.</em></p>
+<p>Swapping letters is defined as taking two indices  <code>i</code>  and  <code>j</code>  (0-indexed) such that  <code>i != j</code>  and swapping the characters at  <code>A[i]</code>  and  <code>A[j]</code>. For example, swapping at indices  <code>0</code>  and  <code>2</code>  in  <code>"abcd"</code>  results in  <code>"cbad"</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> A = “ab”, B = “ba”<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation</strong>**:** You can swap A[0] = ‘a’ and A[1] = ‘b’ to get “ba”, which is equal to B.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> A = “ab”, B = “ab”<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation</strong>**:** The only letters you can swap are A[0] = ‘a’ and A[1] = ‘b’, which results in “ba” != B.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> A = “aa”, B = “aa”<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation</strong>**:** You can swap A[0] = ‘a’ and A[1] = ‘a’ to get “aa”, which is equal to B.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> A = “aaaaaaabc”, B = “aaaaaaacb”<br>
+<strong>Output:</strong> true</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> A = “”, B = “aa”<br>
+<strong>Output:</strong> false</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= A.length &lt;= 20000</code></li>
+<li><code>0 &lt;= B.length &lt;= 20000</code></li>
+<li><code>A</code>  and  <code>B</code>  consist of lowercase letters.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">buddyStrings</span><span class="token punctuation">(</span>String A<span class="token punctuation">,</span> String B<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>A<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> B<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>A<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>B<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> freq <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token number">26</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> c<span class="token operator">:</span> A<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                freq<span class="token punctuation">[</span>c <span class="token operator">-</span> <span class="token string">'a'</span><span class="token punctuation">]</span> <span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>freq<span class="token punctuation">[</span>c <span class="token operator">-</span> <span class="token string">'a'</span><span class="token punctuation">]</span> <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        
+        <span class="token keyword">int</span> idx1 <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> idx2 <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> A<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">char</span> c <span class="token operator">=</span> A<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">char</span> d <span class="token operator">=</span> B<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">!=</span> d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>idx1 <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    idx1 <span class="token operator">=</span> i<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>idx2 <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        idx2 <span class="token operator">=</span> i<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>idx1 <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">||</span> idx2 <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> A<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>idx1<span class="token punctuation">)</span> <span class="token operator">==</span> B<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>idx2<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> A<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>idx2<span class="token punctuation">)</span> <span class="token operator">==</span> B<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>idx1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
