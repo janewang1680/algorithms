@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>887_Super_Egg_Drop</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>887.  Super Egg Drop</strong></p>
+<p>Hard</p>
+<p>You are given  <code>K</code>  eggs, and you have access to a building with  <code>N</code>  floors from  <code>1</code>  to  <code>N</code>.</p>
+<p>Each egg is identical in function, and if an egg breaks, you cannot drop it again.</p>
+<p>You know that there exists a floor  <code>F</code>  with  <code>0 &lt;= F &lt;= N</code>  such that any egg dropped at a floor higher than  <code>F</code>  will break, and any egg dropped at or below floor  <code>F</code>  will not break.</p>
+<p>Each  <em>move</em>, you may take an egg (if you have an unbroken one) and drop it from any floor  <code>X</code>  (with <code>1 &lt;= X &lt;= N</code>).</p>
+<p>Your goal is to know <strong>with certainty</strong> what the value of  <code>F</code>  is.</p>
+<p>What is the minimum number of moves that you need to know with certainty what  <code>F</code>  is, regardless of the initial value of  <code>F</code>?</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> K = 1, N = 2<br>
+<strong>Output:</strong> 2<br>
+<strong>Explanation:</strong><br>
+Drop the egg from floor 1.  If it breaks, we know with certainty that F = 0.<br>
+Otherwise, drop the egg from floor 2.  If it breaks, we know with certainty that F = 1.<br>
+If it didn’t break, then we know with certainty F = 2.<br>
+Hence, we needed 2 moves in the worst case to know what F is with certainty.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> K = 2, N = 6<br>
+<strong>Output:</strong> 3</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> K = 3, N = 14<br>
+<strong>Output:</strong> 4</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>1 &lt;= K &lt;= 100</code></li>
+<li><code>1 &lt;= N &lt;= 10000</code></li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">superEggDrop</span><span class="token punctuation">(</span><span class="token keyword">int</span> K<span class="token punctuation">,</span> <span class="token keyword">int</span> N<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// if D drops, K eggs, the floor break: F(D, K)</span>
+        <span class="token comment">// F(D, K) = 1 + F(D-1, K -1) + F(D-1, K)</span>
+        <span class="token comment">// f(d, 1) = d, f(1, k) = 1;</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>N<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>K<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    
+        <span class="token keyword">int</span> m <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>K<span class="token punctuation">]</span> <span class="token operator">&lt;</span> N<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            m<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> K<span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				dp<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>m <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> dp<span class="token punctuation">[</span>m <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> m<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
