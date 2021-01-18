@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>832_Flipping_an_Image</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>832.  Flipping an Image</strong></p>
+<p>Easy</p>
+<p>Given a binary matrix  <code>A</code>, we want to flip the image horizontally, then invert it, and return the resulting image.</p>
+<p>To flip an image horizontally means that each row of the image is reversed. For example, flipping <code>[1, 1, 0]</code> horizontally results in <code>[0, 1, 1]</code>.</p>
+<p>To invert an image means that each  <code>0</code>  is replaced by  <code>1</code>, and each  <code>1</code>  is replaced by  <code>0</code>. For example, inverting <code>[0, 1, 1]</code> results in <code>[1, 0, 0]</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> [[1,1,0],[1,0,1],[0,0,0]]<br>
+<strong>Output:</strong> [[1,0,0],[0,1,0],[1,1,1]]<br>
+<strong>Explanation:</strong> First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].<br>
+Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]<br>
+<strong>Output:</strong> [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]<br>
+<strong>Explanation:</strong> First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].<br>
+Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><code>1 &lt;= A.length = A[0].length &lt;= 20</code></li>
+<li><code>0 &lt;= A[i][j] &lt;= 1</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">flipAndInvertImage</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> A<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> A<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> k <span class="token operator">=</span> A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;=</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> a <span class="token operator">=</span> A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">^</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> b <span class="token operator">=</span> A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">^</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> b<span class="token punctuation">;</span>
+                A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">;</span>
+                
+                j<span class="token operator">++</span><span class="token punctuation">;</span>
+                k<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> A<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
