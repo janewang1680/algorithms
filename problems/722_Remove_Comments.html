@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>722_Remove_Comments</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>722.  Remove Comments</strong></p>
+<p>Medium</p>
+<p>Given a C++ program, remove comments from it. The program  <code>source</code>  is an array where  <code>source[i]</code>  is the  <code>i</code>-th line of the source code. This represents the result of splitting the original source code string by the newline character  <code>\n</code>.</p>
+<p>In C++, there are two types of comments, line comments, and block comments.</p>
+<p>The string  <code>//</code>  denotes a line comment, which represents that it and rest of the characters to the right of it in the same line should be ignored.</p>
+<p>The string  <code>/*</code>  denotes a block comment, which represents that all characters until the next (non-overlapping) occurrence of  <code>*/</code>  should be ignored. (Here, occurrences happen in reading order: line by line from left to right.) To be clear, the string  <code>/*/</code>  does not yet end the block comment, as the ending would be overlapping the beginning.</p>
+<p>The first effective comment takes precedence over others: if the string  <code>//</code>  occurs in a block comment, it is ignored. Similarly, if the string  <code>/*</code>  occurs in a line or block comment, it is also ignored.</p>
+<p>If a certain line of code is empty after removing comments, you must not output that line: each string in the answer list will be non-empty.</p>
+<p>There will be no control characters, single quote, or double quote characters. For example,  <code>source = "string s = "/* Not a comment. */";"</code>  will not be a test case. (Also, nothing else such as defines or macros will interfere with the comments.)</p>
+<p>It is guaranteed that every open block comment will eventually be closed, so  <code>/*</code>  outside of a line or block comment always starts a new comment.</p>
+<p>Finally, implicit newline characters can be deleted by block comments. Please see the examples below for details.</p>
+<p>After removing the comments from the source code, return the source code in the same format.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong><br>
+source = ["/*Test program <em>/", “int main()”, "{ ", "  // variable declaration ", “int a, b, c;”, "/</em> This is a test", "   multiline  ", "   comment for “, "   testing */”, “a = b + c;”, “}”]</p>
+<p>The line by line code is visualized as below:<br>
+/*Test program <em>/<br>
+int main()<br>
+{<br>
+// variable declaration<br>
+int a, b, c;<br>
+/</em> This is a test<br>
+multiline<br>
+comment for<br>
+testing */<br>
+a = b + c;<br>
+}</p>
+<p><strong>Output:</strong> [“int main()”,"{ “,”  “,“int a, b, c;”,“a = b + c;”,”}"]</p>
+<p>The line by line code is visualized as below:<br>
+int main()<br>
+{</p>
+<p>int a, b, c;<br>
+a = b + c;<br>
+}</p>
+<p><strong>Explanation:</strong><br>
+The string <code>/*</code> denotes a block comment, including line 1 and lines 6-9. The string <code>//</code> denotes line 4 as comments.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong><br>
+source = [“a/<em>comment", “line”, "more_comment</em>/b”]<br>
+<strong>Output:</strong> [“ab”]<br>
+<strong>Explanation:</strong> The original source string is “a/<em>comment</em>*\n<strong>line</strong>\n**more_comment*/b”, where we have bolded the newline characters.  After deletion, the <em>implicit</em> newline characters are deleted, leaving the string “ab”, which when delimited by newline characters becomes [“ab”].</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The length of  <code>source</code>  is in the range  <code>[1, 100]</code>.</li>
+<li>The length of  <code>source[i]</code>  is in the range  <code>[0, 80]</code>.</li>
+<li>Every open block comment is eventually closed.</li>
+<li>There are no single-quote, double-quote, or control characters in the source code.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> <span class="token function">removeComments</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> source<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>source <span class="token operator">==</span> null <span class="token operator">||</span> source<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span> inComment <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">boolean</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> source<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">boolean</span> prevInComment <span class="token operator">=</span> inComment<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            String line <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>source<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> inComment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>line<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>prevInComment<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    String tmp <span class="token operator">=</span> res<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> line<span class="token punctuation">;</span>
+                    res<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+            
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    String <span class="token function">helper</span><span class="token punctuation">(</span>String s<span class="token punctuation">,</span> <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span> inComment<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">char</span> c <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token string">'/'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>inComment<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'/'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'*'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    inComment<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                    i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token string">'*'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>inComment<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'/'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        inComment<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                        String tmp <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> inComment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>inComment<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
