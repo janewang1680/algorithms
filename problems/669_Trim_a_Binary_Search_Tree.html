@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>669_Trim_a_Binary_Search_Tree</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>669.  Trim a Binary Search Tree</strong></p>
+<p>Easy</p>
+<p>Given the  <code>root</code>  of a binary search tree and the lowest and highest boundaries as  <code>low</code>  and  <code>high</code>, trim the tree so that all its elements lies in  <code>[low, high]</code>. Trimming the tree should  <strong>not</strong>  change the relative structure of the elements that will remain in the tree (i.e., any node’s descendant should remain a descendant). It can be proven that there is a  <strong>unique answer</strong>.</p>
+<p>Return  <em>the root of the trimmed binary search tree</em>. Note that the root may change depending on the given bounds.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/09/09/trim1.jpg" alt=""></p>
+<p><strong>Input:</strong> root = [1,0,2], low = 1, high = 2<br>
+<strong>Output:</strong> [1,null,2]</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/09/09/trim2.jpg" alt=""></p>
+<p><strong>Input:</strong> root = [3,0,4,null,2,null,null,1], low = 1, high = 3<br>
+<strong>Output:</strong> [3,2,null,1]</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> root = [1], low = 1, high = 2<br>
+<strong>Output:</strong> [1]</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> root = [1,null,2], low = 1, high = 3<br>
+<strong>Output:</strong> [1,null,2]</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> root = [1,null,2], low = 2, high = 4<br>
+<strong>Output:</strong> [2]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the tree in the range  <code>[1, 104]</code>.</li>
+<li><code>0 &lt;= Node.val &lt;= 104</code></li>
+<li>The value of each node in the tree is  <strong>unique</strong>.</li>
+<li><code>root</code>  is guaranteed to be a valid binary search tree.</li>
+<li><code>0 &lt;= low &lt;= high &lt;= 104</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> TreeNode <span class="token function">trimBST</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">,</span> <span class="token keyword">int</span> L<span class="token punctuation">,</span> <span class="token keyword">int</span> R<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> root<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>val <span class="token operator">&lt;</span> L<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">trimBST</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">,</span> L<span class="token punctuation">,</span> R<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>val <span class="token operator">&gt;</span> R<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">trimBST</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> L<span class="token punctuation">,</span> R<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            root<span class="token punctuation">.</span>left <span class="token operator">=</span> <span class="token function">trimBST</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> L<span class="token punctuation">,</span> R<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            root<span class="token punctuation">.</span>right <span class="token operator">=</span> <span class="token function">trimBST</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">,</span> L<span class="token punctuation">,</span> R<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> root<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>652_Find_Duplicate_Subtrees</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>652.  Find Duplicate Subtrees</strong></p>
+<p>Medium</p>
+<p>Given the  <code>root</code> of a binary tree, return all  <strong>duplicate subtrees</strong>.</p>
+<p>For each kind of duplicate subtrees, you only need to return the root node of any  <strong>one</strong>  of them.</p>
+<p>Two trees are  <strong>duplicate</strong>  if they have the  <strong>same structure</strong>  with the  <strong>same node values</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/08/16/e1.jpg" alt=""></p>
+<p><strong>Input:</strong> root = [1,2,3,4,null,2,4,null,null,4]<br>
+<strong>Output:</strong> [[2,4],[4]]</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/08/16/e2.jpg" alt=""></p>
+<p><strong>Input:</strong> root = [2,1,1]<br>
+<strong>Output:</strong> [[1]]</p>
+<p><strong>Example 3:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/08/16/e33.jpg" alt=""></p>
+<p><strong>Input:</strong> root = [2,2,2,3,null,3,null]<br>
+<strong>Output:</strong> [[2,3],[3]]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of the nodes in the tree will be in the range  <code>[1, 10^4]</code></li>
+<li><code>-200 &lt;= Node.val &lt;= 200</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> <span class="token function">findDuplicateSubtrees</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> TreeNode<span class="token operator">&gt;</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Set<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> map<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    String <span class="token function">helper</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">,</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> TreeNode<span class="token operator">&gt;</span> map<span class="token punctuation">,</span> Set<span class="token operator">&lt;</span>TreeNode<span class="token operator">&gt;</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        
+        String left <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> map<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String right <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">,</span> map<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        String hash <span class="token operator">=</span> <span class="token string">"left:"</span> <span class="token operator">+</span> left <span class="token operator">+</span> <span class="token string">","</span> <span class="token operator">+</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">",right:"</span> <span class="token operator">+</span> right<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>map<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token punctuation">)</span> map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>hash<span class="token punctuation">,</span> root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> hash<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
