@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>681_Next_Closest_Time</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>681.  Next Closest Time</strong></p>
+<p>Medium</p>
+<p>Given a  <code>time</code>  represented in the format  <code>"HH:MM"</code>, form the next closest time by reusing the current digits. There is no limit on how many times a digit can be reused.</p>
+<p>You may assume the given input string is always valid. For example,  <code>"01:34"</code>,  <code>"12:09"</code>  are all valid.  <code>"1:34"</code>,  <code>"12:9"</code>  are all invalid.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> time = “19:34”<br>
+<strong>Output:</strong> “19:39”<br>
+<strong>Explanation:</strong> The next closest time choosing from digits <strong>1</strong>, <strong>9</strong>, <strong>3</strong>, <strong>4</strong>, is <strong>19:39</strong>, which occurs 5 minutes later.<br>
+It is not <strong>19:33</strong>, because this occurs 23 hours and 59 minutes later.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> time = “23:59”<br>
+<strong>Output:</strong> “22:22”<br>
+<strong>Explanation:</strong> The next closest time choosing from digits <strong>2</strong>, <strong>3</strong>, <strong>5</strong>, <strong>9</strong>, is <strong>22:22</strong>.<br>
+It may be assumed that the returned time is next day’s time since it is smaller than the input time numerically.</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> String <span class="token function">nextClosestTime</span><span class="token punctuation">(</span>String time<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        Set<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> set <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> c<span class="token operator">:</span> time<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>c <span class="token operator">-</span> <span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">int</span> hour <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> minute <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1440</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> min <span class="token operator">=</span> minute <span class="token operator">+</span> i<span class="token punctuation">;</span>
+            <span class="token keyword">int</span> h <span class="token operator">=</span> <span class="token punctuation">(</span>hour <span class="token operator">+</span> min <span class="token operator">/</span> <span class="token number">60</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">24</span><span class="token punctuation">;</span>
+            min <span class="token operator">=</span> min <span class="token operator">%</span> <span class="token number">60</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>h<span class="token operator">/</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>h<span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>min<span class="token operator">/</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>min <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token punctuation">(</span>h <span class="token operator">&lt;</span> <span class="token number">10</span> <span class="token operator">?</span> <span class="token string">"0"</span> <span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">)</span> <span class="token operator">+</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">":"</span> <span class="token operator">+</span> <span class="token punctuation">(</span>min<span class="token operator">&lt;</span> <span class="token number">10</span> <span class="token operator">?</span> <span class="token string">"0"</span> <span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">)</span> <span class="token operator">+</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>min<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> time<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
