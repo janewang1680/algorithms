@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>641_Design_Circular_Deque</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>641.  Design Circular Deque</strong></p>
+<p>Medium</p>
+<p>Design your implementation of the circular double-ended queue (deque).</p>
+<p>Your implementation should support following operations:</p>
+<ul>
+<li><code>MyCircularDeque(k)</code>: Constructor, set the size of the deque to be k.</li>
+<li><code>insertFront()</code>: Adds an item at the front of Deque. Return true if the operation is successful.</li>
+<li><code>insertLast()</code>: Adds an item at the rear of Deque. Return true if the operation is successful.</li>
+<li><code>deleteFront()</code>: Deletes an item from the front of Deque. Return true if the operation is successful.</li>
+<li><code>deleteLast()</code>: Deletes an item from the rear of Deque. Return true if the operation is successful.</li>
+<li><code>getFront()</code>: Gets the front item from the Deque. If the deque is empty, return -1.</li>
+<li><code>getRear()</code>: Gets the last item from Deque. If the deque is empty, return -1.</li>
+<li><code>isEmpty()</code>: Checks whether Deque is empty or not.</li>
+<li><code>isFull()</code>: Checks whether Deque is full or not.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>MyCircularDeque circularDeque = new MycircularDeque(3); // set the size to be 3<br>
+circularDeque.insertLast(1);			// return true<br>
+circularDeque.insertLast(2);			// return true<br>
+circularDeque.insertFront(3);			// return true<br>
+circularDeque.insertFront(4);			// return false, the queue is full<br>
+circularDeque.getRear();  			// return 2<br>
+circularDeque.isFull();				// return true<br>
+circularDeque.deleteLast();			// return true<br>
+circularDeque.insertFront(4);			// return true<br>
+circularDeque.getFront();			// return 4</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>All values will be in the range of [0, 1000].</li>
+<li>The number of operations will be in the range of [1, 1000].</li>
+<li>Please do not use the built-in Deque library.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">MyCircularDeque</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> pos<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> len<span class="token punctuation">;</span>
+    
+    <span class="token comment">/** Initialize your data structure here. Set the size of the deque to be k. */</span>
+    <span class="token keyword">public</span> <span class="token function">MyCircularDeque</span><span class="token punctuation">(</span><span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        pos <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        len <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Adds an item at the front of Deque. Return true if the operation is successful. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">insertFront</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isFull</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        
+        pos <span class="token operator">=</span> <span class="token punctuation">(</span>pos <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">+</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token operator">%</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        arr<span class="token punctuation">[</span>pos<span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        len<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Adds an item at the rear of Deque. Return true if the operation is successful. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">insertLast</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isFull</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> idx <span class="token operator">=</span> <span class="token punctuation">(</span>pos <span class="token operator">+</span> len<span class="token punctuation">)</span> <span class="token operator">%</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        arr<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        len<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Deletes an item from the front of Deque. Return true if the operation is successful. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">deleteFront</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        
+        pos <span class="token operator">=</span> <span class="token punctuation">(</span>pos <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        len<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Deletes an item from the rear of Deque. Return true if the operation is successful. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">deleteLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        
+        len<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Get the front item from the deque. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getFront</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> arr<span class="token punctuation">[</span>pos<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Get the last item from the deque. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getRear</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> idx <span class="token operator">=</span> <span class="token punctuation">(</span>pos <span class="token operator">+</span> len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> arr<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Checks whether the circular deque is empty or not. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> len <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Checks whether the circular deque is full or not. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isFull</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> len <span class="token operator">==</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

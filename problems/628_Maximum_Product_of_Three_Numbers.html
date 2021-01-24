@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>628_Maximum_Product_of_Three_Numbers</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>628.  Maximum Product of Three Numbers</strong></p>
+<p>Easy</p>
+<p>Given an integer array  <code>nums</code>,  <em>find three numbers whose product is maximum and return the maximum product</em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [1,2,3]<br>
+<strong>Output:</strong> 6</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums = [1,2,3,4]<br>
+<strong>Output:</strong> 24</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> nums = [-1,-2,-3]<br>
+<strong>Output:</strong> -6</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>3 &lt;= nums.length &lt;= 104</code></li>
+<li><code>-1000 &lt;= nums[i] &lt;= 1000</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maximumProduct</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> min1 <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">,</span> min2 <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> max1 <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">,</span> max2 <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">,</span> max3 <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token operator">:</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;=</span> min1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                min2 <span class="token operator">=</span> min1<span class="token punctuation">;</span>
+                min1 <span class="token operator">=</span> n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;=</span> min2<span class="token punctuation">)</span> <span class="token punctuation">{</span>     <span class="token comment">// n lies between min1 and min2</span>
+                min2 <span class="token operator">=</span> n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&gt;=</span> max1<span class="token punctuation">)</span> <span class="token punctuation">{</span>            <span class="token comment">// n is greater than max1, max2 and max3</span>
+                max3 <span class="token operator">=</span> max2<span class="token punctuation">;</span>
+                max2 <span class="token operator">=</span> max1<span class="token punctuation">;</span>
+                max1 <span class="token operator">=</span> n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&gt;=</span> max2<span class="token punctuation">)</span> <span class="token punctuation">{</span>     <span class="token comment">// n lies betweeen max1 and max2</span>
+                max3 <span class="token operator">=</span> max2<span class="token punctuation">;</span>
+                max2 <span class="token operator">=</span> n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&gt;=</span> max3<span class="token punctuation">)</span> <span class="token punctuation">{</span>     <span class="token comment">// n lies betwen max2 and max3</span>
+                max3 <span class="token operator">=</span> n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>min1 <span class="token operator">*</span> min2 <span class="token operator">*</span> max1<span class="token punctuation">,</span> max1 <span class="token operator">*</span> max2 <span class="token operator">*</span> max3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

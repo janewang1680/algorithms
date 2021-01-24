@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>621_Task_Scheduler</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>621.  Task Scheduler</strong></p>
+<p>Medium</p>
+<p>Given a characters array  <code>tasks</code>, representing the tasks a CPU needs to do, where each letter represents a different task. Tasks could be done in any order. Each task is done in one unit of time. For each unit of time, the CPU could complete either one task or just be idle.</p>
+<p>However, there is a non-negative integer <code>n</code>  that represents the cooldown period between two  <strong>same tasks</strong> (the same letter in the array), that is that there must be at least  <code>n</code>  units of time between any two same tasks.</p>
+<p>Return  <em>the least number of units of times that the CPU will take to finish all the given tasks</em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> tasks = [“A”,“A”,“A”,“B”,“B”,“B”], n = 2<br>
+<strong>Output:</strong> 8<br>
+<strong>Explanation:</strong><br>
+A -&gt; B -&gt; idle -&gt; A -&gt; B -&gt; idle -&gt; A -&gt; B<br>
+There is at least 2 units of time between any two same tasks.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> tasks = [“A”,“A”,“A”,“B”,“B”,“B”], n = 0<br>
+<strong>Output:</strong> 6<br>
+<strong>Explanation:</strong> On this case any permutation of size 6 would work since n = 0.<br>
+[“A”,“A”,“A”,“B”,“B”,“B”]<br>
+[“A”,“B”,“A”,“B”,“A”,“B”]<br>
+[“B”,“B”,“B”,“A”,“A”,“A”]<br>
+…<br>
+And so on.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> tasks = [“A”,“A”,“A”,“A”,“A”,“A”,“B”,“C”,“D”,“E”,“F”,“G”], n = 2<br>
+<strong>Output:</strong> 16<br>
+<strong>Explanation:</strong><br>
+One possible solution is<br>
+A -&gt; B -&gt; C -&gt; A -&gt; D -&gt; E -&gt; A -&gt; F -&gt; G -&gt; A -&gt; idle -&gt; idle -&gt; A -&gt; idle -&gt; idle -&gt; A</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= task.length &lt;= 104</code></li>
+<li><code>tasks[i]</code>  is upper-case English letter.</li>
+<li>The integer  <code>n</code>  is in the range  <code>[0, 100]</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">leastInterval</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> tasks<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>tasks <span class="token operator">==</span> null <span class="token operator">||</span> tasks<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> freqs <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token number">26</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> task<span class="token operator">:</span> tasks<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            freqs<span class="token punctuation">[</span>task <span class="token operator">-</span> <span class="token string">'A'</span><span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Arrays<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>freqs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">24</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> freqs<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> freqs<span class="token punctuation">[</span><span class="token number">25</span><span class="token punctuation">]</span><span class="token punctuation">)</span> i<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> maxCnt <span class="token operator">=</span> <span class="token number">25</span> <span class="token operator">-</span> i<span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>tasks<span class="token punctuation">.</span>length<span class="token punctuation">,</span> maxCnt <span class="token operator">+</span> <span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>freqs<span class="token punctuation">[</span><span class="token number">25</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
