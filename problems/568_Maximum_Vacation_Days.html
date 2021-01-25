@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>568_Maximum_Vacation_Days</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>568.  Maximum Vacation Days</strong></p>
+<p>Hard</p>
+<p>LeetCode wants to give one of its best employees the option to travel among  <strong>N</strong>  cities to collect algorithm problems. But all work and no play makes Jack a dull boy, you could take vacations in some particular cities and weeks. Your job is to schedule the traveling to maximize the number of vacation days you could take, but there are certain rules and restrictions you need to follow.</p>
+<p><strong>Rules and restrictions:</strong></p>
+<ol>
+<li>You can only travel among  <strong>N</strong>  cities, represented by indexes from 0 to N-1. Initially, you are in the city indexed 0 on  <strong>Monday</strong>.</li>
+<li>The cities are connected by flights. The flights are represented as a  <strong>N*N</strong>  matrix (not necessary symmetrical), called  <strong>flights</strong>  representing the airline status from the city i to the city j. If there is no flight from the city i to the city j,  <strong>flights[i][j] = 0</strong>; Otherwise,  <strong>flights[i][j] = 1</strong>. Also,  <strong>flights[i][i] = 0</strong>  for all i.</li>
+<li>You totally have  <strong>K</strong>  weeks (<strong>each week has 7 days</strong>) to travel. You can only take flights at most once  <strong>per day</strong>  and can only take flights on each week’s  <strong>Monday</strong>  morning. Since flight time is so short, we don’t consider the impact of flight time.</li>
+<li>For each city, you can only have restricted vacation days in different weeks, given an  <strong>N*K</strong>  matrix called  <strong>days</strong>  representing this relationship. For the value of  <strong>days[i][j]</strong>, it represents the maximum days you could take vacation in the city  <strong>i</strong>  in the week  <strong>j</strong>.</li>
+</ol>
+<p>You’re given the  <strong>flights</strong>  matrix and  <strong>days</strong>  matrix, and you need to output the maximum vacation days you could take during  <strong>K</strong>  weeks.</p>
+<p><strong>Example 1:</strong></p>
+<p>**Input:**flights = [[0,1,1],[1,0,1],[1,1,0]], days = [[1,3,1],[6,0,3],[3,3,3]]<br>
+<strong>Output:</strong> 12<br>
+<strong>Explanation:</strong><br>
+Ans = 6 + 3 + 3 = 12.<br>
+One of the best strategies is:<br>
+1st week : fly from city 0 to city 1 on Monday, and play 6 days and work 1 day.<br>
+(Although you start at city 0, we could also fly to and start at other cities since it is Monday.)<br>
+2nd week : fly from city 1 to city 2 on Monday, and play 3 days and work 4 days.<br>
+3rd week : stay at city 2, and play 3 days and work 4 days.</p>
+<p><strong>Example 2:</strong></p>
+<p>**Input:**flights = [[0,0,0],[0,0,0],[0,0,0]], days = [[1,1,1],[7,7,7],[7,7,7]]<br>
+<strong>Output:</strong> 3<br>
+<strong>Explanation:</strong><br>
+Ans = 1 + 1 + 1 = 3.<br>
+Since there is no flights enable you to move to another city, you have to stay at city 0 for the whole 3 weeks.<br>
+For each week, you only have one day to play and six days to work.<br>
+So the maximum number of vacation days is 3.</p>
+<p><strong>Example 3:</strong></p>
+<p>**Input:**flights = [[0,1,1],[1,0,1],[1,1,0]], days = [[7,0,0],[0,7,0],[0,0,7]]<br>
+<strong>Output:</strong> 21<br>
+<strong>Explanation:</strong><br>
+Ans = 7 + 7 + 7 = 21<br>
+One of the best strategies is:<br>
+1st week : stay at city 0, and play 7 days.<br>
+2nd week : fly from city 0 to city 1 on Monday, and play 7 days.<br>
+3rd week : fly from city 1 to city 2 on Monday, and play 7 days.</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li><strong>N and K</strong>  are positive integers, which are in the range of [1, 100].</li>
+<li>In the matrix  <strong>flights</strong>, all the values are integers in the range of [0, 1].</li>
+<li>In the matrix  <strong>days</strong>, all the values are integers in the range [0, 7].</li>
+<li>You could stay at a city beyond the number of vacation days, but you should  <strong>work</strong>  on the extra days, which won’t be counted as vacation days.</li>
+<li>If you fly from the city A to the city B and take the vacation on that day, the deduction towards vacation days will count towards the vacation days of city B in that week.</li>
+<li>We don’t consider the impact of flight hours towards the calculation of vacation days.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxVacationDays</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> flights<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> days<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">int</span> N <span class="token operator">=</span> flights<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> K <span class="token operator">=</span> days<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>K<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Arrays<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>flights<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">||</span> i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> days<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">int</span> maxVacations <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> K<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// week</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// city</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> m <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> m <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> m<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// city</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>flights<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">||</span> m <span class="token operator">==</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> days<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                maxVacations <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>maxVacations<span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        
+        <span class="token keyword">return</span> maxVacations<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
