@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>547_Number_of_Provinces</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>547.  Number of Provinces</strong></p>
+<p>Medium</p>
+<p>There are  <code>n</code>  cities. Some of them are connected, while some are not. If city  <code>a</code>  is connected directly with city  <code>b</code>, and city  <code>b</code>  is connected directly with city  <code>c</code>, then city  <code>a</code>  is connected indirectly with city  <code>c</code>.</p>
+<p>A  <strong>province</strong>  is a group of directly or indirectly connected cities and no other cities outside of the group.</p>
+<p>You are given an  <code>n x n</code>  matrix  <code>isConnected</code>  where  <code>isConnected[i][j] = 1</code>  if the  <code>ith</code>  city and the  <code>jth</code>  city are directly connected, and  <code>isConnected[i][j] = 0</code>  otherwise.</p>
+<p>Return  <em>the total number of  <strong>provinces</strong></em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/12/24/graph1.jpg" alt=""></p>
+<p><strong>Input:</strong> isConnected = [[1,1,0],[1,1,0],[0,0,1]]<br>
+<strong>Output:</strong> 2</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/12/24/graph2.jpg" alt=""></p>
+<p><strong>Input:</strong> isConnected = [[1,0,0],[0,1,0],[0,0,1]]<br>
+<strong>Output:</strong> 3</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 200</code></li>
+<li><code>n == isConnected.length</code></li>
+<li><code>n == isConnected[i].length</code></li>
+<li><code>isConnected[i][j]</code>  is  <code>1</code>  or  <code>0</code>.</li>
+<li><code>isConnected[i][i] == 1</code></li>
+<li><code>isConnected[i][j] == isConnected[j][i]</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">findCircleNum</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> M<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> row <span class="token operator">=</span> M<span class="token punctuation">.</span>length<span class="token punctuation">;</span> 
+        <span class="token keyword">int</span> res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span> visited <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">boolean</span><span class="token punctuation">[</span>row<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> row<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>visited<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">dfs</span><span class="token punctuation">(</span>M<span class="token punctuation">,</span> i<span class="token punctuation">,</span> visited<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                res<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">dfs</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> M<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span> visited<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        visited<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> visited<span class="token punctuation">.</span>length<span class="token punctuation">;</span> k<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>visited<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>M<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                visited<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                <span class="token function">dfs</span> <span class="token punctuation">(</span>M<span class="token punctuation">,</span> k<span class="token punctuation">,</span> visited<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

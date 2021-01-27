@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>535_Encode_and_Decode_TinyURL</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>535.  Encode and Decode TinyURL</strong></p>
+<p>Medium</p>
+<blockquote>
+<p>Note: This is a companion problem to the  <a href="https://leetcode.com/discuss/interview-question/system-design/">System Design</a>  problem:  <a href="https://leetcode.com/discuss/interview-question/124658/Design-a-URL-Shortener-(-TinyURL-)-System/">Design TinyURL</a>.</p>
+</blockquote>
+<p>TinyURL is a URL shortening service where you enter a URL such as  <code>https://leetcode.com/problems/design-tinyurl</code>  and it returns a short URL such as  <code>http://tinyurl.com/4e9iAk</code>.</p>
+<p>Design the  <code>encode</code>  and  <code>decode</code>  methods for the TinyURL service. There is no restriction on how your encode/decode algorithm should work. You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL can be decoded to the original URL.</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Codec</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">&gt;</span> map1  <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">&gt;</span> map2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// Encodes a URL to a shortened URL.</span>
+    <span class="token keyword">public</span> String <span class="token function">encode</span><span class="token punctuation">(</span>String longUrl<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>map1<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>longUrl<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> map1<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>longUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        String shortUrl <span class="token operator">=</span> <span class="token function">convert</span><span class="token punctuation">(</span>longUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map1<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>longUrl<span class="token punctuation">,</span> shortUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map2<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>shortUrl<span class="token punctuation">,</span> longUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> shortUrl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> String <span class="token function">convert</span><span class="token punctuation">(</span>String a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+        
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cnt <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> r <span class="token operator">=</span> cnt <span class="token operator">%</span> <span class="token number">64</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>r <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">)</span> builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>r <span class="token operator">&lt;</span> <span class="token number">36</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">(</span>r <span class="token operator">-</span> <span class="token number">10</span> <span class="token operator">+</span> <span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">(</span>r <span class="token operator">-</span> <span class="token number">36</span> <span class="token operator">+</span> <span class="token string">'A'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            cnt <span class="token operator">=</span> cnt <span class="token operator">/</span> <span class="token number">64</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Decodes a shortened URL to its original URL.</span>
+    <span class="token keyword">public</span> String <span class="token function">decode</span><span class="token punctuation">(</span>String shortUrl<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> map2<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>shortUrl<span class="token punctuation">)</span> <span class="token operator">?</span> map2<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>shortUrl<span class="token punctuation">)</span> <span class="token operator">:</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
