@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>489_Robot_Room_Cleaner</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>489.  Robot Room Cleaner</strong></p>
+<p>Hard</p>
+<p>Given a robot cleaner in a room modeled as a grid.</p>
+<p>Each cell in the grid can be empty or blocked.</p>
+<p>The robot cleaner with 4 given APIs can move forward, turn left or turn right. Each turn it made is 90 degrees.</p>
+<p>When it tries to move into a blocked cell, its bumper sensor detects the obstacle and it stays on the current cell.</p>
+<p>Design an algorithm to clean the entire room using only the 4 given APIs shown below.</p>
+<p>interface Robot {<br>
+// returns true if next cell is open and robot moves into the cell.<br>
+// returns false if next cell is obstacle and robot stays on the current cell.<br>
+boolean move();</p>
+<p>// Robot will stay on the same cell after calling turnLeft/turnRight.<br>
+// Each turn will be 90 degrees.<br>
+void turnLeft();<br>
+void turnRight();</p>
+<p>// Clean the current cell.<br>
+void clean();<br>
+}</p>
+<p><strong>Example:</strong></p>
+<p><strong>Input:</strong><br>
+room = [<br>
+[1,1,1,1,1,0,1,1],<br>
+[1,1,1,1,1,0,1,1],<br>
+[1,0,1,1,1,1,1,1],<br>
+[0,0,0,1,0,0,0,0],<br>
+[1,1,1,1,1,1,1,1]<br>
+],<br>
+row = 1,<br>
+col = 3</p>
+<p><strong>Explanation:</strong><br>
+All grids in the room are marked by either 0 or 1.<br>
+0 means the cell is blocked, while 1 means the cell is accessible.<br>
+The robot initially starts at the position of row=1, col=3.<br>
+From the top left corner, its position is one row below and three columns right.</p>
+<p><strong>Notes:</strong></p>
+<ol>
+<li>The input is only given to initialize the room and the robot’s position internally. You must solve this problem “blindfolded”. In other words, you must control the robot using only the mentioned 4 APIs, without knowing the room layout and the initial robot’s position.</li>
+<li>The robot’s initial position will always be in an accessible cell.</li>
+<li>The initial direction of the robot will be facing up.</li>
+<li>All accessible cells are connected, which means the all cells marked as 1 will be accessible by the robot.</li>
+<li>Assume all four edges of the grid are all surrounded by wall.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * // This is the robot's control interface.
+ * // You should not implement it, or speculate about its implementation
+ * interface Robot {
+ *     // Returns true if the cell in front is open and robot moves into the cell.
+ *     // Returns false if the cell in front is blocked and robot stays in the current cell.
+ *     public boolean move();
+ *
+ *     // Robot will stay in the same cell after calling turnLeft/turnRight.
+ *     // Each turn will be 90 degrees.
+ *     public void turnLeft();
+ *     public void turnRight();
+ *
+ *     // Clean the current cell.
+ *     public void clean();
+ * }
+ */</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">cleanRoom</span><span class="token punctuation">(</span>Robot robot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       Set<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> visited <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span>robot<span class="token punctuation">,</span> visited<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// dir: 0: up, 90: right, 180: down, 270: left</span>
+    <span class="token keyword">void</span> <span class="token function">helper</span><span class="token punctuation">(</span>Robot robot<span class="token punctuation">,</span> Set<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> visited<span class="token punctuation">,</span> <span class="token keyword">int</span> row<span class="token punctuation">,</span> <span class="token keyword">int</span> col<span class="token punctuation">,</span> <span class="token keyword">int</span> dir<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String t <span class="token operator">=</span> row <span class="token operator">+</span> <span class="token string">","</span> <span class="token operator">+</span> col<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>visited<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+        visited<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        robot<span class="token punctuation">.</span><span class="token function">clean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>robot<span class="token punctuation">.</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+               <span class="token keyword">int</span> x <span class="token operator">=</span> row<span class="token punctuation">,</span> y <span class="token operator">=</span> col<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>dir <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> x <span class="token operator">=</span> row <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>dir <span class="token operator">==</span> <span class="token number">90</span><span class="token punctuation">)</span> y <span class="token operator">=</span> col <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>dir <span class="token operator">==</span> <span class="token number">180</span><span class="token punctuation">)</span> x <span class="token operator">=</span> row <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> y <span class="token operator">=</span> col <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token function">helper</span><span class="token punctuation">(</span>robot<span class="token punctuation">,</span> visited<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> dir<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                
+               <span class="token comment">// go back to the starting position</span>
+			    robot<span class="token punctuation">.</span><span class="token function">turnLeft</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                robot<span class="token punctuation">.</span><span class="token function">turnLeft</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                robot<span class="token punctuation">.</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                robot<span class="token punctuation">.</span><span class="token function">turnRight</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                robot<span class="token punctuation">.</span><span class="token function">turnRight</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+            <span class="token punctuation">}</span> 
+            
+            robot<span class="token punctuation">.</span><span class="token function">turnRight</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            dir <span class="token operator">=</span> <span class="token punctuation">(</span>dir <span class="token operator">+</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">360</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
