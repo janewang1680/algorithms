@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>509_Fibonacci_Number</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>509.  Fibonacci Number</strong></p>
+<p>Easy</p>
+<p>The  <strong>Fibonacci numbers</strong>, commonly denoted  <code>F(n)</code>  form a sequence, called the  <strong>Fibonacci sequence</strong>, such that each number is the sum of the two preceding ones, starting from  <code>0</code>  and  <code>1</code>. That is,</p>
+<p>F(0) = 0, F(1) = 1<br>
+F(n) = F(n - 1) + F(n - 2), for n &gt; 1.</p>
+<p>Given  <code>n</code>, calculate  <code>F(n)</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> n = 2<br>
+<strong>Output:</strong> 1<br>
+<strong>Explanation:</strong> F(2) = F(1) + F(0) = 1 + 0 = 1.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> n = 3<br>
+<strong>Output:</strong> 2<br>
+<strong>Explanation:</strong> F(3) = F(2) + F(1) = 1 + 1 = 2.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> n = 4<br>
+<strong>Output:</strong> 3<br>
+<strong>Explanation:</strong> F(4) = F(3) + F(2) = 2 + 1 = 3.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= n &lt;= 30</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">fib</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> n<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> c <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            c <span class="token operator">=</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
+            a <span class="token operator">=</span> b<span class="token punctuation">;</span>
+            b <span class="token operator">=</span> c<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> c<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
