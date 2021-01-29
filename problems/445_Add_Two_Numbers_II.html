@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>445_Add_Two_Numbers_II</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>445.  Add Two Numbers II</strong></p>
+<p>Medium</p>
+<p>You are given two  <strong>non-empty</strong>  linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p>
+<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+<p><strong>Follow up:</strong><br>
+What if you cannot modify the input lists? In other words, reversing the lists is not allowed.</p>
+<p><strong>Example:</strong></p>
+<p><strong>Input:</strong> (7 -&gt; 2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)<br>
+<strong>Output:</strong> 7 -&gt; 8 -&gt; 0 -&gt; 7</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">addTwoNumbers</span><span class="token punctuation">(</span>ListNode l1<span class="token punctuation">,</span> ListNode l2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>l1 <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> l2<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>l2 <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> l1<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> len1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        ListNode cur1 <span class="token operator">=</span> l1<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur1 <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span> cur1 <span class="token operator">=</span> cur1<span class="token punctuation">.</span>next<span class="token punctuation">;</span> len1<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        
+        <span class="token keyword">int</span> len2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        ListNode cur2 <span class="token operator">=</span> l2<span class="token punctuation">;</span> 
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur2 <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span> cur2 <span class="token operator">=</span> cur2<span class="token punctuation">.</span>next<span class="token punctuation">;</span> len2<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        
+        ListNode head <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        cur1 <span class="token operator">=</span> l1<span class="token punctuation">;</span> cur2 <span class="token operator">=</span> l2<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>len1 <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> len2 <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> val <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>len1 <span class="token operator">&gt;=</span> len2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                val <span class="token operator">+=</span> cur1<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+                cur1 <span class="token operator">=</span> cur1<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+                len1<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> 
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>len1 <span class="token operator">&lt;</span> len2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                val <span class="token operator">+=</span> cur2<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+                cur2 <span class="token operator">=</span> cur2<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+                len2<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            ListNode cur <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cur<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+            head <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token function">reverse</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    ListNode <span class="token function">reverse</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> carry <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        ListNode prev <span class="token operator">=</span> null<span class="token punctuation">,</span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> val <span class="token operator">=</span> cur<span class="token punctuation">.</span>val <span class="token operator">+</span> carry<span class="token punctuation">;</span>
+            cur<span class="token punctuation">.</span>val <span class="token operator">=</span> val <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">;</span>
+            carry <span class="token operator">=</span> val <span class="token operator">/</span> <span class="token number">10</span><span class="token punctuation">;</span>
+            ListNode next <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            cur<span class="token punctuation">.</span>next <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+            prev <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>carry <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            ListNode t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span>carry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            t<span class="token punctuation">.</span>next <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> t<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> prev<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

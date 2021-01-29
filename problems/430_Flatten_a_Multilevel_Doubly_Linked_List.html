@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>430_Flatten_a_Multilevel_Doubly_Linked_List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>430.  Flatten a Multilevel Doubly Linked List</strong></p>
+<p>Medium</p>
+<p>You are given a doubly linked list which in addition to the next and previous pointers, it could have a child pointer, which may or may not point to a separate doubly linked list. These child lists may have one or more children of their own, and so on, to produce a multilevel data structure, as shown in the example below.</p>
+<p>Flatten the list so that all the nodes appear in a single-level, doubly linked list. You are given the head of the first level of the list.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> head = [1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]<br>
+<strong>Output:</strong> [1,2,3,7,8,11,12,9,10,4,5,6]<br>
+<strong>Explanation:</strong><br>
+The multilevel linked list in the input is as follows:</p>
+<p><img src="https://assets.leetcode.com/uploads/2018/10/12/multilevellinkedlist.png" alt=""></p>
+<p>After flattening the multilevel linked list it becomes:</p>
+<p><img src="https://assets.leetcode.com/uploads/2018/10/12/multilevellinkedlistflattened.png" alt=""></p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> head = [1,2,null,3]<br>
+<strong>Output:</strong> [1,3,2]<br>
+<strong>Explanation:</strong> The input multilevel linked list is as follows:</p>
+<p>1—2---NULL<br>
+|<br>
+3—NULL</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> head = []<br>
+<strong>Output:</strong> []</p>
+<p><strong>How multilevel linked list is represented in test case:</strong></p>
+<p>We use the multilevel linked list from  <strong>Example 1</strong>  above:</p>
+<p>1—2---3—4---5—6–NULL<br>
+|<br>
+7—8---9—10–NULL<br>
+|<br>
+11–12–NULL</p>
+<p>The serialization of each level is as follows:</p>
+<p>[1,2,3,4,5,6,null]<br>
+[7,8,9,10,null]<br>
+[11,12,null]</p>
+<p>To serialize all levels together we will add nulls in each level to signify no node connects to the upper node of the previous level. The serialization becomes:</p>
+<p>[1,2,3,4,5,6,null]<br>
+[null,null,7,8,9,10,null]<br>
+[null,11,12,null]</p>
+<p>Merging the serialization of each level and removing trailing nulls we obtain:</p>
+<p>[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of Nodes will not exceed  <code>1000</code>.</li>
+<li><code>1 &lt;= Node.val &lt;= 105</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node prev;
+    public Node next;
+    public Node child;
+};
+*/</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> Node <span class="token function">flatten</span><span class="token punctuation">(</span>Node head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        
+        Node<span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    Node<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">helper</span><span class="token punctuation">(</span>Node head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>null<span class="token punctuation">,</span> null<span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head<span class="token punctuation">.</span>next <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span> head<span class="token punctuation">.</span>child <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>head<span class="token punctuation">,</span> head<span class="token punctuation">}</span><span class="token punctuation">;</span>
+        
+        Node<span class="token punctuation">[</span><span class="token punctuation">]</span> next <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>head<span class="token punctuation">.</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Node<span class="token punctuation">[</span><span class="token punctuation">]</span> child <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>head<span class="token punctuation">.</span>child<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        head<span class="token punctuation">.</span>child <span class="token operator">=</span> null<span class="token punctuation">;</span>
+         
+        Node tail <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>child<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> null <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            head<span class="token punctuation">.</span>next <span class="token operator">=</span> next<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            next<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>prev <span class="token operator">=</span> head<span class="token punctuation">;</span>
+            tail <span class="token operator">=</span> next<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>next<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            head<span class="token punctuation">.</span>next <span class="token operator">=</span> child<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            child<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>prev <span class="token operator">=</span> head<span class="token punctuation">;</span>
+            tail <span class="token operator">=</span> child<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            head<span class="token punctuation">.</span>next <span class="token operator">=</span> child<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            child<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>prev <span class="token operator">=</span> head<span class="token punctuation">;</span>
+            child<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>next <span class="token operator">=</span> next<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            next<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>prev <span class="token operator">=</span> child<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            tail <span class="token operator">=</span> next<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>head<span class="token punctuation">,</span> tail<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
