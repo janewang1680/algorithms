@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>414_Third_Maximum_Number</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>414.  Third Maximum Number</strong></p>
+<p>Easy</p>
+<p>Given integer array  <code>nums</code>, return  <em>the third maximum number in this array</em>. If the third maximum does not exist, return the maximum number.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [3,2,1]<br>
+<strong>Output:</strong> 1<br>
+<strong>Explanation:</strong> The third maximum is 1.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums = [1,2]<br>
+<strong>Output:</strong> 2<br>
+<strong>Explanation:</strong> The third maximum does not exist, so the maximum (2) is returned instead.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> nums = [2,2,3,1]<br>
+<strong>Output:</strong> 1<br>
+<strong>Explanation:</strong> Note that the third maximum here means the third maximum distinct number.<br>
+Both numbers with value 2 are both considered as second maximum.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 104</code></li>
+<li><code>-231 &lt;= nums[i] &lt;= 231 - 1</code></li>
+</ul>
+<p><strong>Follow up:</strong>  Can you find an  <code>O(n)</code>  solution?</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">thirdMax</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Integer first <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        Integer second <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        Integer third <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> num <span class="token operator">:</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>first <span class="token operator">==</span> null <span class="token operator">||</span> num <span class="token operator">&gt;</span> first<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                third <span class="token operator">=</span> second<span class="token punctuation">;</span>
+                second <span class="token operator">=</span> first<span class="token punctuation">;</span>
+                first <span class="token operator">=</span> num<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>num <span class="token operator">&lt;</span> first <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>second <span class="token operator">==</span> null <span class="token operator">||</span> num <span class="token operator">&gt;</span> second<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                third <span class="token operator">=</span> second<span class="token punctuation">;</span>
+                second <span class="token operator">=</span> num<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>second <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> num <span class="token operator">&lt;</span> second<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>third <span class="token operator">==</span> null <span class="token operator">||</span> num <span class="token operator">&gt;</span> third<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                third <span class="token operator">=</span> num<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>third <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> third<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> first<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
