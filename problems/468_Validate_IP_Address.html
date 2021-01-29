@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>468_Validate_IP_Address</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>468.  Validate IP Address</strong></p>
+<p>Medium</p>
+<p>Given a string  <code>IP</code>, return  <code>"IPv4"</code>  if IP is a valid IPv4 address, <code>"IPv6"</code>  if IP is a valid IPv6 address or  <code>"Neither"</code>  if IP is not a correct IP of any type.</p>
+<p><strong>A valid IPv4</strong>  address is an IP in the form  <code>"x1.x2.x3.x4"</code>  where  <code>0 &lt;= xi &lt;= 255</code>  and  <code>xi</code>  <strong>cannot contain</strong>  leading zeros. For example,  <code>"192.168.1.1"</code>  and <code>"192.168.1.0"</code>  are valid IPv4 addresses but  <code>"192.168.01.1"</code>, while  <code>"192.168.1.00"</code> and  <code>"192.168@1.1"</code>  are invalid IPv4 addresses.</p>
+<p><strong>A valid IPv6</strong>  address is an IP in the form  <code>"x1:x2:x3:x4:x5:x6:x7:x8"</code>  where:</p>
+<ul>
+<li><code>1 &lt;= xi.length &lt;= 4</code></li>
+<li><code>xi</code>  is a <strong>hexadecimal string</strong>  which may contain digits, lower-case English letter (<code>'a'</code>  to  <code>'f'</code>) and upper-case English letters (<code>'A'</code>  to  <code>'F'</code>).</li>
+<li>Leading zeros are allowed in  <code>xi</code>.</li>
+</ul>
+<p>For example, "<code>2001:0db8:85a3:0000:0000:8a2e:0370:7334"</code> and "<code>2001:db8:85a3:0:0:8A2E:0370:7334"</code>  are valid IPv6 addresses, while "<code>2001:0db8:85a3::8A2E:037j:7334"</code> and "<code>02001:0db8:85a3:0000:0000:8a2e:0370:7334"</code>  are invalid IPv6 addresses.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> IP = “172.16.254.1”<br>
+<strong>Output:</strong> “IPv4”<br>
+<strong>Explanation:</strong> This is a valid IPv4 address, return “IPv4”.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> IP = “2001:0db8:85a3:0:0:8A2E:0370:7334”<br>
+<strong>Output:</strong> “IPv6”<br>
+<strong>Explanation:</strong> This is a valid IPv6 address, return “IPv6”.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> IP = “256.256.256.256”<br>
+<strong>Output:</strong> “Neither”<br>
+<strong>Explanation:</strong> This is neither a IPv4 address nor a IPv6 address.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> IP = “2001:0db8:85a3:0:0:8A2E:0370:7334:”<br>
+<strong>Output:</strong> “Neither”</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> IP = “1e1.4.5.6”<br>
+<strong>Output:</strong> “Neither”</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>IP</code>  consists only of English letters, digits and the characters  <code>'.'</code>  and  <code>':'</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> String NEITHER <span class="token operator">=</span> <span class="token string">"Neither"</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> String IPV6 <span class="token operator">=</span> <span class="token string">"IPv6"</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> String IPV4 <span class="token operator">=</span> <span class="token string">"IPv4"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> String <span class="token function">validIPAddress</span><span class="token punctuation">(</span>String IP<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String<span class="token punctuation">[</span><span class="token punctuation">]</span> strlist <span class="token operator">=</span> IP<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"[.:]"</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> len <span class="token operator">=</span> strlist<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">!=</span> <span class="token number">4</span> <span class="token operator">&amp;&amp;</span> len <span class="token operator">!=</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">validateIPV4</span><span class="token punctuation">(</span>strlist<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token function">validateIPV6</span><span class="token punctuation">(</span>strlist<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> String <span class="token function">validateIPV4</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> strlist<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>String str <span class="token operator">:</span> strlist<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> ch <span class="token operator">:</span> str<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>ch <span class="token operator">-</span> <span class="token string">'0'</span> <span class="token operator">&gt;</span> <span class="token number">9</span> <span class="token operator">||</span> ch <span class="token operator">-</span> <span class="token string">'0'</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> 
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> str<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">int</span> value <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>value <span class="token operator">&gt;</span> <span class="token number">255</span> <span class="token operator">||</span> value <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> 
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>value <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"0"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"0"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> IPV4<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> String <span class="token function">validateIPV6</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> strlist<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>String str <span class="token operator">:</span> strlist<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> len <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">&gt;</span> <span class="token number">4</span> <span class="token operator">||</span> len <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> ch <span class="token operator">:</span> str<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">match</span><span class="token punctuation">(</span>ch<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> NEITHER<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> IPV6<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">match</span><span class="token punctuation">(</span><span class="token keyword">char</span> ch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>ch <span class="token operator">&gt;=</span> <span class="token string">'a'</span> <span class="token operator">&amp;&amp;</span> ch <span class="token operator">&lt;=</span> <span class="token string">'f'</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>ch <span class="token operator">&gt;=</span> <span class="token string">'A'</span> <span class="token operator">&amp;&amp;</span> ch <span class="token operator">&lt;=</span> <span class="token string">'F'</span><span class="token punctuation">)</span> <span class="token operator">||</span>
+            <span class="token punctuation">(</span>ch <span class="token operator">&gt;=</span> <span class="token string">'0'</span> <span class="token operator">&amp;&amp;</span> ch <span class="token operator">&lt;=</span> <span class="token string">'9'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

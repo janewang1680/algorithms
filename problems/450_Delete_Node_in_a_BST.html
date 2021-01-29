@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>450_Delete_Node_in_a_BST</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>450.  Delete Node in a BST</strong></p>
+<p>Medium</p>
+<p>Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.</p>
+<p>Basically, the deletion can be divided into two stages:</p>
+<ol>
+<li>Search for a node to remove.</li>
+<li>If the node is found, delete the node.</li>
+</ol>
+<p><strong>Follow up:</strong> Can you solve it with time complexity  <code>O(height of tree)</code>?</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/09/04/del_node_1.jpg" alt=""></p>
+<p><strong>Input:</strong> root = [5,3,6,2,4,null,7], key = 3<br>
+<strong>Output:</strong> [5,4,6,2,null,null,7]<br>
+<strong>Explanation:</strong> Given key to delete is 3. So we find the node with value 3 and delete it.<br>
+One valid answer is [5,4,6,2,null,null,7], shown in the above BST.<br>
+Please notice that another valid answer is [5,2,6,null,4,null,7] and it’s also accepted.<br>
+<img src="https://assets.leetcode.com/uploads/2020/09/04/del_node_supp.jpg" alt=""></p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> root = [5,3,6,2,4,null,7], key = 0<br>
+<strong>Output:</strong> [5,3,6,2,4,null,7]<br>
+<strong>Explanation:</strong> The tree does not contain a node with value = 0.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> root = [], key = 0<br>
+<strong>Output:</strong> []</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the tree is in the range  <code>[0, 104]</code>.</li>
+<li><code>-105 &lt;= Node.val &lt;= 105</code></li>
+<li>Each node has a  <strong>unique</strong>  value.</li>
+<li><code>root</code>  is a valid binary search tree.</li>
+<li><code>-105 &lt;= key &lt;= 105</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> TreeNode <span class="token function">deleteNode</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">,</span> <span class="token keyword">int</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>val <span class="token operator">&lt;</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            root<span class="token punctuation">.</span>right <span class="token operator">=</span> <span class="token function">deleteNode</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>val <span class="token operator">&gt;</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            root<span class="token punctuation">.</span>left <span class="token operator">=</span> <span class="token function">deleteNode</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>left <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> root<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>right <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> root<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+            
+            TreeNode prev <span class="token operator">=</span> root<span class="token punctuation">,</span> cur <span class="token operator">=</span> root<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span>cur<span class="token punctuation">.</span>left <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                prev <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+                cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">==</span> root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                root<span class="token punctuation">.</span>right<span class="token punctuation">.</span>left <span class="token operator">=</span> root<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+                <span class="token keyword">return</span> root<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            root<span class="token punctuation">.</span>val <span class="token operator">=</span> cur<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+            prev<span class="token punctuation">.</span>left <span class="token operator">=</span> cur<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> root<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
