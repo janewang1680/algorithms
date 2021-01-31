@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>305_Number_of_Islands_II</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>305.  Number of Islands II</strong></p>
+<p>Hard</p>
+<p>A 2d grid map of  <code>m</code>  rows and  <code>n</code>  columns is initially filled with water. We may perform an  <em>addLand</em>  operation which turns the water at position (row, col) into a land. Given a list of positions to operate,  <strong>count the number of islands after each  <em>addLand</em>  operation</strong>. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+<p><strong>Example:</strong></p>
+<p><strong>Input:</strong> m = 3, n = 3, positions = [[0,0], [0,1], [1,2], [2,1]]<br>
+<strong>Output:</strong> [1,1,2,3]</p>
+<p><strong>Explanation:</strong></p>
+<p>Initially, the 2d grid  <code>grid</code>  is filled with water. (Assume 0 represents water and 1 represents land).</p>
+<p>0 0 0<br>
+0 0 0<br>
+0 0 0</p>
+<p>Operation #1: addLand(0, 0) turns the water at grid[0][0] into a land.</p>
+<p>1 0 0<br>
+0 0 0   Number of islands = 1<br>
+0 0 0</p>
+<p>Operation #2: addLand(0, 1) turns the water at grid[0][1] into a land.</p>
+<p>1 1 0<br>
+0 0 0   Number of islands = 1<br>
+0 0 0</p>
+<p>Operation #3: addLand(1, 2) turns the water at grid[1][2] into a land.</p>
+<p>1 1 0<br>
+0 0 1   Number of islands = 2<br>
+0 0 0</p>
+<p>Operation #4: addLand(2, 1) turns the water at grid[2][1] into a land.</p>
+<p>1 1 0<br>
+0 0 1   Number of islands = 3<br>
+0 1 0</p>
+<p><strong>Follow up:</strong></p>
+<p>Can you do it in time complexity O(k log mn), where k is the length of the  <code>positions</code>?</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+   <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> <span class="token function">numIslands2</span><span class="token punctuation">(</span><span class="token keyword">int</span> m<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> positions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> parents <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>m<span class="token operator">*</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        Arrays<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span>parents<span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dirs <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> position<span class="token operator">:</span> positions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> idx <span class="token operator">=</span> position<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> n <span class="token operator">+</span> position<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>parents<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                result<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cnt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+            parents<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> idx<span class="token punctuation">;</span>
+            
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> k<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> x <span class="token operator">=</span> position<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> dirs<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> y <span class="token operator">=</span> position<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> dirs<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> curIdx <span class="token operator">=</span> x <span class="token operator">*</span> n <span class="token operator">+</span> y<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> y <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> x <span class="token operator">&gt;=</span> m <span class="token operator">||</span> y <span class="token operator">&gt;=</span> n <span class="token operator">||</span> parents<span class="token punctuation">[</span>curIdx<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> p <span class="token operator">=</span> <span class="token function">findRoot</span><span class="token punctuation">(</span>parents<span class="token punctuation">,</span> curIdx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> q <span class="token operator">=</span> <span class="token function">findRoot</span><span class="token punctuation">(</span>parents<span class="token punctuation">,</span> idx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">!=</span> q<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    parents<span class="token punctuation">[</span>p<span class="token punctuation">]</span> <span class="token operator">=</span> q<span class="token punctuation">;</span>
+                    cnt<span class="token operator">--</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+
+            result<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cnt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+        
+    <span class="token keyword">int</span> <span class="token function">findRoot</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> parents<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>parents<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> i<span class="token punctuation">)</span> i <span class="token operator">=</span> parents<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

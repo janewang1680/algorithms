@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>308_Range_Sum_Query_2D_Mutable</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>308.  Range Sum Query 2D - Mutable</strong></p>
+<p>Hard</p>
+<p>Given a 2D matrix  <em>matrix</em>, find the sum of the elements inside the rectangle defined by its upper left corner (_row_1,  _col_1) and lower right corner (_row_2,  _col_2).</p>
+<p><img src="https://leetcode.com/static/images/courses/range_sum_query_2d.png" alt="Range Sum Query 2D"><br>
+The above rectangle (with the red border) is defined by (row1, col1) =  <strong>(2, 1)</strong>  and (row2, col2) =  <strong>(4, 3)</strong>, which contains sum =  <strong>8</strong>.</p>
+<p><strong>Example:</strong></p>
+<p>Given matrix = [<br>
+[3, 0, 1, 4, 2],<br>
+[5, 6, 3, 2, 1],<br>
+[1, 2, 0, 1, 5],<br>
+[4, 1, 0, 1, 7],<br>
+[1, 0, 3, 0, 5]<br>
+]</p>
+<p>sumRegion(2, 1, 4, 3) -&gt; 8<br>
+update(3, 2, 2)<br>
+sumRegion(2, 1, 4, 3) -&gt; 10</p>
+<p><strong>Note:</strong></p>
+<ol>
+<li>The matrix is only modifiable by the  <em>update</em>  function.</li>
+<li>You may assume the number of calls to  <em>update</em>  and  <em>sumRegion</em>  function is distributed evenly.</li>
+<li>You may assume that  _row_1 ≤  _row_2 and  _col_1 ≤  _col_2.</li>
+</ol>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">NumMatrix</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> matrix<span class="token punctuation">;</span>
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> sum<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token function">NumMatrix</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> matrix<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> m <span class="token operator">=</span> matrix<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            matrix <span class="token operator">=</span> null<span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">int</span> n <span class="token operator">=</span> matrix<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>matrix <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>m<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>sum <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>m<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>               
+                <span class="token function">update</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> j<span class="token punctuation">,</span> matrix<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">,</span> <span class="token keyword">int</span> col<span class="token punctuation">,</span> <span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        row <span class="token operator">=</span> row <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        col <span class="token operator">=</span> col <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> diff <span class="token operator">=</span> val <span class="token operator">-</span> matrix<span class="token punctuation">[</span>row<span class="token punctuation">]</span><span class="token punctuation">[</span>col<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> i <span class="token operator">=</span> row<span class="token punctuation">,</span> j <span class="token operator">=</span> col<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> sum<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            j <span class="token operator">=</span> col<span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> sum<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+=</span> diff<span class="token punctuation">;</span>
+                j <span class="token operator">+=</span> j<span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token operator">-</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            i <span class="token operator">+=</span> i<span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token operator">-</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        matrix<span class="token punctuation">[</span>row<span class="token punctuation">]</span><span class="token punctuation">[</span>col<span class="token punctuation">]</span> <span class="token operator">=</span> val<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+        
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">sumRegion</span><span class="token punctuation">(</span><span class="token keyword">int</span> row1<span class="token punctuation">,</span> <span class="token keyword">int</span> col1<span class="token punctuation">,</span> <span class="token keyword">int</span> row2<span class="token punctuation">,</span> <span class="token keyword">int</span> col2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">sum</span><span class="token punctuation">(</span>row2<span class="token punctuation">,</span> col2<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span>col1 <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token function">sum</span><span class="token punctuation">(</span>row2<span class="token punctuation">,</span> col1 <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span>row1 <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token function">sum</span><span class="token punctuation">(</span>row1 <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> col2<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>row1 <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> col1 <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token function">sum</span><span class="token punctuation">(</span>row1<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> col1<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">int</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">,</span> <span class="token keyword">int</span> col<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>matrix <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        row <span class="token operator">=</span> row <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> 
+        col <span class="token operator">=</span> col <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> row<span class="token punctuation">,</span> j <span class="token operator">=</span> col<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            j <span class="token operator">=</span> col<span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>j <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                res <span class="token operator">+=</span> sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                j <span class="token operator">-=</span> j <span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token operator">-</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            i <span class="token operator">-=</span> i <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token operator">-</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
