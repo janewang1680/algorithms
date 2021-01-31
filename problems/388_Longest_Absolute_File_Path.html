@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>388_Longest_Absolute_File_Path</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>388.  Longest Absolute File Path</strong></p>
+<p>Medium</p>
+<p>Suppose we have a file system that stores both files and directories. An example of one system is represented in the following picture:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/08/28/mdir.jpg" alt=""></p>
+<p>Here, we have  <code>dir</code>  as the only directory in the root.  <code>dir</code>  contains two subdirectories,  <code>subdir1</code>  and  <code>subdir2</code>.  <code>subdir1</code>  contains a file  <code>file1.ext</code>  and subdirectory  <code>subsubdir1</code>.  <code>subdir2</code>  contains a subdirectory  <code>subsubdir2</code>, which contains a file  <code>file2.ext</code>.</p>
+<p>In text form, it looks like this (with ⟶ representing the tab character):</p>
+<p>dir<br>
+⟶ subdir1<br>
+⟶ ⟶ file1.ext<br>
+⟶ ⟶ subsubdir1<br>
+⟶ subdir2<br>
+⟶ ⟶ subsubdir2<br>
+⟶ ⟶ ⟶ file2.ext</p>
+<p>If we were to write this representation in code, it will look like this:  <code>"dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext"</code>. Note that the  <code>'\n'</code>  and  <code>'\t'</code>  are the new-line and tab characters.</p>
+<p>Every file and directory has a unique  <strong>absolute path</strong>  in the file system, which is the order of directories that must be opened to reach the file/directory itself, all concatenated by  <code>'/'s</code>. Using the above example, the  <strong>absolute path</strong>  to  <code>file2.ext</code>  is  <code>"dir/subdir2/subsubdir2/file2.ext"</code>. Each directory name consists of letters, digits, and/or spaces. Each file name is of the form  <code>name.extension</code>, where  <code>name</code>  and  <code>extension</code>  consist of letters, digits, and/or spaces.</p>
+<p>Given a string  <code>input</code>  representing the file system in the explained format, return  <em>the length of the  <strong>longest absolute path</strong>  to a  <strong>file</strong>  in the abstracted file system</em>. If there is no file in the system, return  <code>0</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/08/28/dir1.jpg" alt=""></p>
+<p><strong>Input:</strong> input = “dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext”<br>
+<strong>Output:</strong> 20<br>
+<strong>Explanation:</strong> We have only one file, and the absolute path is “dir/subdir2/file.ext” of length 20.</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/08/28/dir2.jpg" alt=""></p>
+<p><strong>Input:</strong> input = “dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext”<br>
+<strong>Output:</strong> 32<br>
+<strong>Explanation:</strong> We have two files:<br>
+“dir/subdir1/file1.ext” of length 21<br>
+“dir/subdir2/subsubdir2/file2.ext” of length 32.<br>
+We return 32 since it is the longest absolute path to a file.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> input = “a”<br>
+<strong>Output:</strong> 0<br>
+<strong>Explanation:</strong> We do not have any files, just a single directory named “a”.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> input = “file1.txt\nfile2.txt\nlongfile.txt”<br>
+<strong>Output:</strong> 12<br>
+<strong>Explanation:</strong> There are 3 files at the root directory.<br>
+Since the absolute path for anything at the root directory is just the name itself, the answer is “longfile.txt” with length 12.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= input.length &lt;= 104</code></li>
+<li><code>input</code>  may contain lowercase or uppercase English letters, a new line character  <code>'\n'</code>, a tab character  <code>'\t'</code>, a dot  <code>'.'</code>, a space  <code>' '</code>, and digits.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">lengthLongestPath</span><span class="token punctuation">(</span>String input<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> maxLen <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        Stack<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> stack1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Stack<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> stack2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        String<span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> input<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            String line <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> level <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>level <span class="token operator">&lt;</span> line<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> line<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>level<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'\t'</span><span class="token punctuation">)</span> level<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack2<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> stack2<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> level<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                stack2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                stack1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            stack2<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>level<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            stack1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">(</span>stack1<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> stack1<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> line<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>level<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>line<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                maxLen <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>maxLen<span class="token punctuation">,</span> stack1<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> maxLen<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
