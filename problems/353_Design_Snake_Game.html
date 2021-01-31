@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>353_Design_Snake_Game</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>353.  Design Snake Game</strong></p>
+<p>Medium</p>
+<p>Design a  <a href="https://en.wikipedia.org/wiki/Snake_(video_game)">Snake game</a>  that is played on a device with screen size  <code>height x width</code>.  <a href="http://patorjk.com/games/snake/">Play the game online</a>  if you are not familiar with the game.</p>
+<p>The snake is initially positioned at the top left corner  <code>(0, 0)</code>  with a length of  <code>1</code>  unit.</p>
+<p>You are given an array  <code>food</code>  where  <code>food[i] = (ri, ci)</code>  is the row and column position of a piece of food that the snake can eat. When a snake eats a piece of food, its length and the game’s score both increase by  <code>1</code>.</p>
+<p>Each piece of food appears one by one on the screen, meaning the second piece of food will not appear until the snake eats the first piece of food.</p>
+<p>When a piece of food appears on the screen, it is  <strong>guaranteed</strong>  that it will not appear on a block occupied by the snake.</p>
+<p>The game is over if the snake goes out of bounds (hits a wall) or if its head occupies a space that its body occupies  <strong>after</strong>  moving (i.e. a snake of length 4 cannot run into itself).</p>
+<p>Implement the  <code>SnakeGame</code>  class:</p>
+<ul>
+<li><code>SnakeGame(int width, int height, int[][] food)</code>  Initializes the object with a screen of size  <code>height x width</code>  and the positions of the  <code>food</code>.</li>
+<li><code>int move(String direction)</code>  Returns the score of the game after applying one  <code>direction</code>  move by the snake. If the game is over, return  <code>-1</code>.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/13/snake.jpg" alt=""></p>
+<p><strong>Input</strong><br>
+[“SnakeGame”, “move”, “move”, “move”, “move”, “move”, “move”]<br>
+[[3, 2, [[1, 2], [0, 1]]], [“R”], [“D”], [“R”], [“U”], [“L”], [“U”]]<br>
+<strong>Output</strong><br>
+[null, 0, 0, 1, 1, 2, -1]</p>
+<p><strong>Explanation</strong><br>
+SnakeGame snakeGame = new SnakeGame(3, 2, [[1, 2], [0, 1]]);<br>
+snakeGame.move(“R”); // return 0<br>
+snakeGame.move(“D”); // return 0<br>
+snakeGame.move(“R”); // return 1, snake eats the first piece of food. The second piece of food appears<br>
+// at (0, 1).<br>
+snakeGame.move(“U”); // return 1<br>
+snakeGame.move(“L”); // return 2, snake eats the second food. No more food appears.<br>
+snakeGame.move(“U”); // return -1, game over because snake collides with border</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= width, height &lt;= 104</code></li>
+<li><code>1 &lt;= food.length &lt;= 50</code></li>
+<li><code>food[i].length == 2</code></li>
+<li><code>0 &lt;= ri &lt; height</code></li>
+<li><code>0 &lt;= ci &lt; width</code></li>
+<li><code>direction.length == 1</code></li>
+<li><code>direction</code>  is  <code>'U'</code>,  <code>'D'</code>,  <code>'L'</code>, or  <code>'R'</code>.</li>
+<li>At most  <code>104</code>  calls will be made to  <code>move</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">SnakeGame</span> <span class="token punctuation">{</span>
+    <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> board<span class="token punctuation">;</span>
+    
+    Queue<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> snake<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> row<span class="token punctuation">,</span> col<span class="token punctuation">;</span>
+    
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> food<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> foodIdx<span class="token punctuation">;</span>
+    
+    <span class="token keyword">int</span> score<span class="token punctuation">;</span>
+    
+    <span class="token comment">/** Initialize your data structure here.
+        @param width - screen width
+        @param height - screen height 
+        @param food - A list of food positions
+        E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0]. */</span>
+    <span class="token keyword">public</span> <span class="token function">SnakeGame</span><span class="token punctuation">(</span><span class="token keyword">int</span> width<span class="token punctuation">,</span> <span class="token keyword">int</span> height<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> food<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>board <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">boolean</span><span class="token punctuation">[</span>height<span class="token punctuation">]</span><span class="token punctuation">[</span>width<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>snake <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>row <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>col <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        snake<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">this</span><span class="token punctuation">.</span>food <span class="token operator">=</span> food<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>foodIdx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">this</span><span class="token punctuation">.</span>score <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">/** Moves the snake.
+        @param direction - 'U' = Up, 'L' = Left, 'R' = Right, 'D' = Down 
+        @return The game's score after the move. Return -1 if game over. 
+        Game over when snake crosses the screen boundary or bites its body. */</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">move</span><span class="token punctuation">(</span>String direction<span class="token punctuation">)</span> <span class="token punctuation">{</span>   
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>score <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> score<span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>direction<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"U"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> row<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>direction<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"D"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> row<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>direction<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"L"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> col<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>direction<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"R"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> col<span class="token operator">++</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span><span class="token punctuation">(</span>row <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> row <span class="token operator">&gt;=</span> board<span class="token punctuation">.</span>length <span class="token operator">||</span> col <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> col <span class="token operator">&gt;=</span> board<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            score <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> score<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>foodIdx <span class="token operator">&gt;=</span> food<span class="token punctuation">.</span>length <span class="token operator">||</span> <span class="token operator">!</span><span class="token punctuation">(</span>row <span class="token operator">==</span> food<span class="token punctuation">[</span>foodIdx<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> col <span class="token operator">==</span> food<span class="token punctuation">[</span>foodIdx<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> t <span class="token operator">=</span> snake<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            board<span class="token punctuation">[</span>t<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">[</span>t<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            score<span class="token operator">++</span><span class="token punctuation">;</span>
+            foodIdx<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>board<span class="token punctuation">[</span>row<span class="token punctuation">]</span><span class="token punctuation">[</span>col<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            score <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> score<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            snake<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>row<span class="token punctuation">,</span> col<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            board<span class="token punctuation">[</span>row<span class="token punctuation">]</span><span class="token punctuation">[</span>col<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> score<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    String <span class="token function">print</span><span class="token punctuation">(</span>Queue<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> q<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        List<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"["</span> <span class="token operator">+</span> list<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">","</span> <span class="token operator">+</span> list<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">"] "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

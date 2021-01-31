@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>371_Sum_of_Two_Integers</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>371.  Sum of Two Integers</strong></p>
+<p>Medium</p>
+<p>Calculate the sum of two integers  <em>a</em>  and  <em>b</em>, but you are  <strong>not allowed</strong>  to use the operator  <code>+</code>  and  <code>-</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> a = 1, b = 2<br>
+<strong>Output:</strong> 3</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> a = -2, b = 3<br>
+<strong>Output:</strong> 1</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getSum</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>b <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">getSum</span><span class="token punctuation">(</span>a<span class="token operator">^</span>b<span class="token punctuation">,</span> <span class="token punctuation">(</span>a<span class="token operator">&amp;</span>b<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

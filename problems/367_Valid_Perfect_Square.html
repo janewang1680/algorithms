@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>367_Valid_Perfect_Square</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>367.  Valid Perfect Square</strong></p>
+<p>Easy</p>
+<p>Given a  <strong>positive</strong>  integer  <em>num</em>, write a function which returns True if  <em>num</em>  is a perfect square else False.</p>
+<p><strong>Follow up:</strong>  <strong>Do not</strong>  use any built-in library function such as  <code>sqrt</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> num = 16<br>
+<strong>Output:</strong> true</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> num = 14<br>
+<strong>Output:</strong> false</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= num &lt;= 2^31 - 1</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isPerfectSquare</span><span class="token punctuation">(</span><span class="token keyword">int</span> num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>num <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">long</span> left <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> right <span class="token operator">=</span> num <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> x<span class="token punctuation">,</span> guessSquared<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;=</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      x <span class="token operator">=</span> left <span class="token operator">+</span> <span class="token punctuation">(</span>right <span class="token operator">-</span> left<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+      guessSquared <span class="token operator">=</span> x <span class="token operator">*</span> x<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>guessSquared <span class="token operator">==</span> num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>guessSquared <span class="token operator">&gt;</span> num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        right <span class="token operator">=</span> x <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        left <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

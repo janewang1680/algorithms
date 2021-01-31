@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>360_Sort_Transformed_Array</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>360.  Sort Transformed Array</strong></p>
+<p>Medium</p>
+<p>Given a  <strong>sorted</strong>  array of integers  <em>nums</em>  and integer values  <em>a</em>,  <em>b</em>  and  <em>c</em>. Apply a quadratic function of the form f(<em>x</em>) =  _ax_2  +  <em>bx</em>  +  <em>c</em>  to each element  <em>x</em>  in the array.</p>
+<p>The returned array must be in  <strong>sorted order</strong>.</p>
+<p>Expected time complexity:  <strong>O(<em>n</em>)</strong></p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [-4,-2,2,4], a = 1, b = 3, c = 5<br>
+<strong>Output:</strong> [3,9,15,33]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums = [-4,-2,2,4], a = -1, b = 3, c = 5<br>
+<strong>Output:</strong> [-23,-5,1,7]</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">sortTransformedArray</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">,</span> <span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token punctuation">,</span> <span class="token keyword">int</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> b <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> res<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> c<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>b <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> res<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> b <span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> res<span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token operator">-</span> i<span class="token punctuation">]</span> <span class="token operator">=</span> b <span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> i <span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> k <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> f1 <span class="token operator">=</span> a <span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> b<span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">int</span> f2 <span class="token operator">=</span> a <span class="token operator">*</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> b<span class="token operator">*</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>f1 <span class="token operator">&gt;=</span> f2<span class="token punctuation">)</span> <span class="token punctuation">{</span> res<span class="token punctuation">[</span>k<span class="token operator">--</span><span class="token punctuation">]</span> <span class="token operator">=</span> f1<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+                <span class="token keyword">else</span> <span class="token punctuation">{</span> res<span class="token punctuation">[</span>k<span class="token operator">--</span><span class="token punctuation">]</span> <span class="token operator">=</span> f2<span class="token punctuation">;</span> j<span class="token operator">--</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> i <span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> f1 <span class="token operator">=</span> a <span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> b<span class="token operator">*</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">int</span> f2 <span class="token operator">=</span> a <span class="token operator">*</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> b<span class="token operator">*</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>f1 <span class="token operator">&lt;=</span> f2<span class="token punctuation">)</span> <span class="token punctuation">{</span> res<span class="token punctuation">[</span>k<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> f1<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+                <span class="token keyword">else</span> <span class="token punctuation">{</span> res<span class="token punctuation">[</span>k<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> f2<span class="token punctuation">;</span> j<span class="token operator">--</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
