@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>400_Nth_Digit</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>400.  Nth Digit</strong></p>
+<p>Medium</p>
+<p>Find the  _n_th  digit of the infinite integer sequence 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, …</p>
+<p><strong>Note:</strong><br>
+<em>n</em>  is positive and will fit within the range of a 32-bit signed integer (<em>n</em>  &lt; 231).</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong><br>
+3</p>
+<p><strong>Output:</strong><br>
+3</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong><br>
+11</p>
+<p><strong>Output:</strong><br>
+0</p>
+<p><strong>Explanation:</strong><br>
+The 11th digit of the sequence 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, … is a 0, which is part of the number 10.</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">findNthDigit</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token keyword">return</span> n<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> base <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> digits <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> prev <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>n <span class="token operator">&gt;</span> base<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            prev <span class="token operator">=</span> base<span class="token punctuation">;</span>
+            base <span class="token operator">+=</span> Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> digits<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">9</span> <span class="token operator">*</span> <span class="token punctuation">(</span>digits<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            digits<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> prev <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> digits<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> prev <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> digits<span class="token punctuation">;</span>
+        base <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> digits <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> num <span class="token operator">=</span> base <span class="token operator">+</span> cnt<span class="token punctuation">;</span>
+        
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>r <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            num <span class="token operator">=</span> num <span class="token operator">%</span> base<span class="token punctuation">;</span>
+            base <span class="token operator">=</span> base <span class="token operator">/</span> <span class="token number">10</span><span class="token punctuation">;</span>
+            r<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> num <span class="token operator">/</span> base<span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

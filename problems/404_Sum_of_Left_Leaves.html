@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404_Sum_of_Left_Leaves</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>404.  Sum of Left Leaves</strong></p>
+<p>Easy</p>
+<p>Find the sum of all left leaves in a given binary tree.</p>
+<p><strong>Example:</strong></p>
+<pre><code>3
+</code></pre>
+<p>/ <br>
+9  20<br>
+/  <br>
+15   7</p>
+<p>There are two left leaves in the binary tree, with values <strong>9</strong> and <strong>15</strong> respectively. Return <strong>24</strong>.</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span> 
+    
+  <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">sumOfLeftLeaves</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">processSubtree</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+    
+  <span class="token keyword">private</span> <span class="token keyword">int</span> <span class="token function">processSubtree</span><span class="token punctuation">(</span>TreeNode subtree<span class="token punctuation">,</span> <span class="token keyword">boolean</span> isLeft<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    
+    <span class="token comment">// Base case: This is an empty subtree.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>subtree <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// Base case: This is a leaf node.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>subtree<span class="token punctuation">.</span>left <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span> subtree<span class="token punctuation">.</span>right <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> isLeft <span class="token operator">?</span> subtree<span class="token punctuation">.</span>val <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// Recursive case: We need to add and return the results of the</span>
+    <span class="token comment">// left and right subtrees.</span>
+    <span class="token keyword">return</span> <span class="token function">processSubtree</span><span class="token punctuation">(</span>subtree<span class="token punctuation">.</span>left<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">processSubtree</span><span class="token punctuation">(</span>subtree<span class="token punctuation">.</span>right<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
