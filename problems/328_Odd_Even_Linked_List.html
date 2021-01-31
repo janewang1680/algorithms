@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>328_Odd_Even_Linked_List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>328.  Odd Even Linked List</strong></p>
+<p>Medium</p>
+<p>Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes.</p>
+<p>You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> <code>1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</code><br>
+<strong>Output:</strong> <code>1-&gt;3-&gt;5-&gt;2-&gt;4-&gt;NULL</code></p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> 2<code>-&gt;1-&gt;3-&gt;5-&gt;6-&gt;4-&gt;7-&gt;NULL</code><br>
+<strong>Output:</strong> <code>2-&gt;3-&gt;6-&gt;7-&gt;1-&gt;5-&gt;4-&gt;NULL</code></p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The relative order inside both the even and odd groups should remain as it was in the input.</li>
+<li>The first node is considered odd, the second node even and so on …</li>
+<li>The length of the linked list is between  <code>[0, 10^4]</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">oddEvenList</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null <span class="token operator">||</span> head<span class="token punctuation">.</span>next <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        
+        ListNode evenPrev <span class="token operator">=</span> null<span class="token punctuation">,</span> evenCur <span class="token operator">=</span> head<span class="token punctuation">,</span> oddPrev <span class="token operator">=</span> null<span class="token punctuation">,</span> oddHead <span class="token operator">=</span> head<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>evenCur <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>evenPrev <span class="token operator">!=</span> null<span class="token punctuation">)</span> evenPrev<span class="token punctuation">.</span>next <span class="token operator">=</span> evenCur<span class="token punctuation">;</span>
+            evenPrev <span class="token operator">=</span> evenCur<span class="token punctuation">;</span>
+            
+            ListNode oddCur <span class="token operator">=</span> evenCur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>oddPrev <span class="token operator">!=</span> null<span class="token punctuation">)</span> oddPrev<span class="token punctuation">.</span>next <span class="token operator">=</span> oddCur<span class="token punctuation">;</span>
+            oddPrev <span class="token operator">=</span> oddCur<span class="token punctuation">;</span>
+            
+            evenCur <span class="token operator">=</span> oddCur <span class="token operator">==</span> null <span class="token operator">?</span> null <span class="token operator">:</span> oddCur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        evenPrev<span class="token punctuation">.</span>next <span class="token operator">=</span> oddHead<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

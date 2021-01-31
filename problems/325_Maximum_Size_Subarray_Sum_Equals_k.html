@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>325_Maximum_Size_Subarray_Sum_Equals_k</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>325.  Maximum Size Subarray Sum Equals k</strong></p>
+<p>Medium</p>
+<p>Given an array  <em>nums</em>  and a target value  <em>k</em>, find the maximum length of a subarray that sums to  <em>k</em>. If there isn’t one, return 0 instead.</p>
+<p><strong>Note:</strong><br>
+The sum of the entire  <em>nums</em>  array is guaranteed to fit within the 32-bit signed integer range.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> <em>nums</em> = <code>[1, -1, 5, -2, 3]</code>, <em>k</em> = <code>3</code><br>
+<strong>Output:</strong> 4<br>
+<strong>Explanation:</strong> The subarray <code>[1, -1, 5, -2]</code> sums to 3 and is the longest.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> <em>nums</em> = <code>[-2, -1, 2, 1]</code>, <em>k</em> = <code>1</code><br>
+<strong>Output:</strong> 2 <strong>Explanation:</strong> The subarray <code>[-1, 2]</code> sums to 1 and is the longest.</p>
+<p><strong>Follow Up:</strong><br>
+Can you do it in O(<em>n</em>) time?</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxSubArrayLen</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        HashMap<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span>Integer<span class="token operator">&gt;</span> map <span class="token operator">=</span>  <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            sum <span class="token operator">+=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>sum <span class="token operator">==</span> k<span class="token punctuation">)</span> ans <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span> map<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>sum <span class="token operator">-</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                ans <span class="token operator">=</span>  Math<span class="token punctuation">.</span><span class="token function">max</span> <span class="token punctuation">(</span>ans<span class="token punctuation">,</span> i <span class="token operator">-</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>sum <span class="token operator">-</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>map<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>sum<span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

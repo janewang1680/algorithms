@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>319_Bulb_Switcher</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>319.  Bulb Switcher</strong></p>
+<p>Medium</p>
+<p>There are  <code>n</code>  bulbs that are initially off. You first turn on all the bulbs, then you turn off every second bulb.</p>
+<p>On the third round, you toggle every third bulb (turning on if it’s off or turning off if it’s on). For the  <code>ith</code>  round, you toggle every  <code>i</code>  bulb. For the  <code>nth</code>  round, you only toggle the last bulb.</p>
+<p>Return  <em>the number of bulbs that are on after  <code>n</code>  rounds</em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/05/bulb.jpg" alt=""></p>
+<p><strong>Input:</strong> n = 3<br>
+<strong>Output:</strong> 1<br>
+<strong>Explanation:</strong> At first, the three bulbs are [off, off, off].<br>
+After the first round, the three bulbs are [on, on, on].<br>
+After the second round, the three bulbs are [on, off, on].<br>
+After the third round, the three bulbs are [on, off, off].<br>
+So you should return 1 because there is only one bulb is on.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> n = 0<br>
+<strong>Output:</strong> 0</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> n = 1<br>
+<strong>Output:</strong> 1</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= n &lt;= 109</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">bulbSwitch</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> d<span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> Math<span class="token punctuation">.</span><span class="token function">sqrt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>d<span class="token operator">*</span>d <span class="token operator">==</span> i<span class="token punctuation">)</span> cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> cnt<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
