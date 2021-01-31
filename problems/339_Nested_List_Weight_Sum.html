@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>339_Nested_List_Weight_Sum</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>339.  Nested List Weight Sum</strong></p>
+<p>Medium</p>
+<p>You are given a nested list of integers  <code>nestedList</code>. Each element is either an integer or a list whose elements may also be integers or other lists.</p>
+<p>The  <strong>depth</strong>  of an integer is the number of lists that it is inside of. For example, the nested list  <code>[1,[2,2],[[3],2],1]</code>  has each integer’s value set to its  <strong>depth</strong>.</p>
+<p>Return  <em>the sum of each integer in</em> <code>nestedList</code> <em>multiplied by its  <strong>depth</strong></em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/14/nestedlistweightsumex1.png" alt=""></p>
+<p><strong>Input:</strong> nestedList = [[1,1],2,[1,1]]<br>
+<strong>Output:</strong> 10<br>
+<strong>Explanation:</strong> Four 1’s at depth 2, one 2 at depth 1. 1<em>2 + 1</em>2 + 2<em>1 + 1</em>2 + 1*2 = 10.</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/14/nestedlistweightsumex2.png" alt=""></p>
+<p><strong>Input:</strong> nestedList = [1,[4,[6]]]<br>
+<strong>Output:</strong> 27<br>
+<strong>Explanation:</strong> One 1 at depth 1, one 4 at depth 2, and one 6 at depth 3. 1<em>1 + 4</em>2 + 6*3 = 27.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> nestedList = [0]<br>
+<strong>Output:</strong> 0</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nestedList.length &lt;= 50</code></li>
+<li>The values of the integers in the nested list is in the range  <code>[-100, 100]</code>.</li>
+<li>The maximum  <strong>depth</strong>  of any integer is less than or equal to  <code>50</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * public interface NestedInteger {
+ *     // Constructor initializes an empty nested list.
+ *     public NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     public NestedInteger(int value);
+ *
+ *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     public boolean isInteger();
+ *
+ *     // @return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // Return null if this NestedInteger holds a nested list
+ *     public Integer getInteger();
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     public void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     public void add(NestedInteger ni);
+ *
+ *     // @return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // Return null if this NestedInteger holds a single integer
+ *     public List&lt;NestedInteger&gt; getList();
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">depthSum</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>NestedInteger<span class="token operator">&gt;</span> nestedList<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> depth <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>nestedList<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            List<span class="token operator">&lt;</span>NestedInteger<span class="token operator">&gt;</span> newList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>NestedInteger ni<span class="token operator">:</span> nestedList<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>ni<span class="token punctuation">.</span><span class="token function">isInteger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> sum <span class="token operator">+=</span> depth <span class="token operator">*</span> ni<span class="token punctuation">.</span><span class="token function">getInteger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> newList<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span>ni<span class="token punctuation">.</span><span class="token function">getList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            nestedList <span class="token operator">=</span> newList<span class="token punctuation">;</span>
+            depth<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> sum<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

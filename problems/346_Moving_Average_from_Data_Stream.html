@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>346_Moving_Average_from_Data_Stream</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>346.  Moving Average from Data Stream</strong></p>
+<p>Easy</p>
+<p>Given a stream of integers and a window size, calculate the moving average of all integers in the sliding window.</p>
+<p>Implement the <code>MovingAverage</code>  class:</p>
+<ul>
+<li><code>MovingAverage(int size)</code>  Initializes the object with the size of the window  <code>size</code>.</li>
+<li><code>double next(int val)</code>  Returns the moving average of the last  <code>size</code>  values of the stream.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input</strong><br>
+[“MovingAverage”, “next”, “next”, “next”, “next”]<br>
+[[3], [1], [10], [3], [5]]<br>
+<strong>Output</strong><br>
+[null, 1.0, 5.5, 4.66667, 6.0]</p>
+<p><strong>Explanation</strong><br>
+MovingAverage movingAverage = new MovingAverage(3);<br>
+movingAverage.next(1); // return 1.0 = 1 / 1<br>
+movingAverage.next(10); // return 5.5 = (1 + 10) / 2<br>
+movingAverage.next(3); // return 4.66667 = (1 + 10 + 3) / 3<br>
+movingAverage.next(5); // return 6.0 = (10 + 3 + 5) / 3</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= size &lt;= 1000</code></li>
+<li><code>-105 &lt;= val &lt;= 105</code></li>
+<li>At most  <code>104</code>  calls will be made to  <code>next</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">MovingAverage</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">double</span> sum<span class="token punctuation">;</span>
+    Deque<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> dq<span class="token punctuation">;</span>
+    
+    <span class="token comment">/** Initialize your data structure here. */</span>
+    <span class="token keyword">public</span> <span class="token function">MovingAverage</span><span class="token punctuation">(</span><span class="token keyword">int</span> size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>size <span class="token operator">=</span> size<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>dq <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        sum <span class="token operator">+=</span> val<span class="token punctuation">;</span>
+        dq<span class="token punctuation">.</span><span class="token function">offerLast</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">double</span> avg <span class="token operator">=</span> sum <span class="token operator">/</span> dq<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>dq<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> size<span class="token punctuation">)</span> <span class="token punctuation">{</span>    
+            sum <span class="token operator">-=</span> dq<span class="token punctuation">.</span><span class="token function">pollFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> avg<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
