@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>247_Strobogrammatic_Number_II</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>247.  Strobogrammatic Number II</strong></p>
+<p>Medium</p>
+<p>A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).</p>
+<p>Find all strobogrammatic numbers that are of length = n.</p>
+<p><strong>Example:</strong></p>
+<p><strong>Input:</strong>  n = 2<br>
+<strong>Output:</strong> <code>["11","69","88","96"]</code></p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> <span class="token function">findStrobogrammatic</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"0"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"8"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">helper</span><span class="token punctuation">(</span>String s<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> n<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token string">'0'</span><span class="token punctuation">)</span> res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"0"</span> <span class="token operator">+</span> s <span class="token operator">+</span> <span class="token string">"0"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"1"</span> <span class="token operator">+</span> s <span class="token operator">+</span> <span class="token string">"1"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"6"</span> <span class="token operator">+</span> s <span class="token operator">+</span> <span class="token string">"9"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"8"</span> <span class="token operator">+</span> s <span class="token operator">+</span> <span class="token string">"8"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span><span class="token string">"9"</span> <span class="token operator">+</span> s <span class="token operator">+</span> <span class="token string">"6"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

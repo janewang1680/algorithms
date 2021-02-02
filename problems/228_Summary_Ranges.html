@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>228_Summary_Ranges</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>228.  Summary Ranges</strong></p>
+<p>Easy</p>
+<p>You are given a  <strong>sorted unique</strong>  integer array  <code>nums</code>.</p>
+<p>Return  <em>the  <strong>smallest sorted</strong>  list of ranges that  <strong>cover all the numbers in the array exactly</strong></em>. That is, each element of  <code>nums</code>  is covered by exactly one of the ranges, and there is no integer  <code>x</code>  such that  <code>x</code>  is in one of the ranges but not in  <code>nums</code>.</p>
+<p>Each range  <code>[a,b]</code>  in the list should be output as:</p>
+<ul>
+<li><code>"a-&gt;b"</code>  if  <code>a != b</code></li>
+<li><code>"a"</code>  if  <code>a == b</code></li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [0,1,2,4,5,7]<br>
+<strong>Output:</strong> [“0-&gt;2”,“4-&gt;5”,“7”]<br>
+<strong>Explanation:</strong> The ranges are:<br>
+[0,2] --&gt; “0-&gt;2”<br>
+[4,5] --&gt; “4-&gt;5”<br>
+[7,7] --&gt; “7”</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums = [0,2,3,4,6,8,9]<br>
+<strong>Output:</strong> [“0”,“2-&gt;4”,“6”,“8-&gt;9”]<br>
+<strong>Explanation:</strong> The ranges are:<br>
+[0,0] --&gt; “0”<br>
+[2,4] --&gt; “2-&gt;4”<br>
+[6,6] --&gt; “6”<br>
+[8,9] --&gt; “8-&gt;9”</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> nums = []<br>
+<strong>Output:</strong> []</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> nums = [-1]<br>
+<strong>Output:</strong> ["-1"]</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> nums = [0]<br>
+<strong>Output:</strong> [“0”]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= nums.length &lt;= 20</code></li>
+<li><code>-231 &lt;= nums[i] &lt;= 231 - 1</code></li>
+<li>All the values of  <code>nums</code>  are  <strong>unique</strong>.</li>
+<li><code>nums</code>  is sorted in ascending order.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> <span class="token function">summaryRanges</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>nums <span class="token operator">==</span> null <span class="token operator">||</span> nums<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> nums<span class="token punctuation">.</span>length <span class="token operator">||</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> nums<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">&gt;</span> start<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"-&gt;"</span> <span class="token operator">+</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                start <span class="token operator">=</span> i<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> 
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

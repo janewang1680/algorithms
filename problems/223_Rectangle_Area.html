@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>223_Rectangle_Area</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>223.  Rectangle Area</strong></p>
+<p>Medium</p>
+<p>Find the total area covered by two  <strong>rectilinear</strong>  rectangles in a  <strong>2D</strong>  plane.</p>
+<p>Each rectangle is defined by its bottom left corner and top right corner as shown in the figure.</p>
+<p><img src="https://assets.leetcode.com/uploads/2018/10/22/rectangle_area.png" alt="Rectangle Area"></p>
+<p><strong>Example:</strong></p>
+<p><strong>Input:</strong> A = -3, B = 0, C = 3, D = 4, E = 0, F = -1, G = 9, H = 2<br>
+<strong>Output:</strong> 45</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">computeArea</span><span class="token punctuation">(</span><span class="token keyword">int</span> A<span class="token punctuation">,</span> <span class="token keyword">int</span> B<span class="token punctuation">,</span> <span class="token keyword">int</span> C<span class="token punctuation">,</span> <span class="token keyword">int</span> D<span class="token punctuation">,</span> <span class="token keyword">int</span> E<span class="token punctuation">,</span> <span class="token keyword">int</span> F<span class="token punctuation">,</span> <span class="token keyword">int</span> G<span class="token punctuation">,</span> <span class="token keyword">int</span> H<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> area1 <span class="token operator">=</span> <span class="token punctuation">(</span>C <span class="token operator">-</span> A<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span> D <span class="token operator">-</span> B<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> area2 <span class="token operator">=</span> <span class="token punctuation">(</span>G <span class="token operator">-</span> E<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span> H <span class="token operator">-</span> F<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>C <span class="token operator">&lt;=</span>E <span class="token operator">||</span> G <span class="token operator">&lt;=</span> A <span class="token operator">||</span> D <span class="token operator">&lt;=</span> F <span class="token operator">||</span> H <span class="token operator">&lt;=</span> B<span class="token punctuation">)</span> <span class="token keyword">return</span> area1 <span class="token operator">+</span> area2<span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> area1 <span class="token operator">+</span> area2 <span class="token operator">-</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>C<span class="token punctuation">,</span> G<span class="token punctuation">)</span> <span class="token operator">-</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> E<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>D<span class="token punctuation">,</span> H<span class="token punctuation">)</span> <span class="token operator">-</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>B<span class="token punctuation">,</span> F<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
