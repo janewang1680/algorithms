@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>251_Flatten_2D_Vector</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>251.  Flatten 2D Vector</strong></p>
+<p>Medium</p>
+<p>Design and implement an iterator to flatten a 2d vector. It should support the following operations:  <code>next</code>  and  <code>hasNext</code>.</p>
+<p><strong>Example:</strong></p>
+<p>Vector2D iterator = new Vector2D([[1,2],[3],[4]]);</p>
+<p>iterator.next(); // return 1<br>
+iterator.next(); // return 2<br>
+iterator.next(); // return 3<br>
+iterator.hasNext(); // return true<br>
+iterator.hasNext(); // return true<br>
+iterator.next(); // return 4<br>
+iterator.hasNext(); // return false</p>
+<p><strong>Notes:</strong></p>
+<ol>
+<li>Please remember to  <strong>RESET</strong>  your class variables declared in Vector2D, as static/class variables are  <strong>persisted across multiple test cases</strong>. Please see  <a href="https://leetcode.com/faq/">here</a>  for more details.</li>
+<li>You may assume that  <code>next()</code>  call will always be valid, that is, there will be at least a next element in the 2d vector when  <code>next()</code>  is called.</li>
+</ol>
+<p><strong>Follow up:</strong></p>
+<p>As an added challenge, try to code it using only  <a href="http://www.cplusplus.com/reference/iterator/iterator/">iterators in C++</a>  or  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html">iterators in Java</a>.</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Vector2D</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> v<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> row<span class="token punctuation">,</span> col<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">Vector2D</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>v <span class="token operator">=</span> v<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>row <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>col <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> val <span class="token operator">=</span> v<span class="token punctuation">[</span>row<span class="token punctuation">]</span><span class="token punctuation">[</span>col<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        col<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> val<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>row <span class="token operator">&lt;</span> v<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>col <span class="token operator">&lt;</span> v<span class="token punctuation">[</span>row<span class="token punctuation">]</span><span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                row<span class="token operator">++</span><span class="token punctuation">;</span>
+                col <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

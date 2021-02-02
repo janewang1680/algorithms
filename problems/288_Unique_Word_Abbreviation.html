@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>288_Unique_Word_Abbreviation</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>288.  Unique Word Abbreviation</strong></p>
+<p>Medium</p>
+<p>The  <strong>abbreviation</strong>  of a word is a concatenation of its first letter, the number of characters between the first and last letter, and its last letter. If a word has only two characters, then it is an  <strong>abbreviation</strong>  of itself.</p>
+<p>For example:</p>
+<ul>
+<li><code>dog --&gt; d1g</code>  because there is one letter between the first letter  <code>'d'</code>  and the last letter  <code>'g'</code>.</li>
+<li><code>internationalization --&gt; i18n</code>  because there are 18 letters between the first letter  <code>'i'</code>  and the last letter  <code>'n'</code>.</li>
+<li><code>it --&gt; it</code>  because any word with only two characters is an  <strong>abbreviation</strong>  of itself.</li>
+</ul>
+<p>Implement the  <code>ValidWordAbbr</code>  class:</p>
+<ul>
+<li><code>ValidWordAbbr(String[] dictionary)</code>  Initializes the object with a  <code>dictionary</code>  of words.</li>
+<li><code>boolean isUnique(string word)</code>  Returns  <code>true</code>  if  <strong>either</strong>  of the following conditions are met (otherwise returns  <code>false</code>):
+<ul>
+<li>There is no word in  <code>dictionary</code>  whose  <strong>abbreviation</strong>  is equal to  <code>word</code>'s  <strong>abbreviation</strong>.</li>
+<li>For any word in  <code>dictionary</code>  whose  <strong>abbreviation</strong>  is equal to  <code>word</code>'s  <strong>abbreviation</strong>, that word and  <code>word</code>  are  <strong>the same</strong>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input</strong><br>
+[“ValidWordAbbr”, “isUnique”, “isUnique”, “isUnique”, “isUnique”]<br>
+[[[“deer”, “door”, “cake”, “card”]], [“dear”], [“cart”], [“cane”], [“make”]]<br>
+<strong>Output</strong><br>
+[null, false, true, false, true]</p>
+<p><strong>Explanation</strong><br>
+ValidWordAbbr validWordAbbr = new ValidWordAbbr([“deer”, “door”, “cake”, “card”]);<br>
+validWordAbbr.isUnique(“dear”); // return false, dictionary word “deer” and word “dear” have the same abbreviation<br>
+// “d2r” but are not the same.<br>
+validWordAbbr.isUnique(“cart”); // return true, no words in the dictionary have the abbreviation “c2t”.<br>
+validWordAbbr.isUnique(“cane”); // return false, dictionary word “cake” and word “cane” have the same abbreviation<br>
+// “c2e” but are not the same.<br>
+validWordAbbr.isUnique(“make”); // return true, no words in the dictionary have the abbreviation “m2e”.<br>
+validWordAbbr.isUnique(“cake”); // return true, because “cake” is already in the dictionary and no other word in the dictionary has “c2e” abbreviation.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= dictionary.length &lt;= 3 * 104</code></li>
+<li><code>1 &lt;= dictionary[i].length &lt;= 20</code></li>
+<li><code>dictionary[i]</code>  consists of lowercase English letters.</li>
+<li><code>1 &lt;= word.length &lt;= 20</code></li>
+<li><code>word</code>  consists of lowercase English letters.</li>
+<li>At most  <code>5000</code>  calls will be made to  <code>isUnique</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">ValidWordAbbr</span> <span class="token punctuation">{</span>
+    Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Set<span class="token operator">&lt;</span>String<span class="token operator">&gt;&gt;</span> map<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">ValidWordAbbr</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> dictionary<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>String word<span class="token operator">:</span> dictionary<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>word<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                map<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>word<span class="token punctuation">,</span> z<span class="token operator">-</span><span class="token operator">&gt;</span><span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                String abbr <span class="token operator">=</span> word<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>word<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> word<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>word<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                map<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>abbr<span class="token punctuation">,</span> z<span class="token operator">-</span><span class="token operator">&gt;</span><span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isUnique</span><span class="token punctuation">(</span>String word<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String abbr <span class="token operator">=</span> word<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">3</span> <span class="token operator">?</span> word<span class="token operator">:</span> word<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>word<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> word<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>word<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>map<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>abbr<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        Set<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> set <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>abbr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> set<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

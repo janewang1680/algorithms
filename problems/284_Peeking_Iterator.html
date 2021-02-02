@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>284_Peeking_Iterator</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>284.  Peeking Iterator</strong></p>
+<p>Medium</p>
+<p>Given an Iterator class interface with methods:  <code>next()</code>  and  <code>hasNext()</code>, design and implement a PeekingIterator that support the  <code>peek()</code>  operation – it essentially peek() at the element that will be returned by the next call to next().</p>
+<p><strong>Example:</strong></p>
+<p>Assume that the iterator is initialized to the beginning of the list: <strong><code>[1,2,3]</code></strong>.</p>
+<p>Call <strong><code>next()</code></strong> gets you <strong>1</strong>, the first element in the list.<br>
+Now you call <strong><code>peek()</code></strong> and it returns <strong>2</strong>, the next element. Calling <strong><code>next()</code></strong> after that <em><strong>still</strong></em> return <strong>2</strong>.<br>
+You call <strong><code>next()</code></strong> the final time and it returns <strong>3</strong>, the last element.<br>
+Calling <strong><code>hasNext()</code></strong> after that should return <strong>false</strong>.</p>
+<p><strong>Follow up</strong>: How would you extend your design to be generic and work with all types, not just integer?</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">// Java Iterator interface reference:</span>
+<span class="token comment">// https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html</span>
+
+<span class="token keyword">class</span> <span class="token class-name">PeekingIterator</span> <span class="token keyword">implements</span> <span class="token class-name">Iterator</span><span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+    Iterator<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> iter<span class="token punctuation">;</span>
+    Integer cur<span class="token punctuation">;</span>
+    
+	<span class="token keyword">public</span> <span class="token function">PeekingIterator</span><span class="token punctuation">(</span>Iterator<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> iterator<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    <span class="token comment">// initialize any member here.</span>
+	    <span class="token keyword">this</span><span class="token punctuation">.</span>iter <span class="token operator">=</span> iterator<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>cur <span class="token operator">=</span> null<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+    <span class="token comment">// Returns the next element in the iteration without advancing the iterator.</span>
+	<span class="token keyword">public</span> Integer <span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cur <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            cur <span class="token operator">=</span> iter<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> iter<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> cur<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token comment">// hasNext() and next() should behave the same as in the Iterator interface.</span>
+	<span class="token comment">// Override them if needed.</span>
+	<span class="token annotation punctuation">@Override</span>
+	<span class="token keyword">public</span> Integer <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    <span class="token keyword">if</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Integer res <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> null<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> iter<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token annotation punctuation">@Override</span>
+	<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    <span class="token keyword">return</span> cur<span class="token operator">!=</span> null <span class="token operator">||</span> iter<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

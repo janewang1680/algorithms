@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>282_Expression_Add_Operators</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>282.  Expression Add Operators</strong></p>
+<p>Hard</p>
+<p>Given a string that contains only digits  <code>0-9</code>  and a target value, return all possibilities to add  <strong>binary</strong>  operators (not unary)  <code>+</code>,  <code>-</code>, or  <code>*</code>  between the digits so they evaluate to the target value.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> <code>_num_ =</code> “123”, <em>target</em> = 6<br>
+<strong>Output:</strong> [“1+2+3”, “1<em>2</em>3”]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> <code>_num_ =</code> “232”, <em>target</em> = 8<br>
+<strong>Output:</strong> [“2<em>3+2", "2+3</em>2”]</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> <code>_num_ =</code> “105”, <em>target</em> = 5<br>
+<strong>Output:</strong> [“1*0+5”,“10-5”]</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> <code>_num_ =</code> “00”, <em>target</em> = 0<br>
+<strong>Output:</strong> [“0+0”, “0-0”, “0*0”]</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> <code>_num_ =</code> “3456237490”, <em>target</em> = 9191<br>
+<strong>Output:</strong> []</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= num.length &lt;= 10</code></li>
+<li><code>num</code>  only contain digits.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> <span class="token function">addOperators</span><span class="token punctuation">(</span>String num<span class="token punctuation">,</span> <span class="token keyword">int</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span>num<span class="token punctuation">,</span> target<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">helper</span><span class="token punctuation">(</span>String num<span class="token punctuation">,</span> <span class="token keyword">int</span> target<span class="token punctuation">,</span> <span class="token keyword">long</span> diff<span class="token punctuation">,</span> <span class="token keyword">long</span> sum<span class="token punctuation">,</span> String aResult<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>num<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>sum <span class="token operator">==</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>aResult<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> num<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            String first <span class="token operator">=</span> num<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>first<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> first<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'0'</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            String second <span class="token operator">=</span> num<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">long</span> firstNum <span class="token operator">=</span> Long<span class="token punctuation">.</span><span class="token function">parseLong</span><span class="token punctuation">(</span>first<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>aResult<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">helper</span><span class="token punctuation">(</span>second<span class="token punctuation">,</span> target<span class="token punctuation">,</span> firstNum<span class="token punctuation">,</span> sum <span class="token operator">+</span> firstNum<span class="token punctuation">,</span> first<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token function">helper</span><span class="token punctuation">(</span>second<span class="token punctuation">,</span> target<span class="token punctuation">,</span> firstNum<span class="token punctuation">,</span> sum <span class="token operator">+</span> firstNum<span class="token punctuation">,</span> aResult <span class="token operator">+</span> <span class="token string">"+"</span> <span class="token operator">+</span> first<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">helper</span><span class="token punctuation">(</span>second<span class="token punctuation">,</span> target<span class="token punctuation">,</span> <span class="token operator">-</span>firstNum<span class="token punctuation">,</span> sum <span class="token operator">-</span> firstNum<span class="token punctuation">,</span> aResult <span class="token operator">+</span> <span class="token string">"-"</span> <span class="token operator">+</span> first<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">helper</span><span class="token punctuation">(</span>second<span class="token punctuation">,</span> target<span class="token punctuation">,</span> diff <span class="token operator">*</span> firstNum<span class="token punctuation">,</span> sum <span class="token operator">-</span> diff <span class="token operator">+</span> diff <span class="token operator">*</span>firstNum<span class="token punctuation">,</span> aResult <span class="token operator">+</span> <span class="token string">"*"</span> <span class="token operator">+</span> first<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
