@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>172_Factorial_Trailing_Zeroes</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>172.  Factorial Trailing Zeroes</strong></p>
+<p>Easy</p>
+<p>Given an integer  <code>n</code>, return  <em>the number of trailing zeroes in  <code>n!</code></em>.</p>
+<p><strong>Follow up:</strong> Could you write a solution that works in logarithmic time complexity?</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> n = 3<br>
+<strong>Output:</strong> 0<br>
+<strong>Explanation:</strong> 3! = 6, no trailing zero.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> n = 5<br>
+<strong>Output:</strong> 1<br>
+<strong>Explanation:</strong> 5! = 120, one trailing zero.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> n = 0<br>
+<strong>Output:</strong> 0</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= n &lt;= 104</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">trailingZeroes</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> zeroCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> currentMultiple <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>n <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        n <span class="token operator">/=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+        zeroCount <span class="token operator">+=</span> n<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> zeroCount<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
