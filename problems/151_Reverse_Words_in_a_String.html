@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>151_Reverse_Words_in_a_String</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>151.  Reverse Words in a String</strong></p>
+<p>Medium</p>
+<p>Given an input string  <code>s</code>, reverse the order of the  <strong>words</strong>.</p>
+<p>A  <strong>word</strong>  is defined as a sequence of non-space characters. The  <strong>words</strong>  in  <code>s</code>  will be separated by at least one space.</p>
+<p>Return  <em>a string of the words in reverse order concatenated by a single space.</em></p>
+<p><strong>Note</strong>  that  <code>s</code>  may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> s = “the sky is blue”<br>
+<strong>Output:</strong> “blue is sky the”</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> s = "  hello world  "<br>
+<strong>Output:</strong> “world hello”<br>
+<strong>Explanation:</strong> Your reversed string should not contain leading or trailing spaces.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> s = “a good   example”<br>
+<strong>Output:</strong> “example good a”<br>
+<strong>Explanation:</strong> You need to reduce multiple spaces between two words to a single space in the reversed string.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> s = "  Bob    Loves  Alice   "<br>
+<strong>Output:</strong> “Alice Loves Bob”</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> s = “Alice does not even like bob”<br>
+<strong>Output:</strong> “bob like even not does Alice”</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 104</code></li>
+<li><code>s</code>  contains English letters (upper-case and lower-case), digits, and spaces  <code>' '</code>.</li>
+<li>There is  <strong>at least one</strong>  word in  <code>s</code>.</li>
+</ul>
+<p><strong>Follow up:</strong></p>
+<ul>
+<li>Could you solve it  <strong>in-place</strong>  with  <code>O(1)</code>  extra space?</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> String <span class="token function">reverseWords</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String<span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> arr<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>builder<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

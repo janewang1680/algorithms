@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>158_Read_N_Characters_Given_Read4_II_Call_multiple_times</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>158.  Read N Characters Given Read4 II - Call multiple times</strong></p>
+<p>Hard</p>
+<p>Given a file and assume that you can only read the file using a given method <code>read4</code>, implement a method  <code>read</code>  to read  <em>n</em>  characters.  <strong>Your method  <code>read</code>  may be called multiple times.</strong></p>
+<p><strong>Method read4:</strong></p>
+<p>The API <code>read4</code>  reads 4 consecutive characters from the file, then writes those characters into the buffer array  <code>buf4</code>.</p>
+<p>The return value is the number of actual characters read.</p>
+<p>Note that <code>read4()</code>  has its own file pointer, much like  <code>FILE *fp</code>  in C.</p>
+<p><strong>Definition of read4:</strong></p>
+<pre><code>Parameter:  char[] buf4
+Returns:    int
+</code></pre>
+<p>Note: buf4[] is destination not source, the results from read4 will be copied to buf4[]</p>
+<p>Below is a high level example of how  <code>read4</code>  works:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/07/01/157_example.png" alt=""></p>
+<pre><code>File file("abcde"); // File is "abcde", initially file pointer (fp) points to 'a'
+char[] buf4 = new char[4]; // Create buffer with enough space to store characters
+read4(buf4); // read4 returns 4. Now buf4 = "abcd", fp points to 'e'
+read4(buf4); // read4 returns 1. Now buf4 = "e", fp points to end of file
+read4(buf4); // read4 returns 0. Now buf4 = "", fp points to end of file
+</code></pre>
+<p><strong>Method read:</strong></p>
+<p>By using the  <code>read4</code>  method, implement the method <code>read</code>  that reads  <em>n</em>  characters from the file and store it in the buffer array <code>buf</code>. Consider that you  <strong>cannot</strong>  manipulate the file directly.</p>
+<p>The return value is the number of actual characters read.</p>
+<p><strong>Definition of read:</strong></p>
+<pre><code>Parameters:	char[] buf, int n
+Returns:	int
+</code></pre>
+<p>Note: buf[] is destination not source, you will need to write the results to buf[]</p>
+<p><strong>Example 1:</strong></p>
+<p>File file(“abc”);<br>
+Solution sol;<br>
+// Assume buf is allocated and guaranteed to have enough space for storing all characters from the file.<br>
+sol.read(buf, 1); // After calling your read method, buf should contain “a”. We read a total of 1 character from the file, so return 1.<br>
+sol.read(buf, 2); // Now buf should contain “bc”. We read a total of 2 characters from the file, so return 2.<br>
+sol.read(buf, 1); // We have reached the end of file, no more characters can be read. So return 0.</p>
+<p><strong>Example 2:</strong></p>
+<p>File file(“abc”);<br>
+Solution sol;<br>
+sol.read(buf, 4); // After calling your read method, buf should contain “abc”. We read a total of 3 characters from the file, so return 3.<br>
+sol.read(buf, 1); // We have reached the end of file, no more characters can be read. So return 0.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Consider that you  <strong>cannot</strong>  manipulate the file directly, the file is only accesible for  <code>read4</code>  but <strong>not</strong>  for  <code>read</code>.</li>
+<li>The  <code>read</code>  function may be called  <strong>multiple times</strong>.</li>
+<li>Please remember to  <strong>RESET</strong>  your class variables declared in Solution, as static/class variables are  <strong>persisted across multiple test cases</strong>. Please see  <a href="https://leetcode.com/faq/">here</a>  for more details.</li>
+<li>You may assume the destination buffer array, <code>buf</code>, is guaranteed to have enough space for storing <em>n</em> characters.</li>
+<li>It is guaranteed that in a given test case the same buffer  <code>buf</code>  is called by  <code>read</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * The read4 API is defined in the parent class Reader4.
+ *     int read4(char[] buf4); 
+ */</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token keyword">extends</span> <span class="token class-name">Reader4</span> <span class="token punctuation">{</span>
+    <span class="token comment">/**
+     * @param buf Destination buffer
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
+     */</span>
+    
+    <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">char</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> pos <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> len <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">read</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> buf<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       
+        <span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cnt <span class="token operator">&lt;</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                pos <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                len <span class="token operator">=</span> <span class="token function">read4</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> cnt<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            buf<span class="token punctuation">[</span>cnt<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> arr<span class="token punctuation">[</span>pos<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            len<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> cnt<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
