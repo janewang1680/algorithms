@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>207_Course_Schedule</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>207.  Course Schedule</strong></p>
+<p>Medium</p>
+<p>There are a total of  <code>numCourses</code>  courses you have to take, labeled from  <code>0</code>  to  <code>numCourses - 1</code>. You are given an array  <code>prerequisites</code>  where  <code>prerequisites[i] = [ai, bi]</code>  indicates that you  <strong>must</strong>  take course  <code>bi</code>  first if you want to take course  <code>ai</code>.</p>
+<ul>
+<li>For example, the pair  <code>[0, 1]</code>, indicates that to take course  <code>0</code>  you have to first take course  <code>1</code>.</li>
+</ul>
+<p>Return  <code>true</code>  if you can finish all courses. Otherwise, return  <code>false</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> numCourses = 2, prerequisites = [[1,0]]<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong> There are a total of 2 courses to take.<br>
+To take course 1 you should have finished course 0. So it is possible.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> numCourses = 2, prerequisites = [[1,0],[0,1]]<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> There are a total of 2 courses to take.<br>
+To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= numCourses &lt;= 105</code></li>
+<li><code>0 &lt;= prerequisites.length &lt;= 5000</code></li>
+<li><code>prerequisites[i].length == 2</code></li>
+<li><code>0 &lt;= ai, bi &lt; numCourses</code></li>
+<li>All the pairs prerequisites[i] are  <strong>unique</strong>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">canFinish</span><span class="token punctuation">(</span><span class="token keyword">int</span> numCourses<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> prerequisites<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Set<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span><span class="token punctuation">[</span><span class="token punctuation">]</span> graph <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token punctuation">[</span>numCourses<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> incoming <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>numCourses<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> numCourses<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> graph<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> pre<span class="token operator">:</span> prerequisites<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            incoming<span class="token punctuation">[</span>pre<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+            graph<span class="token punctuation">[</span>pre<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>pre<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">int</span> visited <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        Queue<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> q <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> numCourses<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>incoming<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                visited<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>q<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> t <span class="token operator">=</span> q<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Set<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> nexts <span class="token operator">=</span> graph<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> next<span class="token operator">:</span> nexts<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                incoming<span class="token punctuation">[</span>next<span class="token punctuation">]</span><span class="token operator">--</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>incoming<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    q<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    visited<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> 
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> visited <span class="token operator">==</span> numCourses<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
