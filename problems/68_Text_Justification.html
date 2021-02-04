@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>68_Text_Justification</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>68.  Text Justification</strong></p>
+<p>Hard</p>
+<p>Given an array of words and a width <em>maxWidth</em>, format the text such that each line has exactly  <em>maxWidth</em>  characters and is fully (left and right) justified.</p>
+<p>You should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces  <code>' '</code>  when necessary so that each line has exactly  <em>maxWidth</em>  characters.</p>
+<p>Extra spaces between words should be distributed as evenly as possible. If the number of spaces on a line do not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.</p>
+<p>For the last line of text, it should be left justified and no  <strong>extra</strong>  space is inserted between words.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>A word is defined as a character sequence consisting of non-space characters only.</li>
+<li>Each word’s length is guaranteed to be greater than 0 and not exceed  <em>maxWidth</em>.</li>
+<li>The input array  <code>words</code> contains at least one word.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> words = [“This”, “is”, “an”, “example”, “of”, “text”, “justification.”], maxWidth = 16<br>
+<strong>Output:</strong><br>
+[<br>
+“This    is    an”,<br>
+“example  of text”,<br>
+"justification.  "<br>
+]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> words = [“What”,“must”,“be”,“acknowledgment”,“shall”,“be”], maxWidth = 16<br>
+<strong>Output:</strong><br>
+[<br>
+“What   must   be”,<br>
+"acknowledgment  ",<br>
+"shall be        "<br>
+]<br>
+<strong>Explanation:</strong> Note that the last line is "shall be    " instead of “shall     be”, because the last line must be left-justified instead of fully-justified.<br>
+Note that the second line is also left-justified becase it contains only one word.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> words = [“Science”,“is”,“what”,“we”,“understand”,“well”,“enough”,“to”,“explain”,“to”,“a”,“computer.”,“Art”,“is”,“everything”,“else”,“we”,“do”], maxWidth = 20<br>
+<strong>Output:</strong><br>
+[<br>
+“Science  is  what we”,<br>
+“understand      well”,<br>
+“enough to explain to”,<br>
+“a  computer.  Art is”,<br>
+“everything  else  we”,<br>
+"do                  "<br>
+]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= words.length &lt;= 300</code></li>
+<li><code>1 &lt;= words[i].length &lt;= 20</code></li>
+<li><code>words[i]</code>  consists of only English letters and symbols.</li>
+<li><code>1 &lt;= maxWidth &lt;= 100</code></li>
+<li><code>words[i].length &lt;= maxWidth</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> <span class="token function">fullJustify</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> words<span class="token punctuation">,</span> <span class="token keyword">int</span> maxWidth<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>words<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> len <span class="token operator">=</span> words<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> words<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> words<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> maxWidth<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                String line <span class="token operator">=</span> <span class="token function">buildLine</span><span class="token punctuation">(</span>words<span class="token punctuation">,</span> start<span class="token punctuation">,</span> i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> len<span class="token punctuation">,</span> maxWidth<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                start <span class="token operator">=</span> i<span class="token punctuation">;</span>
+                len <span class="token operator">=</span> words<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                len <span class="token operator">+=</span> <span class="token number">1</span> <span class="token operator">+</span> words<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> start<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> words<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>builder<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>words<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> len<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> maxWidth<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    String <span class="token function">buildLine</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> words<span class="token punctuation">,</span> <span class="token keyword">int</span> start<span class="token punctuation">,</span> <span class="token keyword">int</span> end<span class="token punctuation">,</span> <span class="token keyword">int</span> len<span class="token punctuation">,</span> <span class="token keyword">int</span> maxWidth<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>words<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>start <span class="token operator">==</span> end<span class="token punctuation">)</span> <span class="token punctuation">{</span>            
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> len<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> maxWidth<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">int</span> extraLen <span class="token operator">=</span> maxWidth <span class="token operator">-</span> len<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> cnt <span class="token operator">=</span> end <span class="token operator">-</span> start<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> spaces <span class="token operator">=</span> extraLen <span class="token operator">/</span> cnt<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> leftSpace <span class="token operator">=</span> extraLen <span class="token operator">%</span> cnt<span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> start<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> end<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> spaces<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>leftSpace <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                leftSpace<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>words<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

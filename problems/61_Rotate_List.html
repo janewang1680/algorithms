@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>61_Rotate_List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>61.  Rotate List</strong></p>
+<p>Medium</p>
+<p>Given the  <code>head</code>  of a linked list, rotate the list to the right by  <code>k</code>  places.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/rotate1.jpg" alt=""></p>
+<p><strong>Input:</strong> head = [1,2,3,4,5], k = 2<br>
+<strong>Output:</strong> [4,5,1,2,3]</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/roate2.jpg" alt=""></p>
+<p><strong>Input:</strong> head = [0,1,2], k = 4<br>
+<strong>Output:</strong> [2,0,1]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the list is in the range  <code>[0, 500]</code>.</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+<li><code>0 &lt;= k &lt;= 2 * 109</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+  <span class="token keyword">public</span> ListNode <span class="token function">rotateRight</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// base cases</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>head<span class="token punctuation">.</span>next <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+
+    <span class="token comment">// close the linked list into the ring</span>
+    ListNode old_tail <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> n<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>n <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> old_tail<span class="token punctuation">.</span>next <span class="token operator">!=</span> null<span class="token punctuation">;</span> n<span class="token operator">++</span><span class="token punctuation">)</span>
+      old_tail <span class="token operator">=</span> old_tail<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    old_tail<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+
+    <span class="token comment">// find new tail : (n - k % n - 1)th node</span>
+    <span class="token comment">// and new head : (n - k % n)th node</span>
+    ListNode new_tail <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n <span class="token operator">-</span> k <span class="token operator">%</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+      new_tail <span class="token operator">=</span> new_tail<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    ListNode new_head <span class="token operator">=</span> new_tail<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+
+    <span class="token comment">// break the ring</span>
+    new_tail<span class="token punctuation">.</span>next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> new_head<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

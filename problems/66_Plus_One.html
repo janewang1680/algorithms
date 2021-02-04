@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>66_Plus_One</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>66.  Plus One</strong></p>
+<p>Easy</p>
+<p>Given a  <strong>non-empty</strong>  array of decimal digits representing a non-negative integer, increment one to the integer.</p>
+<p>The digits are stored such that the most significant digit is at the head of the list, and each element in the array contains a single digit.</p>
+<p>You may assume the integer does not contain any leading zero, except the number 0 itself.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> digits = [1,2,3]<br>
+<strong>Output:</strong> [1,2,4]<br>
+<strong>Explanation:</strong> The array represents the integer 123.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> digits = [4,3,2,1]<br>
+<strong>Output:</strong> [4,3,2,2]<br>
+<strong>Explanation:</strong> The array represents the integer 4321.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> digits = [0]<br>
+<strong>Output:</strong> [1]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= digits.length &lt;= 100</code></li>
+<li><code>0 &lt;= digits[i] &lt;= 9</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">plusOne</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> digits<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> n <span class="token operator">=</span> digits<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+
+    <span class="token comment">// move along the input array starting from the end</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> idx <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> idx <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token operator">--</span>idx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// set all the nines at the end of array to zeros</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>digits<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">9</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        digits<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">// here we have the rightmost not-nine</span>
+      <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// increase this rightmost not-nine by 1</span>
+        digits<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token comment">// and the job is done</span>
+        <span class="token keyword">return</span> digits<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// we're here because all the digits are nines</span>
+    digits <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    digits<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> digits<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

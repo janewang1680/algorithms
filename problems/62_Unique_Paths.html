@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>62_Unique_Paths</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>62.  Unique Paths</strong></p>
+<p>Medium</p>
+<p>A robot is located at the top-left corner of a  <code>m x n</code>  grid (marked ‘Start’ in the diagram below).</p>
+<p>The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked ‘Finish’ in the diagram below).</p>
+<p>How many possible unique paths are there?</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png" alt=""></p>
+<p><strong>Input:</strong> m = 3, n = 7<br>
+<strong>Output:</strong> 28</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> m = 3, n = 2<br>
+<strong>Output:</strong> 3<br>
+<strong>Explanation:</strong><br>
+From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:</p>
+<ol>
+<li>Right -&gt; Down -&gt; Down</li>
+<li>Down -&gt; Down -&gt; Right</li>
+<li>Down -&gt; Right -&gt; Down</li>
+</ol>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> m = 7, n = 3<br>
+<strong>Output:</strong> 28</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> m = 3, n = 3<br>
+<strong>Output:</strong> 6</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= m, n &lt;= 100</code></li>
+<li>It’s guaranteed that the answer will be less than or equal to  <code>2 * 109</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">uniquePaths</span><span class="token punctuation">(</span><span class="token keyword">int</span> m<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">&lt;</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> t <span class="token operator">=</span> m<span class="token punctuation">;</span> m <span class="token operator">=</span> n<span class="token punctuation">;</span> n <span class="token operator">=</span> t<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+       <span class="token keyword">long</span> res1 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> res2 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> m<span class="token punctuation">;</span> i<span class="token operator">&lt;=</span> m <span class="token operator">+</span> n <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> res1 <span class="token operator">*=</span> i<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> res2 <span class="token operator">*=</span> i<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>res1<span class="token operator">/</span>res2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+</div>
+</body>
+
+</html>
