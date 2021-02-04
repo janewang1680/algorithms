@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>148_Sort_List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>148.  Sort List</strong></p>
+<p>Medium</p>
+<p>Given the  <code>head</code>  of a linked list, return  <em>the list after sorting it in  <strong>ascending order</strong></em>.</p>
+<p><strong>Follow up:</strong>  Can you sort the linked list in  <code>O(n logn)</code>  time and  <code>O(1)</code> memory (i.e. constant space)?</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/09/14/sort_list_1.jpg" alt=""></p>
+<p><strong>Input:</strong> head = [4,2,1,3]<br>
+<strong>Output:</strong> [1,2,3,4]</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/09/14/sort_list_2.jpg" alt=""></p>
+<p><strong>Input:</strong> head = [-1,5,3,4,0]<br>
+<strong>Output:</strong> [-1,0,3,4,5]</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> head = []<br>
+<strong>Output:</strong> []</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the list is in the range  <code>[0, 5 * 104]</code>.</li>
+<li><code>-105 &lt;= Node.val &lt;= 105</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">sortList</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null <span class="token operator">||</span> head<span class="token punctuation">.</span>next <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        
+        ListNode slow <span class="token operator">=</span> head<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>fast <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> fast<span class="token punctuation">.</span>next <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>next<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        ListNode second <span class="token operator">=</span> slow<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        slow<span class="token punctuation">.</span>next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    
+        
+        ListNode left <span class="token operator">=</span> <span class="token function">sortList</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ListNode right <span class="token operator">=</span> <span class="token function">sortList</span><span class="token punctuation">(</span>second<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        ListNode newHead <span class="token operator">=</span> null<span class="token punctuation">,</span> prev <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>left <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> right <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>left<span class="token punctuation">.</span>val <span class="token operator">&lt;=</span> right<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>newHead <span class="token operator">==</span> null<span class="token punctuation">)</span> newHead <span class="token operator">=</span> left<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">!=</span> null<span class="token punctuation">)</span> prev<span class="token punctuation">.</span>next <span class="token operator">=</span> left<span class="token punctuation">;</span>
+                prev <span class="token operator">=</span> left<span class="token punctuation">;</span>
+                left <span class="token operator">=</span> left<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>newHead <span class="token operator">==</span> null<span class="token punctuation">)</span> newHead <span class="token operator">=</span> right<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">!=</span> null<span class="token punctuation">)</span> prev<span class="token punctuation">.</span>next <span class="token operator">=</span> right<span class="token punctuation">;</span>
+                prev <span class="token operator">=</span> right<span class="token punctuation">;</span>
+                right <span class="token operator">=</span> right<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>newHead <span class="token operator">==</span> null<span class="token punctuation">)</span> newHead <span class="token operator">=</span> left<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">!=</span> null<span class="token punctuation">)</span> prev<span class="token punctuation">.</span>next <span class="token operator">=</span> left<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>right <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>newHead <span class="token operator">==</span> null<span class="token punctuation">)</span> newHead <span class="token operator">=</span> right<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">!=</span> null<span class="token punctuation">)</span> prev<span class="token punctuation">.</span>next <span class="token operator">=</span> right<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> newHead<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>136_Single_Number</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>136.  Single Number</strong></p>
+<p>Easy</p>
+<p>Given a  <strong>non-empty</strong> array of integers  <code>nums</code>, every element appears  <em>twice</em>  except for one. Find that single one.</p>
+<p><strong>Follow up:</strong> Could you implement a solution with a linear runtime complexity and without using extra memory?</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [2,2,1]<br>
+<strong>Output:</strong> 1</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums = [4,1,2,1,2]<br>
+<strong>Output:</strong> 4</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> nums = [1]<br>
+<strong>Output:</strong> 1</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 3 * 104</code></li>
+<li><code>-3 * 104 &lt;= nums[i] &lt;= 3 * 104</code></li>
+<li>Each element in the array appears twice except for one element which appears only once.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">singleNumber</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> num<span class="token operator">:</span> nums<span class="token punctuation">)</span> res <span class="token operator">=</span> res <span class="token operator">^</span> num<span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

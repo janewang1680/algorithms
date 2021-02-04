@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>129_Sum_Root_to_Leaf_Numbers</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>129.  Sum Root to Leaf Numbers</strong></p>
+<p>Medium</p>
+<p>Given a binary tree containing digits from  <code>0-9</code>  only, each root-to-leaf path could represent a number.</p>
+<p>An example is the root-to-leaf path  <code>1-&gt;2-&gt;3</code>  which represents the number  <code>123</code>.</p>
+<p>Find the total sum of all root-to-leaf numbers.</p>
+<p><strong>Note:</strong> A leaf is a node with no children.</p>
+<p><strong>Example:</strong></p>
+<p><strong>Input:</strong> [1,2,3]<br>
+1<br>
+/ <br>
+2   3<br>
+<strong>Output:</strong> 25<br>
+<strong>Explanation:</strong><br>
+The root-to-leaf path <code>1-&gt;2</code> represents the number <code>12</code>.<br>
+The root-to-leaf path <code>1-&gt;3</code> represents the number <code>13</code>.<br>
+Therefore, sum = 12 + 13 = <code>25</code>.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> [4,9,0,5,1]<br>
+4<br>
+/ <br>
+9   0<br>
+/ <br>
+5   1<br>
+<strong>Output:</strong> 1026<br>
+<strong>Explanation:</strong><br>
+The root-to-leaf path <code>4-&gt;9-&gt;5</code> represents the number 495.<br>
+The root-to-leaf path <code>4-&gt;9-&gt;1</code> represents the number 491.<br>
+The root-to-leaf path <code>4-&gt;0</code> represents the number 40.<br>
+Therefore, sum = 495 + 491 + 40 = <code>1026</code>.</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">sumNumbers</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">int</span> <span class="token function">helper</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">,</span> <span class="token keyword">int</span> num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>left <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span> root<span class="token punctuation">.</span>right <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> num <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> root<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+        
+        num <span class="token operator">=</span> num <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> root<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> num<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">,</span> num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
