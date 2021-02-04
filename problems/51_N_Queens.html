@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>51_N_Queens</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>51.  N-Queens</strong></p>
+<p>Hard</p>
+<p>The  <strong>n-queens</strong>  puzzle is the problem of placing  <code>n</code>  queens on an  <code>n x n</code>  chessboard such that no two queens attack each other.</p>
+<p>Given an integer  <code>n</code>, return  <em>all distinct solutions to the  <strong>n-queens puzzle</strong></em>.</p>
+<p>Each solution contains a distinct board configuration of the n-queens’ placement, where  <code>'Q'</code>  and  <code>'.'</code>  both indicate a queen and an empty space, respectively.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/queens.jpg" alt=""></p>
+<p><strong>Input:</strong> n = 4<br>
+<strong>Output:</strong> [[".Q…","…Q",“Q…”,"…Q."],["…Q.",“Q…”,"…Q",".Q…"]]<br>
+<strong>Explanation:</strong> There exist two distinct solutions to the 4-queens puzzle as shown above</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> n = 1<br>
+<strong>Output:</strong> [[“Q”]]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 9</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    
+    HashSet<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> col <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    HashSet<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> diagonalleft <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    HashSet<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> diagonalright <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">&gt;&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> template<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">&gt;&gt;</span> <span class="token function">solveNQueens</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>       
+        template <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">char</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        Arrays<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span>template<span class="token punctuation">,</span> <span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">dfs</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>String<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> ans<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">if</span><span class="token punctuation">(</span>ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>ans<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            
+            <span class="token keyword">if</span><span class="token punctuation">(</span>col<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>diagonalleft<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>i <span class="token operator">-</span> ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>diagonalright<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>i <span class="token operator">+</span> ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+               
+            col<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            diagonalleft<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>i <span class="token operator">-</span> ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            diagonalright<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>i <span class="token operator">+</span> ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            template<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Q'</span><span class="token punctuation">;</span>
+            String str <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>template<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            template<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'.'</span><span class="token punctuation">;</span>
+            
+            ans<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token function">dfs</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span> ans<span class="token punctuation">)</span><span class="token punctuation">;</span>
+               
+               ans<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+               col<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+               diagonalleft<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>i <span class="token operator">-</span> ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+               diagonalright<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>i <span class="token operator">+</span> ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>55_Jump_Game</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>55.  Jump Game</strong></p>
+<p>Medium</p>
+<p>Given an array of non-negative integers  <code>nums</code>, you are initially positioned at the  <strong>first index</strong>  of the array.</p>
+<p>Each element in the array represents your maximum jump length at that position.</p>
+<p>Determine if you are able to reach the last index.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [2,3,1,1,4]<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong> Jump 1 step from index 0 to 1, then 3 steps to the last index.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums = [3,2,1,0,4]<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 3 * 104</code></li>
+<li><code>0 &lt;= nums[i] &lt;= 105</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">canJump</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>i <span class="token operator">&lt;</span> j<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            i <span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> i <span class="token operator">&gt;</span> j<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                j <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> i<span class="token punctuation">;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>j <span class="token operator">&gt;=</span> nums<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

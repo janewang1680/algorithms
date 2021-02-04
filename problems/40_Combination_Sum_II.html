@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>40_Combination_Sum_II</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>40.  Combination Sum II</strong></p>
+<p>Medium</p>
+<p>Given a collection of candidate numbers (<code>candidates</code>) and a target number (<code>target</code>), find all unique combinations in  <code>candidates</code> where the candidate numbers sum to  <code>target</code>.</p>
+<p>Each number in  <code>candidates</code> may only be used  <strong>once</strong>  in the combination.</p>
+<p><strong>Note:</strong> The solution set must not contain duplicate combinations.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> candidates = [10,1,2,7,6,1,5], target = 8<br>
+<strong>Output:</strong><br>
+[<br>
+[1,1,6],<br>
+[1,2,5],<br>
+[1,7],<br>
+[2,6]<br>
+]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> candidates = [2,5,2,1,2], target = 5<br>
+<strong>Output:</strong><br>
+[<br>
+[1,2,2],<br>
+[5]<br>
+]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= candidates.length &lt;= 100</code></li>
+<li><code>1 &lt;= candidates[i] &lt;= 50</code></li>
+<li><code>1 &lt;= target &lt;= 30</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;&gt;</span> <span class="token function">combinationSum2</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> candidates<span class="token punctuation">,</span> <span class="token keyword">int</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>candidates <span class="token operator">==</span> null <span class="token operator">||</span> candidates<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        Arrays<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>candidates<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>target <span class="token operator">&lt;</span> candidates<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+        
+        <span class="token function">helper</span><span class="token punctuation">(</span>candidates<span class="token punctuation">,</span> target<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">helper</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> candidates<span class="token punctuation">,</span> <span class="token keyword">int</span> target<span class="token punctuation">,</span> <span class="token keyword">int</span> start<span class="token punctuation">,</span> <span class="token keyword">int</span> sum<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> list<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;&gt;</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>sum <span class="token operator">==</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>start <span class="token operator">&gt;=</span> candidates<span class="token punctuation">.</span>length <span class="token operator">||</span> sum <span class="token operator">&gt;</span> target<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> start<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> candidates<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;</span> start <span class="token operator">&amp;&amp;</span> candidates<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> candidates<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>candidates<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">helper</span><span class="token punctuation">(</span>candidates<span class="token punctuation">,</span> target<span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> sum<span class="token operator">+</span>candidates<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> list<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            list<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>   
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>59_Spiral_Matrix_II</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>59.  Spiral Matrix II</strong></p>
+<p>Medium</p>
+<p>Given a positive integer  <code>n</code>, generate an  <code>n x n</code>  <code>matrix</code>  filled with elements from  <code>1</code>  to  <code>n2</code>  in spiral order.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/spiraln.jpg" alt=""></p>
+<p><strong>Input:</strong> n = 3<br>
+<strong>Output:</strong> [[1,2,3],[8,9,4],[7,6,5]]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> n = 1<br>
+<strong>Output:</strong> [[1]]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 20</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">generateMatrix</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> top <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> right <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> bottom <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> num <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>top <span class="token operator">&lt;=</span> bottom <span class="token operator">&amp;&amp;</span> left <span class="token operator">&lt;=</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> left<span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> right<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                res<span class="token punctuation">[</span>top<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> num<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">++</span>top <span class="token operator">&lt;=</span> bottom<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> top<span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> bottom<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    res<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">=</span> num<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">--</span>right <span class="token operator">&gt;=</span> left<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> right<span class="token punctuation">;</span> i <span class="token operator">&gt;=</span> left<span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    res<span class="token punctuation">[</span>bottom<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> num<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">--</span>bottom <span class="token operator">&gt;=</span> top<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> bottom<span class="token punctuation">;</span> i <span class="token operator">&gt;=</span> top<span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    res<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">=</span> num<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token operator">++</span>left<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
