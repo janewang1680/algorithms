@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>84_Largest_Rectangle_in_Histogram</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>84.  Largest Rectangle in Histogram</strong></p>
+<p>Hard</p>
+<p>Given  <em>n</em>  non-negative integers representing the histogram’s bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.</p>
+<p><img src="https://assets.leetcode.com/uploads/2018/10/12/histogram.png" alt=""><br>
+Above is a histogram where width of each bar is 1, given height =  <code>[2,1,5,6,2,3]</code>.</p>
+<p><img src="https://assets.leetcode.com/uploads/2018/10/12/histogram_area.png" alt=""><br>
+The largest rectangle is shown in the shaded area, which has area =  <code>10</code>  unit.</p>
+<p><strong>Example:</strong></p>
+<p><strong>Input:</strong> [2,1,5,6,2,3]<br>
+<strong>Output:</strong> 10</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/04/histogram.jpg" alt=""></p>
+<p><strong>Input:</strong> heights = [2,1,5,6,2,3]<br>
+<strong>Output:</strong> 10<br>
+<strong>Explanation:</strong> The above is a histogram where width of each bar is 1.<br>
+The largest rectangle is shown in the red area, which has an area = 10 units.</p>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/04/histogram-1.jpg" alt=""></p>
+<p><strong>Input:</strong> heights = [2,4]<br>
+<strong>Output:</strong> 4</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= heights.length &lt;= 105</code></li>
+<li><code>0 &lt;= heights[i] &lt;= 104</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">largestRectangleArea</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> heights<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>heights <span class="token operator">==</span> null <span class="token operator">||</span> heights<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> maxArea <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> heights<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        Stack<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> h <span class="token operator">=</span> heights<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> heights<span class="token punctuation">[</span>stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">&gt;=</span> heights<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> prevH <span class="token operator">=</span> heights<span class="token punctuation">[</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> x <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">:</span>  stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> area <span class="token operator">=</span> prevH <span class="token operator">*</span> <span class="token punctuation">(</span>i <span class="token operator">-</span> x <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                maxArea <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>maxArea<span class="token punctuation">,</span> area<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> h <span class="token operator">=</span> heights<span class="token punctuation">[</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> x <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">:</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> area <span class="token operator">=</span> h <span class="token operator">*</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> x <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            maxArea <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>maxArea<span class="token punctuation">,</span> area<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> maxArea<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

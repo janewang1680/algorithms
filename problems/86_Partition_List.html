@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>86_Partition_List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>86.  Partition List</strong></p>
+<p>Medium</p>
+<p>Given the  <code>head</code>  of a linked list and a value  <code>x</code>, partition it such that all nodes  <strong>less than</strong>  <code>x</code>  come before nodes  <strong>greater than or equal</strong>  to  <code>x</code>.</p>
+<p>You should  <strong>preserve</strong>  the original relative order of the nodes in each of the two partitions.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/04/partition.jpg" alt=""></p>
+<p><strong>Input:</strong> head = [1,4,3,2,5,2], x = 3<br>
+<strong>Output:</strong> [1,2,2,4,3,5]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> head = [2,1], x = 2<br>
+<strong>Output:</strong> [1,2]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the tree is in the range  <code>[0, 200]</code>.</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+<li><code>-200 &lt;= x &lt;= 200</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">partition</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">,</span> <span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null <span class="token operator">||</span> head<span class="token punctuation">.</span>next <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        
+        ListNode smallerPrev <span class="token operator">=</span> null<span class="token punctuation">,</span> smallerHead <span class="token operator">=</span> null<span class="token punctuation">,</span> largerPrev <span class="token operator">=</span> null<span class="token punctuation">,</span> largerHead <span class="token operator">=</span> null<span class="token punctuation">,</span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>cur<span class="token punctuation">.</span>val <span class="token operator">&lt;</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>smallerHead <span class="token operator">==</span> null<span class="token punctuation">)</span> smallerHead <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>smallerPrev <span class="token operator">!=</span> null<span class="token punctuation">)</span> smallerPrev<span class="token punctuation">.</span>next <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+                smallerPrev <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>largerHead <span class="token operator">==</span> null<span class="token punctuation">)</span> largerHead <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>largerPrev <span class="token operator">!=</span> null<span class="token punctuation">)</span> largerPrev<span class="token punctuation">.</span>next <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+                largerPrev <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>largerPrev <span class="token operator">!=</span> null<span class="token punctuation">)</span> largerPrev<span class="token punctuation">.</span>next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>smallerHead <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> largerHead<span class="token punctuation">;</span>
+        smallerPrev<span class="token punctuation">.</span>next <span class="token operator">=</span> largerHead<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> smallerHead<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

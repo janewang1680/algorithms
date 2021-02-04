@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>88_Merge_Sorted_Array</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>88.  Merge Sorted Array</strong></p>
+<p>Easy</p>
+<p>Given two sorted integer arrays  <code>nums1</code>  and  <code>nums2</code>, merge  <code>nums2</code>  into  <code>nums1</code>  as one sorted array.</p>
+<p>The number of elements initialized in  <code>nums1</code>  and  <code>nums2</code>  are  <code>m</code>  and  <code>n</code>  respectively. You may assume that  <code>nums1</code>  has a size equal to  <code>m + n</code>  such that it has enough space to hold additional elements from  <code>nums2</code>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3<br>
+<strong>Output:</strong> [1,2,2,3,5,6]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums1 = [1], m = 1, nums2 = [], n = 0<br>
+<strong>Output:</strong> [1]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>nums1.length == m + n</code></li>
+<li><code>nums2.length == n</code></li>
+<li><code>0 &lt;= m, n &lt;= 200</code></li>
+<li><code>1 &lt;= m + n &lt;= 200</code></li>
+<li><code>-109 &lt;= nums1[i], nums2[i] &lt;= 109</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums1<span class="token punctuation">,</span> <span class="token keyword">int</span> m<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums2<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">int</span> prt <span class="token operator">=</span> m <span class="token operator">+</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//5</span>
+        m<span class="token operator">--</span><span class="token punctuation">;</span>
+        n<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>prt <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> ans<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                ans <span class="token operator">=</span> nums2<span class="token punctuation">[</span>n<span class="token operator">--</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                ans <span class="token operator">=</span> nums1<span class="token punctuation">[</span>m<span class="token operator">--</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                ans <span class="token operator">=</span> nums1<span class="token punctuation">[</span>m<span class="token punctuation">]</span> <span class="token operator">&gt;</span> nums2<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">?</span> nums1<span class="token punctuation">[</span>m<span class="token operator">--</span><span class="token punctuation">]</span> <span class="token operator">:</span> nums2<span class="token punctuation">[</span>n<span class="token operator">--</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            nums1<span class="token punctuation">[</span>prt<span class="token operator">--</span><span class="token punctuation">]</span> <span class="token operator">=</span> ans<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
