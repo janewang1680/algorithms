@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30_Substring_with_Concatenation_of_All_Words</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>30.  Substring with Concatenation of All Words</strong></p>
+<p>Hard</p>
+<p>You are given a string  <code>s</code>  and an array of strings  <code>words</code>  of  <strong>the same length</strong>. Return all starting indices of substring(s) in  <code>s</code> that is a concatenation of each word in  <code>words</code>  <strong>exactly once</strong>,  <strong>in any order</strong>, and  <strong>without any intervening characters</strong>.</p>
+<p>You can return the answer in  <strong>any order</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> s = “barfoothefoobarman”, words = [“foo”,“bar”]<br>
+<strong>Output:</strong> [0,9]<br>
+<strong>Explanation:</strong> Substrings starting at index 0 and 9 are “barfoo” and “foobar” respectively.<br>
+The output order does not matter, returning [9,0] is fine too.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> s = “wordgoodgoodgoodbestword”, words = [“word”,“good”,“best”,“word”]<br>
+<strong>Output:</strong> []</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> s = “barfoofoobarthefoobarman”, words = [“bar”,“foo”,“the”]<br>
+<strong>Output:</strong> [6,9,12]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 104</code></li>
+<li><code>s</code>  consists of lower-case English letters.</li>
+<li><code>1 &lt;= words.length &lt;= 5000</code></li>
+<li><code>1 &lt;= words[i].length &lt;= 30</code></li>
+<li><code>words[i]</code> consists of lower-case English letters.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> <span class="token function">findSubstring</span><span class="token punctuation">(</span>String s<span class="token punctuation">,</span> String<span class="token punctuation">[</span><span class="token punctuation">]</span> words<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> null <span class="token operator">||</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> words <span class="token operator">==</span> null <span class="token operator">||</span> words<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Integer<span class="token operator">&gt;</span> dict <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>String word <span class="token operator">:</span> words<span class="token punctuation">)</span> dict<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>word<span class="token punctuation">,</span> dict<span class="token punctuation">.</span><span class="token function">getOrDefault</span><span class="token punctuation">(</span>word<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        List<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> len <span class="token operator">=</span> words<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> cnt <span class="token operator">=</span> words<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> cnt <span class="token operator">*</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Integer<span class="token operator">&gt;</span> map2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> cnt<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                String tmp <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>i <span class="token operator">+</span> j <span class="token operator">*</span> len<span class="token punctuation">,</span> i <span class="token operator">+</span> <span class="token punctuation">(</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>dict<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+                map2<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>tmp<span class="token punctuation">,</span> map2<span class="token punctuation">.</span><span class="token function">getOrDefault</span><span class="token punctuation">(</span>tmp<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>map2<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span> <span class="token operator">&gt;</span> dict<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+                total<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>total <span class="token operator">==</span> cnt<span class="token punctuation">)</span> res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
