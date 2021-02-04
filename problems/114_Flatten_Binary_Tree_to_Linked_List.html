@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>114_Flatten_Binary_Tree_to_Linked_List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>114.  Flatten Binary Tree to Linked List</strong></p>
+<p>Medium</p>
+<p>Given the  <code>root</code>  of a binary tree, flatten the tree into a “linked list”:</p>
+<ul>
+<li>The “linked list” should use the same  <code>TreeNode</code>  class where the  <code>right</code>  child pointer points to the next node in the list and the  <code>left</code>  child pointer is always  <code>null</code>.</li>
+<li>The “linked list” should be in the same order as a  <a href="https://en.wikipedia.org/wiki/Tree_traversal#Pre-order,_NLR"><strong>pre-order</strong> <strong>traversal</strong></a>  of the binary tree.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/14/flaten.jpg" alt=""></p>
+<p><strong>Input:</strong> root = [1,2,5,3,4,null,6]<br>
+<strong>Output:</strong> [1,null,2,null,3,null,4,null,5,null,6]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> root = []<br>
+<strong>Output:</strong> []</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> root = [0]<br>
+<strong>Output:</strong> [0]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the tree is in the range  <code>[0, 2000]</code>.</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+<p><strong>Follow up:</strong>  Can you flatten the tree in-place (with  <code>O(1)</code>  extra space)?</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">flatten</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    TreeNode<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">helper</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">TreeNode</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>null<span class="token punctuation">,</span> null<span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root<span class="token punctuation">.</span>left <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span> root<span class="token punctuation">.</span>right <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">TreeNode</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>root<span class="token punctuation">,</span> root<span class="token punctuation">}</span><span class="token punctuation">;</span>
+        
+        TreeNode<span class="token punctuation">[</span><span class="token punctuation">]</span> left <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        TreeNode<span class="token punctuation">[</span><span class="token punctuation">]</span> right <span class="token operator">=</span> <span class="token function">helper</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        TreeNode tail <span class="token operator">=</span> root<span class="token punctuation">;</span>
+        root<span class="token punctuation">.</span>left <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>left<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            root<span class="token punctuation">.</span>right <span class="token operator">=</span> left<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            tail <span class="token operator">=</span> left<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>right<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            tail<span class="token punctuation">.</span>right <span class="token operator">=</span> right<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">TreeNode</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>root<span class="token punctuation">,</span> right<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> null <span class="token operator">?</span> left<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">:</span> right<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
