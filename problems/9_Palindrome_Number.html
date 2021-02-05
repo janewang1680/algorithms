@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9_Palindrome_Number</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>9.  Palindrome Number</strong></p>
+<p>Easy</p>
+<p>Given an integer  <code>x</code>, return  <code>true</code>  if  <code>x</code>  is palindrome integer.</p>
+<p>An integer is a  <strong>palindrome</strong>  when it reads the same backward as forward. For example,  <code>121</code>  is palindrome while  <code>123</code>  is not.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> x = 121<br>
+<strong>Output:</strong> true</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> x = -121<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> x = 10<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> Reads 01 from right to left. Therefore it is not a palindrome.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> x = -101<br>
+<strong>Output:</strong> false</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>-231 &lt;= x &lt;= 231 - 1</code></li>
+</ul>
+<p><strong>Follow up:</strong>  Could you solve it without converting the integer to a string?</p>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isPalindrome</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> originalX <span class="token operator">=</span> x<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            res <span class="token operator">=</span> res <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> x <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">;</span>
+            x <span class="token operator">=</span> x <span class="token operator">/</span> <span class="token number">10</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> res <span class="token operator">==</span> originalX<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

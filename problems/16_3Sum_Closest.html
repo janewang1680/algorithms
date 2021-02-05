@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>16_3Sum_Closest</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>16.  3Sum Closest</strong></p>
+<p>Medium</p>
+<p>Given an array  <code>nums</code>  of  <em>n</em>  integers and an integer  <code>target</code>, find three integers in  <code>nums</code> such that the sum is closest to <code>target</code>. Return the sum of the three integers. You may assume that each input would have exactly one solution.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [-1,2,1,-4], target = 1<br>
+<strong>Output:</strong> 2<br>
+<strong>Explanation:</strong> The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>3 &lt;= nums.length &lt;= 10^3</code></li>
+<li><code>-10^3 &lt;= nums[i] &lt;= 10^3</code></li>
+<li><code>-10^4 &lt;= target &lt;= 10^4</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">threeSumClosest</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">,</span> <span class="token keyword">int</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Arrays<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> closest <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">,</span> sum2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> j<span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> k <span class="token operator">=</span> nums<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> sum <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> nums<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>sum <span class="token operator">==</span> target<span class="token punctuation">)</span> <span class="token keyword">return</span> target<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>sum <span class="token operator">&lt;</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>target <span class="token operator">-</span> sum <span class="token operator">&lt;</span> closest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        closest <span class="token operator">=</span> target <span class="token operator">-</span> sum<span class="token punctuation">;</span>
+                        sum2 <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    j<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>sum <span class="token operator">-</span> target <span class="token operator">&lt;</span> closest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        closest <span class="token operator">=</span> sum <span class="token operator">-</span> target<span class="token punctuation">;</span>
+                        sum2 <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    k<span class="token operator">--</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> sum2<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

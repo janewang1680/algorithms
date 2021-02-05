@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>8_String_to_Integer_atoi</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>8.  String to Integer (atoi)</strong></p>
+<p>Medium</p>
+<p>Implement the  <code>myAtoi(string s)</code>  function, which converts a string to a 32-bit signed integer (similar to C/C++'s  <code>atoi</code>  function).</p>
+<p>The algorithm for  <code>myAtoi(string s)</code>  is as follows:</p>
+<ol>
+<li>Read in and ignore any leading whitespace.</li>
+<li>Check if the next character (if not already at the end of the string) is  <code>'-'</code>  or  <code>'+'</code>. Read this character in if it is either. This determines if the final result is negative or positive respectively. Assume the result is positive if neither is present.</li>
+<li>Read in next the characters until the next non-digit charcter or the end of the input is reached. The rest of the string is ignored.</li>
+<li>Convert these digits into an integer (i.e.  <code>"123" -&gt; 123</code>,  <code>"0032" -&gt; 32</code>). If no digits were read, then the integer is  <code>0</code>. Change the sign as necessary (from step 2).</li>
+<li>If the integer is out of the 32-bit signed integer range  <code>[-231, 231 - 1]</code>, then clamp the integer so that it remains in the range. Specifically, integers less than  <code>-231</code>  should be clamped to  <code>-231</code>, and integers greater than  <code>231 - 1</code>  should be clamped to  <code>231 - 1</code>.</li>
+<li>Return the integer as the final result.</li>
+</ol>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Only the space character  <code>' '</code>  is considered a whitespace character.</li>
+<li><strong>Do not ignore</strong>  any characters other than the leading whitespace or the rest of the string after the digits.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> s = “42”<br>
+<strong>Output:</strong> 42<br>
+<strong>Explanation:</strong> The underlined characters are what is read in, the caret is the current reader position.<br>
+Step 1: “42” (no characters read because there is no leading whitespace)<br>
+^<br>
+Step 2: “42” (no characters read because there is neither a ‘-’ nor ‘+’)<br>
+^<br>
+Step 3: “42” (“42” is read in)<br>
+^<br>
+The parsed integer is 42.<br>
+Since 42 is in the range [-231, 231 - 1], the final result is 42.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> s = "   -42"<br>
+<strong>Output:</strong> -42<br>
+<strong>Explanation:</strong><br>
+Step 1: "  -42" (leading whitespace is read and ignored)<br>
+^<br>
+Step 2: "   -42" (’-’ is read, so the result should be negative)<br>
+^<br>
+Step 3: "   -42" (“42” is read in)<br>
+^<br>
+The parsed integer is -42.<br>
+Since -42 is in the range [-231, 231 - 1], the final result is -42.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> s = “4193 with words”<br>
+<strong>Output:</strong> 4193<br>
+<strong>Explanation:</strong><br>
+Step 1: “4193 with words” (no characters read because there is no leading whitespace)<br>
+^<br>
+Step 2: “4193 with words” (no characters read because there is neither a ‘-’ nor ‘+’)<br>
+^<br>
+Step 3: “4193 with words” (“4193” is read in; reading stops because the next character is a non-digit)<br>
+^<br>
+The parsed integer is 4193.<br>
+Since 4193 is in the range [-231, 231 - 1], the final result is 4193.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> s = “words and 987”<br>
+<strong>Output:</strong> 0<br>
+<strong>Explanation:</strong> Step 1: “words and 987” (no characters read because there is no leading whitespace)<br>
+^<br>
+Step 2: “words and 987” (no characters read because there is neither a ‘-’ nor ‘+’)<br>
+^<br>
+Step 3: “words and 987” (reading stops immediately because there is a non-digit ‘w’)<br>
+^<br>
+The parsed integer is 0 because no digits were read.<br>
+Since 0 is in the range [-231, 231 - 1], the final result is 0.</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> s = “-91283472332”<br>
+<strong>Output:</strong> -2147483648<br>
+<strong>Explanation:</strong> Step 1: “-91283472332” (no characters read because there is no leading whitespace)<br>
+^<br>
+Step 2: “-91283472332” (’-’ is read, so the result should be negative)<br>
+^<br>
+Step 3: “-91283472332” (“91283472332” is read in)<br>
+^<br>
+The parsed integer is -91283472332.<br>
+Since -91283472332 is less than the lower bound of the range [-231, 231 - 1], the final result is clamped to -231 = -2147483648.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= s.length &lt;= 200</code></li>
+<li><code>s</code>  consists of English letters (lower-case and upper-case), digits (<code>0-9</code>),  <code>' '</code>,  <code>'+'</code>,  <code>'-'</code>, and  <code>'.'</code>.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">myAtoi</span><span class="token punctuation">(</span>String str<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>str <span class="token operator">==</span> null <span class="token operator">||</span> str<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        str <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">boolean</span> isNegative <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'-'</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'-'</span> <span class="token operator">||</span> str<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'+'</span><span class="token punctuation">)</span> start <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isDigit</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">long</span> num <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> start<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> str<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">char</span> c<span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isDigit</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                num <span class="token operator">=</span> num <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> c <span class="token operator">-</span> <span class="token string">'0'</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>isNegative<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">-</span>num <span class="token operator">&lt;=</span> Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">)</span> <span class="token keyword">return</span> Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>num <span class="token operator">&gt;=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">)</span> <span class="token keyword">return</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                i<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>isNegative <span class="token operator">?</span> <span class="token operator">-</span>num <span class="token operator">:</span> num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">boolean</span> <span class="token function">isDigit</span><span class="token punctuation">(</span><span class="token keyword">char</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> c <span class="token operator">&gt;=</span> <span class="token string">'0'</span> <span class="token operator">&amp;&amp;</span> c <span class="token operator">&lt;=</span> <span class="token string">'9'</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

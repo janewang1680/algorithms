@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>19_Remove_Nth_Node_From_End_of_List</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>19.  Remove Nth Node From End of List</strong></p>
+<p>Medium</p>
+<p>Given the  <code>head</code>  of a linked list, remove the  <code>nth</code>  node from the end of the list and return its head.</p>
+<p><strong>Follow up:</strong> Could you do this in one pass?</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg" alt=""></p>
+<p><strong>Input:</strong> head = [1,2,3,4,5], n = 2<br>
+<strong>Output:</strong> [1,2,3,5]</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> head = [1], n = 1<br>
+<strong>Output:</strong> []</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> head = [1,2], n = 1<br>
+<strong>Output:</strong> [1]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the list is  <code>sz</code>.</li>
+<li><code>1 &lt;= sz &lt;= 30</code></li>
+<li><code>0 &lt;= Node.val &lt;= 100</code></li>
+<li><code>1 &lt;= n &lt;= sz</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">removeNthFromEnd</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> len <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        ListNode cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>len<span class="token operator">++</span><span class="token punctuation">;</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span><span class="token punctuation">}</span>
+        
+        cur <span class="token operator">=</span> head<span class="token punctuation">;</span> 
+        ListNode prev <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len <span class="token operator">-</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            prev <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token keyword">else</span> prev<span class="token punctuation">.</span>next <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

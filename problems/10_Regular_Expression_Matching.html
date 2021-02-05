@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10_Regular_Expression_Matching</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>10.  Regular Expression Matching</strong></p>
+<p>Hard</p>
+<p>Given an input string (<code>s</code>) and a pattern (<code>p</code>), implement regular expression matching with support for  <code>'.'</code>  and  <code>'*'</code>  where:</p>
+<ul>
+<li><code>'.'</code>  Matches any single character.​​​​</li>
+<li><code>'*'</code>  Matches zero or more of the preceding element.</li>
+</ul>
+<p>The matching should cover the  <strong>entire</strong>  input string (not partial).</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> s = “aa”, p = “a”<br>
+<strong>Output:</strong> false<br>
+<strong>Explanation:</strong> “a” does not match the entire string “aa”.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> s = “aa”, p = “a*”<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong> ‘*’ means zero or more of the preceding element, ‘a’. Therefore, by repeating ‘a’ once, it becomes “aa”.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> s = “ab”, p = “.<em>"<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong> ".</em>” means “zero or more (*) of any character (.)”.</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> s = “aab”, p = “c<em>a</em>b”<br>
+<strong>Output:</strong> true<br>
+<strong>Explanation:</strong> c can be repeated 0 times, a can be repeated 1 time. Therefore, it matches “aab”.</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> s = “mississippi”, p = “mis<em>is</em>p*.”<br>
+<strong>Output:</strong> false</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= s.length &lt;= 20</code></li>
+<li><code>0 &lt;= p.length &lt;= 30</code></li>
+<li><code>s</code>  contains only lowercase English letters.</li>
+<li><code>p</code>  contains only lowercase English letters,  <code>'.'</code>, and <code>'*'</code>.</li>
+<li>It is guaranteed for each appearance of the character  <code>'*'</code>, there will be a previous valid character to match.</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isMatch</span><span class="token punctuation">(</span>String s<span class="token punctuation">,</span> String p<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> lens <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> lenp <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">boolean</span><span class="token punctuation">[</span>lens<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>lenp<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> lens<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> lenp<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">&gt;</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> p<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'*'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> p<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>j<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">||</span> p<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>j<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> p<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">||</span> p<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> dp<span class="token punctuation">[</span>lens<span class="token punctuation">]</span><span class="token punctuation">[</span>lenp<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+<span class="token comment">//     public boolean isMatch(String s, String p) {</span>
+<span class="token comment">//         if (p.length() == 0) return s.length() == 0;</span>
+<span class="token comment">//         boolean firstMatch = s.length() &gt; 0 &amp;&amp; (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.');</span>
+<span class="token comment">//         if (p.length() == 1) return firstMatch &amp;&amp; s.length() == 1;</span>
+        
+<span class="token comment">//         if (p.charAt(1) == '*') {</span>
+<span class="token comment">//             return isMatch(s, p.substring(2)) || (firstMatch &amp;&amp; isMatch(s.substring(1), p));</span>
+<span class="token comment">//         } else {</span>
+<span class="token comment">//             return firstMatch &amp;&amp; isMatch(s.substring(1), p.substring(1));</span>
+<span class="token comment">//         }</span>
+        
+<span class="token comment">//     }</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

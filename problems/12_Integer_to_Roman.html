@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12_Integer_to_Roman</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><p><strong>12.  Integer to Roman</strong></p>
+<p>Medium</p>
+<p>Roman numerals are represented by seven different symbols: <code>I</code>,  <code>V</code>,  <code>X</code>,  <code>L</code>,  <code>C</code>,  <code>D</code>  and  <code>M</code>.</p>
+<p><strong>Symbol</strong>       <strong>Value</strong><br>
+I             1<br>
+V             5<br>
+X             10<br>
+L             50<br>
+C             100<br>
+D             500<br>
+M             1000</p>
+<p>For example, <code>2</code>  is written as  <code>II</code> in Roman numeral, just two one’s added together.  <code>12</code>  is written as <code>XII</code>, which is simply  <code>X + II</code>. The number  <code>27</code>  is written as  <code>XXVII</code>, which is  <code>XX + V + II</code>.</p>
+<p>Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not  <code>IIII</code>. Instead, the number four is written as  <code>IV</code>. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as  <code>IX</code>. There are six instances where subtraction is used:</p>
+<ul>
+<li><code>I</code>  can be placed before  <code>V</code>  (5) and  <code>X</code>  (10) to make 4 and 9.</li>
+<li><code>X</code>  can be placed before  <code>L</code>  (50) and  <code>C</code>  (100) to make 40 and 90.</li>
+<li><code>C</code>  can be placed before  <code>D</code>  (500) and  <code>M</code>  (1000) to make 400 and 900.</li>
+</ul>
+<p>Given an integer, convert it to a roman numeral.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> num = 3<br>
+<strong>Output:</strong> “III”</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> num = 4<br>
+<strong>Output:</strong> “IV”</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> num = 9<br>
+<strong>Output:</strong> “IX”</p>
+<p><strong>Example 4:</strong></p>
+<p><strong>Input:</strong> num = 58<br>
+<strong>Output:</strong> “LVIII”<br>
+<strong>Explanation:</strong> L = 50, V = 5, III = 3.</p>
+<p><strong>Example 5:</strong></p>
+<p><strong>Input:</strong> num = 1994<br>
+<strong>Output:</strong> “MCMXCIV”<br>
+<strong>Explanation:</strong> M = 1000, CM = 900, XC = 90 and IV = 4.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= num &lt;= 3999</code></li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> String <span class="token function">intToRoman</span><span class="token punctuation">(</span><span class="token keyword">int</span> num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Map<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Character<span class="token operator">&gt;</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'I'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token string">'V'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token string">'X'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token string">'L'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token string">'C'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token string">'D'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">,</span> <span class="token string">'M'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        StringBuilder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> i <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> mod <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword">int</span> d <span class="token operator">=</span> <span class="token punctuation">(</span>num <span class="token operator">/</span> mod<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>d <span class="token operator">==</span> <span class="token number">9</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">10</span> <span class="token operator">*</span> mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>d <span class="token operator">&gt;</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                 builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">5</span> <span class="token operator">*</span> mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> d<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>d <span class="token operator">==</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">5</span> <span class="token operator">*</span> mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>d <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">5</span> <span class="token operator">*</span> mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> d<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    builder<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            
+            num <span class="token operator">=</span> num <span class="token operator">%</span> mod<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>
